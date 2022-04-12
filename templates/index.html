@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>{{section.title}}</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+  <article>
+    <h1>{{section.title}}</h1>
+    <p class="status">Version {{section.extra.version}} (last updated on April 12, 2022)</p>
+    <hr/>
+    {{section.content | safe}}
+  </article>
+</body>
+
+</html>
