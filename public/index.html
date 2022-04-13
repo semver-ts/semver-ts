@@ -22,11 +22,12 @@
       or suggest a <a href="https://github.com/typed-ember/semver/pulls">change</a>.
     </p>
     <hr/>
-    <h2 id="summary">Summary</h2>
+    <h2 id="summary">Summary <!-- omit in toc --></h2>
 <p>This RFC proposes a definition of <a href="https://semver.org">Semantic Versioning</a> for managing changes to TypeScript types, including when the TypeScript compiler makes breaking changes in its type-checking and type emit across a “minor” release.(Note that this RFC addresses <em>only</em> type checking and type emit, <em>not</em> the “transpilation” mode of the TypeScript compiler.)</p>
 <p>While this RFC was authored in the context of <a href="https://github.com/emberjs/rfcs/pull/724">Ember.js’ adoption of TypeScript as a first-class supported language</a>, its recommendations are intentionally general, in hopes that these recommendations can be widely adopted by the broader TypeScript community.</p>
 <h3 id="design-overview">Design overview</h3>
 <p>This section is a non-normative short summary for easy digestion. See <a href="https://semver-ts.org/#detailed-design"><strong>Detailed Design</strong></a> below for normative text.</p>
+<p>Informally, the big idea is the <em>no new “red squiggles” rule</em>: <strong>If you are using a library which follows the policy outlined in this specification, you should not normally get new type errors (“red squiggles” in your editor) when upgrading the library to a new minor version.</strong> Although this an easy-enough intuition to <em>describe</em>, implementing it correctly is tricky: thus this specification.</p>
 <h4 id="for-package-consumers">For package consumers</h4>
 <p>Things a package may do in a non-breaking way:</p>
 <ul>
@@ -84,16 +85,6 @@
 </ul>
 <h3 id="outline">Outline <!-- omit in toc --></h3>
 <ul>
-<li><a href="https://semver-ts.org/#summary">Summary</a>
-<ul>
-<li><a href="https://semver-ts.org/#design-overview">Design overview</a>
-<ul>
-<li><a href="https://semver-ts.org/#for-package-consumers">For package consumers</a></li>
-<li><a href="https://semver-ts.org/#for-package-authors">For package authors</a></li>
-</ul>
-</li>
-</ul>
-</li>
 <li><a href="https://semver-ts.org/#motivation">Motivation</a></li>
 <li><a href="https://semver-ts.org/#detailed-design">Detailed design</a>
 <ul>

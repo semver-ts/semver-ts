@@ -6,7 +6,7 @@ extra:
 
 ---
 
-## Summary
+## Summary <!-- omit in toc -->
 
 This RFC proposes a definition of [Semantic Versioning][semver] for managing changes to TypeScript types, including when the TypeScript compiler makes breaking changes in its type-checking and type emit across a “minor” release.(Note that this RFC addresses *only* type checking and type emit, *not* the “transpilation” mode of the TypeScript compiler.)
 
@@ -20,6 +20,8 @@ While this RFC was authored in the context of [Ember.js’ adoption of TypeScrip
 ### Design overview
 
 This section is a non-normative short summary for easy digestion. See [**Detailed Design**](#detailed-design) below for normative text.
+
+Informally, the big idea is the *no new “red squiggles” rule*: **If you are using a library which follows the policy outlined in this specification, you should not normally get new type errors (“red squiggles” in your editor) when upgrading the library to a new minor version.** Although this an easy-enough intuition to *describe*, implementing it correctly is tricky: thus this specification.
 
 
 #### For package consumers
@@ -67,10 +69,6 @@ Note that this summary elides *many* important details, and those details may su
 
 ### Outline <!-- omit in toc -->
 
-- [Summary](#summary)
-  - [Design overview](#design-overview)
-    - [For package consumers](#for-package-consumers)
-    - [For package authors](#for-package-authors)
 - [Motivation](#motivation)
 - [Detailed design](#detailed-design)
   - [Background: TypeScript and Semantic Versioning](#background-typescript-and-semantic-versioning)
