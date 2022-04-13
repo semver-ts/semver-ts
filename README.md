@@ -7,7 +7,7 @@ This repository hosts [www.semver-ts.org](https://www.semver-ts.org), which publ
 
 The spec is currently a stable beta release after considerable iteration which involved input from both members of the TypeScript community at large and the Ember community specifically. We have intentionally not yet finalized it in view of gaining further feedback. Feel free to [open a discussion](https://github.com/typed-ember/semver/discussions), to [note an error](https://github.com/typed-ember/semver/issues) or to [suggest a change](https://github.com/typed-ember/semver/pulls)!
 
-To build the site locally, you need to [install Zola](https://www.getzola.org) and then run `zola build` or `zola serve` in the root of the repository.
+To build the site locally, you need to [install Zola](https://www.getzola.org) and then run `zola build` or `zola serve` in the root of the repository. **Warning:** If you run `zola serve`, it will delete the `public` directory when done, and since the site currently must be built manually, make sure you do not commit that!
 
 
 ## History
