@@ -15,10 +15,10 @@ highlight_theme = "css"
 
 # This can be used to *generate* the themes, but for convenience they are simply
 # generated once and then checked in.
-# highlight_themes_css = [
-  # { theme = "Tomorrow", filename = "syntax-theme-light.css" },
-  # { theme = "charcoal", filename = "syntax-theme-dark.css" },
-# ]
+highlight_themes_css = [
+  { theme = "Tomorrow", filename = "syntax-theme-light.css" },
+  { theme = "charcoal", filename = "syntax-theme-dark.css" },
+]
 
 [extra]
 # Put all your custom variables here
