@@ -42,7 +42,8 @@ h6 {
   font-style: italic;
 }
 
-.status, .hosting {
+.status,
+.hosting {
   text-align: center;
 }
 
@@ -91,20 +92,24 @@ sup {
 pre[data-linenos] {
   padding: 1rem 0;
 }
+
 pre table td {
   padding: 0;
 }
+
 // The line number cells
 pre table td:nth-of-type(1) {
   text-align: center;
   user-select: none;
 }
+
 pre mark {
   // If you want your highlights to take the full width.
   display: block;
   // The default background colour of a mark is bright yellow
   background-color: rgba(254, 252, 232, 0.9);
 }
+
 pre table {
   width: 100%;
   border-collapse: collapse;
@@ -125,7 +130,7 @@ pre table {
   }
 
   article {
-    padding-top: 0;
+    padding-top: 1rem;
   }
 }
 
@@ -135,7 +140,8 @@ pre table {
     background-color: hsl(205, 11%, 10%);
   }
 
-  a, a:link {
+  a,
+  a:link {
     color: hsl(205, 100%, 50%);
   }
 
