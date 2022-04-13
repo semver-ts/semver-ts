@@ -1,7 +1,7 @@
 ---
 title: Semantic Versioning for TypeScript Types
-date: 2022-04-12
 extra:
+  date: 2022-04-12
   version: "1.0.0-beta.1"
 
 ---

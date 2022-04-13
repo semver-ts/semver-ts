@@ -11,7 +11,13 @@
 <body>
   <article>
     <h1>{{section.title}}</h1>
-    <p class="status">Version {{section.extra.version}} (last updated on April 12, 2022)</p>
+    <p class="status">
+      Version {{section.extra.version}}<br/>
+      (Last updated on {{section.extra.date | date(format="%B%e, %Y") }})<br/>
+      See the <a href="https://github.com/typed-ember/semver">source</a>,
+      file an <a href="https://github.com/typed-ember/semver/issues">issue</a>,
+      or suggest a <a href="https://github.com/typed-ember/semver/pulls">change</a>.
+    </p>
     <hr/>
     {{section.content | safe}}
   </article>
