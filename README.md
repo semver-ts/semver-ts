@@ -1,8 +1,10 @@
 # Semantic Versioning for TypeScript Types Specification
 
-This repository specifies an implementation of [Semantic Versioning](https://semver.org) for [TypeScript](https://www.typescriptlang.org) types in the [Ember.js](https://emberjs.com) ecosystem.
+This repository hosts [www.semver-ts.org](https://www.semver-ts.org), which publishes a definition of [Semantic Versioning](https://semver.org) for [TypeScript](https://www.typescriptlang.org) types.
 
-See [semver.md](./semver.md) for the full rule set.
+---
 
-For background on the development of this spec prior to the creation of this repository and spec, see [typed-ember/ember-cli-typescript#1158](https://github.com/typed-ember/ember-cli-typescript/pull/1158).
+This specification was originally authored by [Chris Krycho](https://www.chriskrycho.com) at [LinkedIn](https://www.linkedin.com), in collaboration with [Dan Freeman](https://dfreeman.io), [Mike North](https://mike.works), and [James C. Davis](https://jamescdavis.com), as part of the the [Ember.js](https://emberjs.com) ecosystem's official TypeScript support effort. For development history spec prior to publication in this repository, see:
 
+- [an early draft and discussion in the ember-cli-typescript repository](https://github.com/typed-ember/ember-cli-typescript/pull/1158)
+- [Ember RFC #730](https://github.com/emberjs/rfcs/pull/730)
