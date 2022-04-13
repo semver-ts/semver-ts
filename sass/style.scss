@@ -2,17 +2,12 @@ html {
   font-size: 100%;
 }
 
-@media screen and (max-width: 600px) {
-  html {
-    font-size: 90%;
-  }
-}
-
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol";
   line-height: 1.7;
+  background-color: #fefefe;
   color: #383838;
 }
 
@@ -21,7 +16,7 @@ article {
     left: auto;
     right: auto;
   }
-  padding: 0 1rem 4rem;
+  padding: 2rem 1rem 4rem;
   max-width: 40rem;
 }
 
@@ -85,7 +80,11 @@ code {
   font-size: 1rem;
   background-color: #f8f8f8;
   display: inline-block;
-  padding: 0 0.2em;
+  padding: 0.1em 0.2em 0;
+}
+
+sup {
+  line-height: 0;
 }
 
 // The line numbers already provide some kind of left/right padding
@@ -119,3 +118,40 @@ pre table {
 .footnote-definition-label {
   display: none;
 }
+
+@media screen and (max-width: 600px) {
+  html {
+    font-size: 90%;
+  }
+
+  article {
+    padding-top: 0;
+  }
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  body {
+    color: #fefefe;
+    background-color: hsl(205, 11%, 10%);
+  }
+
+  a, a:link {
+    color: hsl(205, 100%, 50%);
+  }
+
+  a:visited {
+    columns: hsl(266, 100%, 70%);
+  }
+
+  a:hover,
+  a:active {
+    color: hsl(205, 100%, 80%);
+  }
+
+  code {
+    background-color: #222;
+  }
+}
+
+@import url("syntax-theme-dark.css") (prefers-color-scheme: dark);
+@import url("syntax-theme-light.css") (prefers-color-scheme: light);
