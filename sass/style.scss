@@ -2,26 +2,33 @@ html {
   font-size: 100%;
 }
 
+@media screen and (max-width: 600px) {
+  html {
+    font-size: 90%;
+  }
+}
+
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol";
   line-height: 1.7;
+  color: #383838;
 }
 
 article {
   margin: {
     left: auto;
     right: auto;
-    top: 1em;
-    bottom: 4em;
   }
+  padding: 0 1rem 4rem;
   max-width: 40rem;
 }
 
 h1 {
   text-align: center;
   font-weight: 500;
+  line-height: 1.2;
 }
 
 h2 {
@@ -48,8 +55,8 @@ hr {
   display: block;
   background: none;
   height: 0;
-  border-top: 1px solid #333;
-  width: 80%;
+  border: none;
+  border-top: 1px solid #383838;
   margin: 3em auto;
 }
 
@@ -58,17 +65,27 @@ hr + h2 {
 }
 
 pre {
-  padding: 1em;
+  padding: 1rem;
   overflow: scroll;
+}
+
+blockquote {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+  font-style: italic;
 }
 
 pre,
 pre code {
   font-size: 0.9rem;
+  background-color: unset;
 }
 
 code {
   font-size: 1rem;
+  background-color: #f8f8f8;
+  display: inline-block;
+  padding: 0 0.2em;
 }
 
 // The line numbers already provide some kind of left/right padding
