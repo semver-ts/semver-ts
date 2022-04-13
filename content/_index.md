@@ -350,11 +350,11 @@ Changing a symbol is a breaking change when:
         +export let Foo: typeof _Foo;
         ```
 
--   changing the kind (*value* vs. *type*) of an exported symbol in any way, since users' imports and own definitions may both be broken, since imports resolve all symbols imported together if they share a name:
+-   changing the kind (*value* vs. *type*) of an exported symbol in any way, since users' imports and own definitions may both be broken, since imports resolve all symbols imported together if they share a name:
 
     -   Given a *value*-only exported symbol, including `namespace` declarations, adding a *type* export with the same name as the *value* may break users' code: they may have imported the value and safely created a type of the same name. Their existing import will now cause a re-declaration conflict. Note that this is distinct from adding an entirely new type export where there was no type or value export previously, since the user could never accidentally introduce the conflict, and could work around the conflict using the `as` import specifier when introducing the import.
 
-    -   Given a *type*-only exported symbol, including `type`, `interface`, or `export type` for a type or value, adding a *value* export with the same name may break users' code: they may have imported the type and safely created a value of the same name. Their existing import will now cause a re-declaration conflict. Note that this is distinct from adding an entirely new value export where there was no type or value export previously, since the user could never accidentally introduce the conflict, and could work around the conflict using the `as` import specifier when introducing the import. (Type-only imports via `import type` do not change this because they still import the symbol into value space to use with `typeof`, e.g. to get a class' constructor.)
+    -   Given a *type*-only exported symbol, including `type`, `interface`, or `export type` for a type or value, adding a *value* export with the same name may break users' code: they may have imported the type and safely created a value of the same name. Their existing import will now cause a re-declaration conflict. Note that this is distinct from adding an entirely new value export where there was no type or value export previously, since the user could never accidentally introduce the conflict, and could work around the conflict using the `as` import specifier when introducing the import. (Type-only imports via `import type` do not change this because they still import the symbol into value space to use with `typeof`, e.g. to get a class' constructor.)
 
     -   Given a `namespace` export, changing it to a value-only export (that is, to an exported object) will break all nested type access, since types cannot be exported as nested members of non-`namespace` values. (`namespace` exports cannot be directly converted to type-only exports.)
 
@@ -524,7 +524,7 @@ For functions which return or accept user-constructible types, the rules specifi
 
 #### Bug fixes
 
-As with runtime code, types may have bugs. We define a ‘bug' here as a mismatch between types and runtime code. That is: if the types allow code which will cause a runtime type error, or if they forbid code which is allowed at runtime, the types are buggy. Types may be buggy by being inappropriately *wider* or *narrower* than runtime.
+As with runtime code, types may have bugs. We define a ‘bug' here as a mismatch between types and runtime code. That is: if the types allow code which will cause a runtime type error, or if they forbid code which is allowed at runtime, the types are buggy. Types may be buggy by being inappropriately *wider* or *narrower* than runtime.
 
 For example (noting that this list is illustrative, not exhaustive):
 
@@ -546,7 +546,7 @@ In practice, this suggests two key considerations around type bugs:
 
 ### Compiler considerations
 
-To reiterate, Semantic Versioning is a matter of adherence to a specified contract. This is particularly important when dealing with transitive or peer dependencies, especially at the level of ecosystem dependencies—including Node versions, browsers, compilers, and frameworks (such as Ember, React, Vue, Svelte, etc.). Accordingly, the specification of breaking changes as described below is further defined in terms of the TypeScript compiler support version adopted by any given package as well as specific settings.
+To reiterate, Semantic Versioning is a matter of adherence to a specified contract. This is particularly important when dealing with transitive or peer dependencies, especially at the level of ecosystem dependencies—including Node versions, browsers, compilers, and frameworks (such as Svelte, Vue, Ember, React, etc.). Accordingly, the specification of breaking changes as described below is further defined in terms of the TypeScript compiler support version adopted by any given package as well as specific settings.
 
 
 ##### Supported compiler versions
@@ -569,10 +569,11 @@ This pattern is recommended for “normal” packages, where major versions do n
 
 ###### Rolling support windows
 
-The “rolling support windows” policy decouples compiler version support from major breaking changes, by specifying a rolling window of supported versions. For example, Ember and Ember CLI [specify][ember-cli-node] that any change landing on `master` must work on the [Current, Active LTS, and Maintenance LTS Node versions][node-versions] at the time the change lands, and that when the Node Working Group drops support for an LTS, Ember and Ember CLI do so as well *without a breaking change*. This allows the CLI to use new Node features as part of its public API over time, rather than being fixed at the set of features available at the time of the latest release of the CLI (e.g. Node 8 for the Ember CLI 3.x series).
+The “rolling support windows” policy decouples compiler version support from major breaking changes, by specifying a rolling window of supported versions. For example, Ember and Ember CLI [specify][ember-cli-node] that any change landing on `master` must work on the [Current, Active LTS, and Maintenance LTS Node versions][node-versions] at the time the change lands, and that when the Node Working Group drops support for an LTS, Ember and Ember CLI do so as well *without a breaking change*. Similarly, [Redux] has maintained support over a long time horizon while informally dropping support for Node versions (and TypeScript versions!) and documenting in their releases. This allows the CLI to use new Node features as part of its public API over time, rather than being fixed at the set of features available at the time of the latest release of the library.
 
 [ember-cli-node]: https://github.com/ember-cli/ember-cli/blob/master/docs/node-support.md
 [node-versions]: https://nodejs.org/en/about/releases/
+[Redux]: https://redux.js.org
 
 Following this pattern, core ecosystem components (hypothetically including examples such `ember-source`, `react`, `@vue/cli`, etc.) could adopt a similar policy for supported TypeScript compiler versions, allowing the component to adopt new TypeScript features which impact the published types (e.g. in type emit, type system features such as conditional types, etc.) rather than being coupled to the features available at the time of release. Conforming projects which adopt this may choose any rolling support window they choose, except that if they have an LTS release schedule, upgrading to a new LTS shall not require upgrading to a new version of TypeScript.
 
@@ -614,17 +615,8 @@ To conform to this standard, a package must:
 - link to the final published version of this specification
 - specify the compiler support policy
 - specify the currently-supported versions of TypeScript
-- specify the definition of “public API” used by the library (e.g. “only documented types” vs. “all published types” etc.)
+- specify the definition of “public API” used by the library (e.g. “only documented types” vs. “all published types” etc.)
 - author and publish its types with `strict: true` and `noUncheckedIndexedAccess: true` in its compiler configuration
-
-
-## How we teach this
-
-If these recommendations are adopted, the [**Detailed Design**](#detailed-design) section shall be published to a dedicated, standalone repository to ease linking to it (including by TypeScript packages beyond the Ember ecosystem, if they find it useful, as we hope they will!).
-
-When any Ember package begins publishing types, it shall follow the rules specified in [**Conformance**](#conformance). In the case of Ember, Ember CLI, and Ember Data, the link to the published spec shall be added alongside the existing links to the Node SemVer support policies. Additionally, Ember should publish a table showing supported versions in the same format as the Node version support table.
-
-Other official Ember packages which publish types must publish their supported TypeScript versions and compiler version policy, but may do so in whatever form is appropriate for the package, for example badges in the README linking to the published specification text and to CI.
 
 
 ## Drawbacks
@@ -655,26 +647,7 @@ However, there are three major problems with this approach.
 
 ### Decouple TypeScript support from LTS cycles
 
-The “rolling support window” policy could be decoupled from LTS requirements. Similarly, the “simple majors” policy could drop the recommendation to combine dropping Node versions, TypeScript versions, and other LTS packages. This would simplify the rule for adopting packages. However, it comes with the previously mentioned challenges when multiple major versions of a package exist in a given ecosystem. While a strategy for resolving those challenges at the ecosystem level would be nice, it is far beyond the scope of *this* RFC and indeed is a general challenge for package-rich ecosystems like Node’s.
-
-
-## Unresolved questions
-
--   What policy should this RFC adopt for compiler settings which behave in both lint-like and strictness-checking-like ways, but which cannot cause type breakage for consumers, such as `noUncheckedIndexAccess`?
-
-    The semantics of this check is that it effectively exposes `| undefined` in more places, but authors of types cannot construct a type which *avoids* emitting `T | undefined` if the consumer enables `noUncheckedIndexAccess` and `strictNullChecks`. That is: if an author publishes `function foo(): Array<string>` *or* `function foo(): Array<string | undefined>`, then *whether or not* the author has `noUncheckedIndexedAccess` enabled, the semantics are the same for downstream consumers, and is dependent on *their* setting. The only safety improvement would be to publish types as `SafeArray<string>` where:
-
-    ```ts
-    type SafeArray<T> = Array<T | undefined>;
-    ```
-
--   Are there any type system edge cases not covered by this policy?
-
--   Are there any compiler version change scenarios not covered by this policy?
-
--   Is the recommended compiler version support policy appropriate? There are other options available, like Typed Ember's current commitment to support the latest two (<i>N−1</i>) versions in the types. (In practice, the Typed Ember team did not bump most of the Ember types' minimum version from TypeScript 2.8 until the release of TypeScript 3.9, at which time they bumped minimum supported TypeScript version to 3.7.)
-
--   How should transitive dependencies be expected to be handled? Should package authors be expected to absorb any upstream differences in SemVer handling?
+The “rolling support window” policy could be decoupled from LTS requirements. Similarly, the “simple majors” policy could drop the recommendation to combine dropping Node versions, TypeScript versions, and other LTS packages. This would simplify the rule for adopting packages. However, it comes with the previously mentioned challenges when multiple major versions of a package exist in a given ecosystem. While a strategy for resolving those challenges at the ecosystem level would be nice, it is far beyond the scope of *this* RFC and indeed is a general challenge for package-rich ecosystems like Node’s.
 
 
 ## Appendices
@@ -686,7 +659,7 @@ These sections are non-normative.
 
 The recommendations in this RFC have been fully implemented in [`ember-modifier`][ember-modifier], [True Myth][true-myth], and [ember-async-data][ember-async-data]; and partly implemented in [`ember-concurrency`][ember-concurrency]. `ember-modifier`, `ember-async-data`, and `true-myth` all publish types generated from implementation code. `ember-concurrency` supplies a standalone, hand-written type definition file. Since adopting this policy in these implementations (beginning in early summer 2020), no known issues have emerged, and the experience of implementing earlier versions of the recommendations from this RFC were incorporated into the final form of this RFC.
 
-There are, to the best of our knowledge, no other major adopters of these recommendations, and no similar such recommendations in the TypeScript ecosystem at large.
+There are, to the best of our knowledge, no other major adopters of these recommendations, and no similar such recommendations exist in the TypeScript ecosystem at large.
 
 [ember-modifier]: https://github.com/ember-modifier/ember-modifier
 [ember-async-data]: https://github.com/chriskrycho/ember-async-data
@@ -743,7 +716,7 @@ The current options include:
 
     -   Because the assertions are implemented as type definitions, the library is subject to the same risk of compiler breakage as the types it is testing.
 
-At present, `expect-type` seems to be the best option, and several libraries both in the Ember ecosystem and elsewhere in the TS community are already using `expect-type` successfully (see [**Appendix A**](#appendix-a-existing-implementations) above). However, for the purposes of *this* RFC, we do not make a specific recommendation about which library to use. The tradeoffs above are offered to help authors make an informed choice in this space.
+`expect-type` seems to be the best option, and a number of libraries in the TS community are already using `expect-type` successfully (see [**Appendix A**](#appendix-a-existing-implementations) above). However, for the purposes of *this* RFC, we do not make a specific recommendation about which library to use. The tradeoffs above are offered to help authors make an informed choice in this space.
 
 Users should add one of these libraries and generate a set of tests corresponding to their public API. These tests should be written is such a way as to test the imported API as consumers will consume the library. For example, type tests should not import using relative paths, but using the absolute paths at which the types should resolve, just as consumers would. 
 
@@ -761,7 +734,13 @@ To be safe, these tests should be placed in a directory which does not emit runt
 
 In addition to *writing* these tests, package authors should make sure to run the tests (as appropriate to the testing tool chosen) in their continuous integration configuration, so that any changes made to the library are validated to make sure the API has not been changed accidentally.
 
-Further, just as packages are encouraged to test against a matrix of Ember versions which includes the current stable release, the currently active Ember LTS release, and the canary and beta releases, packages should test the types against all versions of TypeScript supported by the package (see the [suggested policy for version support](#supported-compiler-versions) below) as well as the upcoming version (the `next` tag for the `typescript` package on npm).
+Further, just as packages are encouraged to test against a matrix of peer dependencies versions, they should do likewise with TypeScript. For example:
+
+- Ember packages regularly test against Ember’s current stable release, the currently active Ember LTS release, and the canary and beta releases.
+- React libraries regularly test against both the current major, any upcoming major, and sometimes a previous major.
+- Node libraries regularly test against all active Node LTS releases and the current stable release.
+
+Along the same lines, TypeScript packages should follow should test the types against all versions of TypeScript supported by the package (see the [suggested policy for version support](#supported-compiler-versions) below) as well as the upcoming version (the `next` tag for the `typescript` package on npm).
 
 Type tests can run as normal [ember-try] variations or similar CI. Typed Ember will document a conventional setup for ember-try configurations, so that correct integration into CI setups will be straightforward for package authors.
 
