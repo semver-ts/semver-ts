@@ -16,3 +16,7 @@ This specification was originally authored by [Chris Krycho](https://www.chriskr
 
 - [an early draft and discussion in the ember-cli-typescript repository](https://github.com/typed-ember/ember-cli-typescript/pull/1158)
 - [Ember RFC #730](https://github.com/emberjs/rfcs/pull/730)
+
+## Hosting
+
+[![](https://www.datocms-assets.com/31049/1618983297-powered-by-vercel.svg)](https://vercel.com?utm_source=typed-ember&utm_campaign=oss)
