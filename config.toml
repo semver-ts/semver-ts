@@ -1,5 +1,8 @@
 # The URL the site will be built for
-base_url = "https://semver-ts.org"
+base_url = "https://www.semver-ts.org"
+
+title = "Semantic Versioning for TypeScript Types"
+description = "A specification for managing changes to TypeScript types, including when the TypeScript compiler makes breaking changes in its type-checking and type emit across a “minor” release."
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
