@@ -6,9 +6,14 @@
   <title>Semantic Versioning for TypeScript Types</title>
   <link rel="stylesheet" href="/style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A proposal for managing changes to TypeScript types, including when the TypeScript compiler makes breaking changes in its type-checking and type emit across a “minor” release.">
+  <meta name="description" content="A specification for managing changes to TypeScript types, including when the TypeScript compiler makes breaking changes in its type-checking and type emit across a “minor” release.">
   <meta charset="UTF-8">
   <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Semantic Versioning for TypeScript Types">
+  <meta property="og:description" content="A specification for managing changes to TypeScript types, including when the TypeScript compiler makes breaking changes in its type-checking and type emit across a “minor” release.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:creator" content="@chriskrycho">
+  
 </head>
 
 <body>
@@ -27,7 +32,7 @@
 <p>This RFC proposes a definition of <a href="https://semver.org">Semantic Versioning</a> for managing changes to TypeScript types, including when the TypeScript compiler makes breaking changes in its type-checking and type emit across a “minor” release. (Note that this RFC addresses <em>only</em> type checking and type emit, <em>not</em> the “transpilation” mode of the TypeScript compiler.)</p>
 <p>While this RFC was authored in the context of <a href="https://github.com/emberjs/rfcs/pull/724">Ember.js’ adoption of TypeScript as a first-class supported language</a>, its recommendations are intentionally general, in hopes that these recommendations can be widely adopted by the broader TypeScript community.</p>
 <h3 id="design-overview">Design overview</h3>
-<p>This section is a non-normative short summary for easy digestion. See <a href="https://semver-ts.org/#detailed-design"><strong>Detailed Design</strong></a> below for normative text.</p>
+<p>This section is a non-normative short summary for easy digestion. See <a href="https://www.semver-ts.org/#detailed-design"><strong>Detailed Design</strong></a> below for normative text.</p>
 <p>Informally, the big idea is the <em>no new “red squiggles” rule</em>: <strong>If you are using a library which follows the policy outlined in this specification, you should not normally get new type errors (“red squiggles” in your editor) when upgrading the library to a new minor version.</strong> Although this an easy-enough intuition to <em>describe</em>, implementing it correctly is tricky: thus this specification.</p>
 <h4 id="for-package-consumers">For package consumers</h4>
 <p>Things a package may do in a non-breaking way:</p>
@@ -86,81 +91,81 @@
 </ul>
 <h3 id="outline">Outline <!-- omit in toc --></h3>
 <ul>
-<li><a href="https://semver-ts.org/#motivation">Motivation</a></li>
-<li><a href="https://semver-ts.org/#detailed-design">Detailed design</a>
+<li><a href="https://www.semver-ts.org/#motivation">Motivation</a></li>
+<li><a href="https://www.semver-ts.org/#detailed-design">Detailed design</a>
 <ul>
-<li><a href="https://semver-ts.org/#background-typescript-and-semantic-versioning">Background: TypeScript and Semantic Versioning</a></li>
-<li><a href="https://semver-ts.org/#defining-breaking-changes">Defining breaking changes</a>
+<li><a href="https://www.semver-ts.org/#background-typescript-and-semantic-versioning">Background: TypeScript and Semantic Versioning</a></li>
+<li><a href="https://www.semver-ts.org/#defining-breaking-changes">Defining breaking changes</a>
 <ul>
-<li><a href="https://semver-ts.org/#definitions">Definitions</a></li>
-<li><a href="https://semver-ts.org/#reasons-for-breaking-changes">Reasons for Breaking Changes</a></li>
+<li><a href="https://www.semver-ts.org/#definitions">Definitions</a></li>
+<li><a href="https://www.semver-ts.org/#reasons-for-breaking-changes">Reasons for Breaking Changes</a></li>
 </ul>
 </li>
-<li><a href="https://semver-ts.org/#changes-to-types">Changes to types</a>
+<li><a href="https://www.semver-ts.org/#changes-to-types">Changes to types</a>
 <ul>
-<li><a href="https://semver-ts.org/#variance">Variance</a></li>
-<li><a href="https://semver-ts.org/#breaking-changes">Breaking Changes</a>
+<li><a href="https://www.semver-ts.org/#variance">Variance</a></li>
+<li><a href="https://www.semver-ts.org/#breaking-changes">Breaking Changes</a>
 <ul>
-<li><a href="https://semver-ts.org/#symbols">Symbols</a></li>
-<li><a href="https://semver-ts.org/#interfaces-type-aliases-and-classes">Interfaces, Type Aliases, and Classes</a></li>
-<li><a href="https://semver-ts.org/#functions">Functions</a></li>
+<li><a href="https://www.semver-ts.org/#symbols">Symbols</a></li>
+<li><a href="https://www.semver-ts.org/#interfaces-type-aliases-and-classes">Interfaces, Type Aliases, and Classes</a></li>
+<li><a href="https://www.semver-ts.org/#functions">Functions</a></li>
 </ul>
 </li>
-<li><a href="https://semver-ts.org/#non-breaking-changes">Non-breaking changes</a>
+<li><a href="https://www.semver-ts.org/#non-breaking-changes">Non-breaking changes</a>
 <ul>
-<li><a href="https://semver-ts.org/#symbols-1">Symbols</a></li>
-<li><a href="https://semver-ts.org/#interfaces-type-aliases-and-classes-1">Interfaces, Type Aliases, and Classes</a></li>
-<li><a href="https://semver-ts.org/#functions-1">Functions</a></li>
+<li><a href="https://www.semver-ts.org/#symbols-1">Symbols</a></li>
+<li><a href="https://www.semver-ts.org/#interfaces-type-aliases-and-classes-1">Interfaces, Type Aliases, and Classes</a></li>
+<li><a href="https://www.semver-ts.org/#functions-1">Functions</a></li>
 </ul>
 </li>
-<li><a href="https://semver-ts.org/#bug-fixes">Bug fixes</a></li>
+<li><a href="https://www.semver-ts.org/#bug-fixes">Bug fixes</a></li>
 </ul>
 </li>
-<li><a href="https://semver-ts.org/#compiler-considerations">Compiler considerations</a>
+<li><a href="https://www.semver-ts.org/#compiler-considerations">Compiler considerations</a>
 <ul>
-<li><a href="https://semver-ts.org/#supported-compiler-versions">Supported compiler versions</a></li>
-<li><a href="https://semver-ts.org/#strictness">Strictness</a></li>
-<li><a href="https://semver-ts.org/#module-interop">Module interop</a></li>
+<li><a href="https://www.semver-ts.org/#supported-compiler-versions">Supported compiler versions</a></li>
+<li><a href="https://www.semver-ts.org/#strictness">Strictness</a></li>
+<li><a href="https://www.semver-ts.org/#module-interop">Module interop</a></li>
 </ul>
 </li>
-<li><a href="https://semver-ts.org/#conformance">Conformance</a></li>
+<li><a href="https://www.semver-ts.org/#conformance">Conformance</a></li>
 </ul>
 </li>
-<li><a href="https://semver-ts.org/#drawbacks">Drawbacks</a></li>
-<li><a href="https://semver-ts.org/#alternatives">Alternatives</a>
+<li><a href="https://www.semver-ts.org/#drawbacks">Drawbacks</a></li>
+<li><a href="https://www.semver-ts.org/#alternatives">Alternatives</a>
 <ul>
-<li><a href="https://semver-ts.org/#no-policy">No policy</a></li>
-<li><a href="https://semver-ts.org/#decouple-typescript-support-from-lts-cycles">Decouple TypeScript support from LTS cycles</a></li>
+<li><a href="https://www.semver-ts.org/#no-policy">No policy</a></li>
+<li><a href="https://www.semver-ts.org/#decouple-typescript-support-from-lts-cycles">Decouple TypeScript support from LTS cycles</a></li>
 </ul>
 </li>
-<li><a href="https://semver-ts.org/#appendices">Appendices</a>
+<li><a href="https://www.semver-ts.org/#appendices">Appendices</a>
 <ul>
-<li><a href="https://semver-ts.org/#appendix-a-existing-implementations">Appendix A: Existing Implementations</a></li>
-<li><a href="https://semver-ts.org/#appendix-b-tooling">Appendix B: Tooling</a>
+<li><a href="https://www.semver-ts.org/#appendix-a-existing-implementations">Appendix A: Existing Implementations</a></li>
+<li><a href="https://www.semver-ts.org/#appendix-b-tooling">Appendix B: Tooling</a>
 <ul>
-<li><a href="https://semver-ts.org/#documenting-supported-versions-and-policy">Documenting supported versions and policy</a></li>
-<li><a href="https://semver-ts.org/#detect-breaking-changes-in-types">Detect breaking changes in types</a></li>
-<li><a href="https://semver-ts.org/#mitigate-breaking-changes">Mitigate breaking changes</a>
+<li><a href="https://www.semver-ts.org/#documenting-supported-versions-and-policy">Documenting supported versions and policy</a></li>
+<li><a href="https://www.semver-ts.org/#detect-breaking-changes-in-types">Detect breaking changes in types</a></li>
+<li><a href="https://www.semver-ts.org/#mitigate-breaking-changes">Mitigate breaking changes</a>
 <ul>
-<li><a href="https://semver-ts.org/#avoiding-user-constructibility">Avoiding user constructibility</a></li>
-<li><a href="https://semver-ts.org/#updating-types-to-maintain-compatibility">Updating types to maintain compatibility</a></li>
-<li><a href="https://semver-ts.org/#downleveling-types">&quot;Downleveling&quot; types</a></li>
-<li><a href="https://semver-ts.org/#opt-in-future-types">Opt-in future types</a></li>
+<li><a href="https://www.semver-ts.org/#avoiding-user-constructibility">Avoiding user constructibility</a></li>
+<li><a href="https://www.semver-ts.org/#updating-types-to-maintain-compatibility">Updating types to maintain compatibility</a></li>
+<li><a href="https://www.semver-ts.org/#downleveling-types">&quot;Downleveling&quot; types</a></li>
+<li><a href="https://www.semver-ts.org/#opt-in-future-types">Opt-in future types</a></li>
 </ul>
 </li>
-<li><a href="https://semver-ts.org/#matching-exports-to-public-api">Matching exports to public API</a></li>
+<li><a href="https://www.semver-ts.org/#matching-exports-to-public-api">Matching exports to public API</a></li>
 </ul>
 </li>
-<li><a href="https://semver-ts.org/#appendix-c-on-variance-in-typescript">Appendix C: On Variance in TypeScript</a>
+<li><a href="https://www.semver-ts.org/#appendix-c-on-variance-in-typescript">Appendix C: On Variance in TypeScript</a>
 <ul>
-<li><a href="https://semver-ts.org/#inference-and-pervasive-mutability">Inference and pervasive mutability</a></li>
-<li><a href="https://semver-ts.org/#structural-typing">Structural typing</a></li>
-<li><a href="https://semver-ts.org/#higher-order-type-operations">Higher-order type operations</a></li>
+<li><a href="https://www.semver-ts.org/#inference-and-pervasive-mutability">Inference and pervasive mutability</a></li>
+<li><a href="https://www.semver-ts.org/#structural-typing">Structural typing</a></li>
+<li><a href="https://www.semver-ts.org/#higher-order-type-operations">Higher-order type operations</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="https://semver-ts.org/#notes">Notes</a></li>
+<li><a href="https://www.semver-ts.org/#notes">Notes</a></li>
 </ul>
 <h2 id="motivation">Motivation</h2>
 <p>For TypeScript packages be good citizens of the broader, semantically-versioned JavaScript ecosystem, package authors need a useful definition of SemVer for TypeScript’s type system.</p>
@@ -250,7 +255,7 @@
 </ol>
 </dd>
 <dd>
-<p>One challenge for this definition is the common scenario where code is not ordinarily user-constructible but may need to be mocked for tests. Changes to these <em>do not</em> constitute breaking changes—but library authors can also mitigate the challenge presented by this scenario. (See discussion below under <a href="https://semver-ts.org/#avoiding-user-constructibility">Appendix B: Tooling – Mitigate Breaking Changes – Avoiding User constructibility</a>.)</p>
+<p>One challenge for this definition is the common scenario where code is not ordinarily user-constructible but may need to be mocked for tests. Changes to these <em>do not</em> constitute breaking changes—but library authors can also mitigate the challenge presented by this scenario. (See discussion below under <a href="https://www.semver-ts.org/#avoiding-user-constructibility">Appendix B: Tooling – Mitigate Breaking Changes – Avoiding User constructibility</a>.)</p>
 </dd>
 <dd>
 <p><strong>Non-normative example:</strong> in Ember.js today, the interface for a <code>Transition</code> is public API and consumers can rely on its stability, but only Ember is allowed to create <code>Transition</code> instances.</p>
@@ -271,7 +276,7 @@ In either case, no change to a type documented as private is a breaking change, 
 <p><strong>Re-exports:</strong> using the <code>export * from</code> re-export syntax can in theory cause breakage by causing export conflicts: if the library being re-exported and the library doing the re-export both export the same name. For this reason, changes caused by the <code>export * from ...</code> are never breaking changes.<sup class="footnote-reference"><a href="#re-export-antipattern">2</a></sup></p>
 </dd>
 <h4 id="reasons-for-breaking-changes">Reasons for Breaking Changes</h4>
-<p>Each of the kinds of breaking changes defined below will trigger a compiler error for consumers, surfacing the error. As such, they should be easily detectable by testing infrastructure (see below under <a href="https://semver-ts.org/#detect-breaking-changes-in-types">Tooling: Detect breaking changes in types</a>).</p>
+<p>Each of the kinds of breaking changes defined below will trigger a compiler error for consumers, surfacing the error. As such, they should be easily detectable by testing infrastructure (see below under <a href="https://www.semver-ts.org/#detect-breaking-changes-in-types">Tooling: Detect breaking changes in types</a>).</p>
 <p>There are several reasons why breaking changes may occur:</p>
 <ol>
 <li>
@@ -287,7 +292,7 @@ In either case, no change to a type documented as private is a breaking change, 
 <p>Adopting a new version of TypeScript may change the type definitions emitted in <code>.d.ts</code> files in backwards-incompatible ways. For example, changing to use the finalized ECMAScript spec for class fields meant that <a href="https://github.com/microsoft/TypeScript/pull/33470">types emitted by TypeScript 3.7 were incompatible with TypeScript 3.5 and earlier</a>.</p>
 </li>
 </ol>
-<p>The kinds of breaking changes represented by reasons (1) and (2) are described below under <a href="https://semver-ts.org/#changes-to-types"><strong>Changes to Types</strong></a>; reasons (3) and (4) are discussed below in <a href="https://semver-ts.org/#compiler-considerations"><strong>Compiler Considerations</strong></a>.</p>
+<p>The kinds of breaking changes represented by reasons (1) and (2) are described below under <a href="https://www.semver-ts.org/#changes-to-types"><strong>Changes to Types</strong></a>; reasons (3) and (4) are discussed below in <a href="https://www.semver-ts.org/#compiler-considerations"><strong>Compiler Considerations</strong></a>.</p>
 <p>Additionally, there are some changes which we define <em>not</em> to be breaking changes because, while they will cause the compiler to produce a type error, they will do so in a way which simply allows the removal of now-defunct code.</p>
 <h3 id="changes-to-types">Changes to types</h3>
 <h4 id="variance">Variance</h4>
@@ -302,7 +307,7 @@ In either case, no change to a type documented as private is a breaking change, 
 <p>First of all, notice that the vast majority of objects in JavaScript are mutable, which means they must be <em>invariant</em>. When combined with type inference, this effectively means that <em>any</em> change to an object type <em>can</em> cause breakage for consumers. (The only real counter-examples are <code>readonly</code> types.)</p>
 <p>Additionally, TypeScript has two other features many other languages do not which complicate reasoning about variance: <em>structural typing</em>, <em>higher-order type operations</em>. The result of these additional features is a further impossibility of safely writing types which can be <em>guaranteed</em> never to stop compiling for runtime-safe changes.</p>
 <p>Accordingly, we propose the rules below, with the caveat that (as noted in several places throughout) they will <em>not</em> prevent all possible breakage—only the majority of it, and substantially the worst of it. Most of all, they give us a workable approach which can be well-tested and well-understood, and the edge cases identified here do not prevent the rules from being generally useful or applicable.<sup class="footnote-reference"><a href="#satisficery">5</a></sup></p>
-<p>For a more detailed explanation and analysis of the impact of variance on these rules, see <a href="https://semver-ts.org/#appendix-c-on-variance-in-typescript"><strong>Appendix C</strong></a>.</p>
+<p>For a more detailed explanation and analysis of the impact of variance on these rules, see <a href="https://www.semver-ts.org/#appendix-c-on-variance-in-typescript"><strong>Appendix C</strong></a>.</p>
 <h4 id="breaking-changes">Breaking Changes</h4>
 <h5 id="symbols">Symbols</h5>
 <p>Changing a symbol is a breaking change when:</p>
@@ -361,7 +366,7 @@ In either case, no change to a type documented as private is a breaking change, 
 </li>
 </ul>
 <h5 id="interfaces-type-aliases-and-classes">Interfaces, Type Aliases, and Classes</h5>
-<p>Object types may be defined with interfaces, type aliases, or classes. Interfaces and type aliases define type symbols only. Classes define both type symbols and value symbols. The <code>namespace</code> construct defines a value symbol (as well as introducing a context in which you can name other nested type or value symbols). The additional constraints for the value symbols introduced by classes are covered above under <a href="https://semver-ts.org/#symbols">Breaking Changes: Symbols</a>.</p>
+<p>Object types may be defined with interfaces, type aliases, or classes. Interfaces and type aliases define type symbols only. Classes define both type symbols and value symbols. The <code>namespace</code> construct defines a value symbol (as well as introducing a context in which you can name other nested type or value symbols). The additional constraints for the value symbols introduced by classes are covered above under <a href="https://www.semver-ts.org/#symbols">Breaking Changes: Symbols</a>.</p>
 <p>A change to any object type (user constructible or not) is breaking when:</p>
 <ul>
 <li>
@@ -402,7 +407,7 @@ In either case, no change to a type documented as private is a breaking change, 
 </li>
 </ul>
 <h5 id="functions">Functions</h5>
-<p>For functions which return or accept user-constructible types, the rules specified for <a href="https://semver-ts.org/#interfaces-type-aliases-and-classes">Breaking Changes: Interfaces, Type Aliases, and Classes</a> hold. Otherwise, a change to the type of a function is breaking when:</p>
+<p>For functions which return or accept user-constructible types, the rules specified for <a href="https://www.semver-ts.org/#interfaces-type-aliases-and-classes">Breaking Changes: Interfaces, Type Aliases, and Classes</a> hold. Otherwise, a change to the type of a function is breaking when:</p>
 <ul>
 <li>
 <p>an argument or return type changes entirely, for example if a function previously accepted <code>number</code> and now accepts <code>{ count: number }</code>, or previously returned <code>string</code> and now returns <code>boolean</code>—since the user will have to change all call sites for the function (<a href="https://www.typescriptlang.org/play?#code/PTAEEkFsEMHMEsB2BTUALZAnVAXN0dQ9UAiRaSZAZwAdoBjZE0BnAV2gBtOBPUAKzZVC2GtirJEOKkQwAoEKCoVU8SDQD2mHAC5QAAzWbtoAN6hYyHADUubVAF9QAM0wbIoAORV3yALTQACaBGoieANz6cnKByPSc0NigkBqBbJyoAPKY8AjknGZyoMUubIj0OPChLPSMNNK2nPYAFIEE0HqIbJAARlgAlHoAbhrwgeFyDtGx8Ymo5JS0DKgAwviIloGFJaXlldUMdQ12yK3teub0GmW6oF29WKAOg6AjYxNTctm5SFwAdIdkPUqI0WgBGABMAGZ+hM1tANshAgDakDjk1TpCYeEgA">playground</a>)</p>
@@ -465,7 +470,7 @@ In either case, no change to a type documented as private is a breaking change, 
 </li>
 </ul>
 <h5 id="functions-1">Functions</h5>
-<p>For functions which return or accept user-constructible types, the rules specified for <a href="https://semver-ts.org/#interfaces-type-aliases-and-classes-1">Non-breaking Changes: Interfaces, Type Aliases, and Classes</a> hold. Otherwise, a change to a function declaration is <em>not</em> breaking when:</p>
+<p>For functions which return or accept user-constructible types, the rules specified for <a href="https://www.semver-ts.org/#interfaces-type-aliases-and-classes-1">Non-breaking Changes: Interfaces, Type Aliases, and Classes</a> hold. Otherwise, a change to a function declaration is <em>not</em> breaking when:</p>
 <ul>
 <li>
 <p>a function (including a class method or constructor) <em>accepts a less specific (&quot;wider&quot;) type</em>, for example if it previously accepted only a <code>boolean</code> but now accepts <code>boolean | undefined</code>—since all existing user code will continue working and type-checking (<a href="https://www.typescriptlang.org/play?#code/PTAEEkFsEMHMEsB2BTUALZAnVAXN0dQ9UAiRaSZAZwAdoBjZE0BnAV2gBtOBPUAKzZVC2GtirJEOKkQwAoEKCoVU8SDQD2mHAC5QAAzWbtoAN6hYyHADUubVAF9QAM0wbIoAORV3yALTQACaBGoieANz6cnKByPSc0Nig5JS0DKgA8pjwCOScZnKgRS5siPQ48KEs9Iw00rac9gAUgQTQegBGGhqcyNCIAJR6AG4a8IHhcg7RsfGJqCnUdIygAOrjksiBBcUlZRVVDLX1dsgtbZ3dvf2gAD6gpbHOSFtDoKPjk9MKYEJYoPQNLE5FkckguAA6I7IOpUBrNHCYewDSag3KQ6Gw+FnZxcCQouTrWIoQJQmowk6NM6I5GTImbUmYynNXGcfHhIA">playground</a>)</p>
@@ -498,7 +503,7 @@ In either case, no change to a type documented as private is a breaking change, 
 <p>In practice, this suggests two key considerations around type bugs:</p>
 <ol>
 <li>
-<p>It is essential that types be well-tested! See discussion below under <a href="https://semver-ts.org/#appendix-b-tooling"><strong>Appendix B: Tooling</strong></a>.</p>
+<p>It is essential that types be well-tested! See discussion below under <a href="https://www.semver-ts.org/#appendix-b-tooling"><strong>Appendix B: Tooling</strong></a>.</p>
 </li>
 <li>
 <p>If a given type bug has existed for long enough, an author may choose to treat it as <a href="https://twitter.com/wycats/status/918644693759488005">&quot;intimate API&quot;</a> and change the <em>runtime</em> behavior to match the types rather than vice versa.</p>
@@ -510,13 +515,13 @@ In either case, no change to a type documented as private is a breaking change, 
 <p>Conforming packages must adopt and clearly specify one of two support policies: <em>simple majors</em> or <em>rolling support windows</em>.</p>
 <h6 id="simple-majors">Simple majors</h6>
 <p>In “simple majors” pattern, dropping a previously-supported TypeScript version constitutes a breaking change, because it has the same kind of impact on users of the package as dropping support for a previously-supported version of Node: they must upgrade a <em>different</em> dependency to guarantee their code continues to work. Thus, whenever dropping a previously-supported TypeScript release, packages using “simple majors” should publish a new major version.</p>
-<p>However, bug fix/patch releases to TypeScript (as described above under <a href="https://semver-ts.org/#bug-fixes">Bug fixes</a>) qualify for bug fix releases for packages using the “simple majors” policy. For example, if a package initially publishes support for TypeScript 4.5.0, but a critical bug is discovered and fixed in 4.5.1, the package may drop support for 4.5.0 without a major release. Dropping support for a bad version does not require publishing a new release, only documenting the change.</p>
+<p>However, bug fix/patch releases to TypeScript (as described above under <a href="https://www.semver-ts.org/#bug-fixes">Bug fixes</a>) qualify for bug fix releases for packages using the “simple majors” policy. For example, if a package initially publishes support for TypeScript 4.5.0, but a critical bug is discovered and fixed in 4.5.1, the package may drop support for 4.5.0 without a major release. Dropping support for a bad version does not require publishing a new release, only documenting the change.</p>
 <p>In this case, packages should generally couple dropping support for previously-supported TypeScript versions with dropping support for other ecosystem-level dependencies, such as previously-supported Node.js LTS versions, Ember LTS releases, React major versions, etc. (This is not a requirement for conformance, but makes for a generally healthier ecosystem.)</p>
 <p>This pattern is recommended for “normal” packages, where major versions do not themselves have ecosystem-wide implications. For example, a package like <a href="https://true-myth.js.org">True Myth</a> (maintained by the primary author of this RFC) is small and not presently foundational to any broader ecosystem. It is safely using the “simple majors” approach today for both Node and TypeScript versions.</p>
 <h6 id="rolling-support-windows">Rolling support windows</h6>
 <p>The “rolling support windows” policy decouples compiler version support from major breaking changes, by specifying a rolling window of supported versions. For example, Ember and Ember CLI <a href="https://github.com/ember-cli/ember-cli/blob/master/docs/node-support.md">specify</a> that any change landing on <code>master</code> must work on the <a href="https://nodejs.org/en/about/releases/">Current, Active LTS, and Maintenance LTS Node versions</a> at the time the change lands, and that when the Node Working Group drops support for an LTS, Ember and Ember CLI do so as well <em>without a breaking change</em>. Similarly, <a href="https://redux.js.org">Redux</a> has maintained support over a long time horizon while informally dropping support for Node versions (and TypeScript versions!) and documenting in their releases. This allows the CLI to use new Node features as part of its public API over time, rather than being fixed at the set of features available at the time of the latest release of the library.</p>
 <p>Following this pattern, core ecosystem components (hypothetically including examples such <code>ember-source</code>, <code>react</code>, <code>@vue/cli</code>, etc.) could adopt a similar policy for supported TypeScript compiler versions, allowing the component to adopt new TypeScript features which impact the published types (e.g. in type emit, type system features such as conditional types, etc.) rather than being coupled to the features available at the time of release. Conforming projects which adopt this may choose any rolling support window they choose, except that if they have an LTS release schedule, upgrading to a new LTS shall not require upgrading to a new version of TypeScript.</p>
-<p>Bug fix/patch releases to TypeScript (as described above under <a href="https://semver-ts.org/#bug-fixes">Bug fixes</a>) qualify for bug fix releases for packages using the “rolling support windows” policy. For example, if a package initially publishes support for TypeScript 4.5.0, but a critical bug is discovered and fixed in 4.5.1, the package may drop support for 4.5.0 without a major release. Dropping support for a bad version does not require publishing a new release, only documenting the change.</p>
+<p>Bug fix/patch releases to TypeScript (as described above under <a href="https://www.semver-ts.org/#bug-fixes">Bug fixes</a>) qualify for bug fix releases for packages using the “rolling support windows” policy. For example, if a package initially publishes support for TypeScript 4.5.0, but a critical bug is discovered and fixed in 4.5.1, the package may drop support for 4.5.0 without a major release. Dropping support for a bad version does not require publishing a new release, only documenting the change.</p>
 <h5 id="strictness">Strictness</h5>
 <p>Type-checking in TypeScript behaves differently under different “strictness” settings, and the compiler adds more strictness settings over time. Changes to types which are not breaking under looser compiler settings may be breaking under stricter compiler settings.</p>
 <p>For example: a package with <code>strictNullChecks: false</code> could make a function return type nullable without the compiler reporting it within the package or the package’s type tests. However, as described above, this is a breaking change for consumers which have <code>strictNullChecks: true</code>. (By contrast, a <em>consumer</em> may disable strictness settings safely: code which type-checks under a stricter setting also type-checks under a less strict setting.) Likewise, with <code>noUncheckedIndexedAccess: false</code>, an author could change a type <code>SomeObj</code> from <code>{ a: string }</code> to <code>{ [key: string]: string }</code> and accessing <code>someObj.a.length</code> would now error.</p>
@@ -543,7 +548,7 @@ In either case, no change to a type documented as private is a breaking change, 
 <h2 id="drawbacks">Drawbacks</h2>
 <ul>
 <li>
-<p>The definition of breaking changes above, while precise, may prove difficult to maintain without investment in specific supporting tooling to identify and mitigate breakage (which this RFC does not require, though see <a href="https://semver-ts.org/#appendix-b-tooling"><strong>Appendix B: Tooling</strong></a> for some recommendations).</p>
+<p>The definition of breaking changes above, while precise, may prove difficult to maintain without investment in specific supporting tooling to identify and mitigate breakage (which this RFC does not require, though see <a href="https://www.semver-ts.org/#appendix-b-tooling"><strong>Appendix B: Tooling</strong></a> for some recommendations).</p>
 </li>
 <li>
 <p>Providing the “rolling support window” option means that consumers still have to deal with some potentially-breaking changes to supported TypeScript versions during a single major version of a package. While this allows more flexibility for authors of packages which publish types, it does decrease the strength of the stability guarantees for those types.</p>
@@ -636,7 +641,7 @@ In either case, no change to a type documented as private is a breaking change, 
 </ul>
 </li>
 </ul>
-<p><code>expect-type</code> seems to be the best option, and a number of libraries in the TS community are already using <code>expect-type</code> successfully (see <a href="https://semver-ts.org/#appendix-a-existing-implementations"><strong>Appendix A</strong></a> above). However, for the purposes of <em>this</em> RFC, we do not make a specific recommendation about which library to use. The tradeoffs above are offered to help authors make an informed choice in this space.</p>
+<p><code>expect-type</code> seems to be the best option, and a number of libraries in the TS community are already using <code>expect-type</code> successfully (see <a href="https://www.semver-ts.org/#appendix-a-existing-implementations"><strong>Appendix A</strong></a> above). However, for the purposes of <em>this</em> RFC, we do not make a specific recommendation about which library to use. The tradeoffs above are offered to help authors make an informed choice in this space.</p>
 <p>Users should add one of these libraries and generate a set of tests corresponding to their public API. These tests should be written is such a way as to test the imported API as consumers will consume the library. For example, type tests should not import using relative paths, but using the absolute paths at which the types should resolve, just as consumers would. </p>
 <p>These type tests should be specific and precise. It is important, for example, to guarantee that an API element never <em>accidentally</em> becomes <code>any</code>, thereby making many things allowable which should not be in the case of function arguments, and &quot;infecting&quot; the caller's code by eliminating type safety on the result in the case of function return values. For example, the <code>expect-type</code> library's <code>.toEqualTypeOf</code> assertion is robust against precisely this scenario; package authors are also encouraged to use its <code>.not</code> modifier and <code>.toBeAny()</code> method where appropriate to prevent this failure mode.</p>
 <p>To be safe, these tests should be placed in a directory which does not emit runtime code—either colocated with the library's runtime tests, or in a dedicated <code>type-tests</code> directory. Additionally, type tests should <em>never</em> export any code.</p>
@@ -647,7 +652,7 @@ In either case, no change to a type documented as private is a breaking change, 
 <li>React libraries regularly test against both the current major, any upcoming major, and sometimes a previous major.</li>
 <li>Node libraries regularly test against all active Node LTS releases and the current stable release.</li>
 </ul>
-<p>Along the same lines, TypeScript packages should follow should test the types against all versions of TypeScript supported by the package (see the <a href="https://semver-ts.org/#supported-compiler-versions">suggested policy for version support</a> below) as well as the upcoming version (the <code>next</code> tag for the <code>typescript</code> package on npm).</p>
+<p>Along the same lines, TypeScript packages should follow should test the types against all versions of TypeScript supported by the package (see the <a href="https://www.semver-ts.org/#supported-compiler-versions">suggested policy for version support</a> below) as well as the upcoming version (the <code>next</code> tag for the <code>typescript</code> package on npm).</p>
 <p>Type tests can run as normal <a href="https://github.com/ember-cli/ember-try">ember-try</a> variations or similar CI. Typed Ember will document a conventional setup for ember-try configurations, so that correct integration into CI setups will be straightforward for package authors.</p>
 <h4 id="mitigate-breaking-changes">Mitigate breaking changes</h4>
 <p>It is insufficient merely to be <em>aware</em> of breaking changes. It is also important to <em>mitigate</em> them, to minimize churn and breakage for package users.</p>
@@ -730,12 +735,12 @@ Type 'unknown' is not assignable to type '{}'.</p>
 <span class="z-punctuation z-definition z-block z-ts">}</span></span></span>
 </span></code></pre>
 <p>This is a totally-backwards compatible bugfix-style change, and should be released in a bugfix/point release. Users can then just upgrade to the bugfix release <em>before</em> upgrading their own TypeScript version—and will experience <em>zero</em> impact from the breaking TypeScript change.</p>
-<p>Later, the default type argument <code>Promise&lt;{}&gt;</code> could be dropped and defaulted to the new value for a major release of the library when desired (per the policy <a href="https://semver-ts.org/#supported-compiler-versions">outlined below</a>, giving it the new semantics. (Also see <a href="https://semver-ts.org/#opt-in-future-types"><b>Opt-in future types</b></a> below for a means to allow users to <em>opt in</em> to these changes before the major version.)</p>
+<p>Later, the default type argument <code>Promise&lt;{}&gt;</code> could be dropped and defaulted to the new value for a major release of the library when desired (per the policy <a href="https://www.semver-ts.org/#supported-compiler-versions">outlined below</a>, giving it the new semantics. (Also see <a href="https://www.semver-ts.org/#opt-in-future-types"><b>Opt-in future types</b></a> below for a means to allow users to <em>opt in</em> to these changes before the major version.)</p>
 <h5 id="downleveling-types">&quot;Downleveling&quot; types</h5>
 <p>When a new version of TypeScript includes a backwards-incompatible change to <em>emitted type definitions</em>, as they did in <a href="https://github.com/microsoft/TypeScript/pull/33470">3.7</a>, the strategy of changing the types directly may not work. However, it is still possible to provide backwards-compatible types, using the combination of <a href="https://github.com/sandersn/downlevel-dts">downlevel-dts</a> and <a href="https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-1.html#version-selection-with-typesversions">typesVersions</a>. (In some cases, this may also require some manual tweaking of types, but this should be rare for most packages.)</p>
 <ul>
 <li>
-<p>The <a href="https://github.com/sandersn/downlevel-dts"><code>downlevel-dts</code></a> tool allows you to take a <code>.d.ts</code> file which is not valid for an earlier version of TypeScript (e.g. the changes to class field emit mentioned in <a href="https://semver-ts.org/#breaking-changes"><b>Breaking Changes</b></a>), and emit a version which <em>is</em> compatible with that version. It supports targeting all TypeScript versions later than 3.4.</p>
+<p>The <a href="https://github.com/sandersn/downlevel-dts"><code>downlevel-dts</code></a> tool allows you to take a <code>.d.ts</code> file which is not valid for an earlier version of TypeScript (e.g. the changes to class field emit mentioned in <a href="https://www.semver-ts.org/#breaking-changes"><b>Breaking Changes</b></a>), and emit a version which <em>is</em> compatible with that version. It supports targeting all TypeScript versions later than 3.4.</p>
 </li>
 <li>
 <p>TypeScript supports using the <a href="https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-1.html#version-selection-with-typesversions"><code>typesVersions</code></a> key in a <code>package.json</code> file to specify a specific set of type definitions (which may consist of one or more <code>.d.ts</code> files) which correspond to a specific TypeScript version.</p>
@@ -800,7 +805,7 @@ Type 'unknown' is not assignable to type '{}'.</p>
 <h5 id="opt-in-future-types">Opt-in future types</h5>
 <p>In the case of significant breaking changes to <em>only</em> the types—whether because the package author wants to make a change, or because of TypeScript version changes—packages may supply <em>future</em> types, which users may opt into <em>before</em> the library ships a breaking change. (We expect this use case will be rare, but important.)</p>
 <p>In this case, package authors will need to <em>hand-author</em> the types for the future version of the types, and supply them at a specific location which users can then import directly in their <code>types/my-app.d.ts</code> file—which will override the normal types location, while not requiring the user to modify the <code>paths</code> key in their <code>tsconfig.json</code>.</p>
-<p>This approach is a variant on <a href="https://semver-ts.org/#updating-types-to-maintain-compatibility"><strong>Updating types to maintain compatibility</strong></a>. Using that same example, a package author who wanted to provide opt-in future types instead (or in addition) would follow this procedure:</p>
+<p>This approach is a variant on <a href="https://www.semver-ts.org/#updating-types-to-maintain-compatibility"><strong>Updating types to maintain compatibility</strong></a>. Using that same example, a package author who wanted to provide opt-in future types instead (or in addition) would follow this procedure:</p>
 <ol>
 <li>
 <p>Backwards-compatibly <em>fix</em> the types by explicitly setting the return type on <code>dontCarePromise</code>, just as discussed above:</p>
@@ -871,7 +876,7 @@ Type 'unknown' is not assignable to type '{}'.</p>
 <h4 id="matching-exports-to-public-api">Matching exports to public API</h4>
 <p>Another optional tool for managing public API is <a href="https://api-extractor.com">API Extractor</a>. Authors can mark their exports as <code>@public</code>, <code>@protected</code>, <code>@private</code>, <code>@alpha</code>, <code>@beta</code>, etc. and use the tool to generate type definitions accordingly. For example, for mitigating a future TypeScript version change, or experimenting on a new API, authors can use <code>@alpha</code> or <code>@beta</code> and use <code>typesVersions</code> to publish to a dedicated directory. Similarly, authors can make an export public for use through the package or even a set of related packages in a moinorepo, but mark it as <code>@private</code> and use API Extractor to generate types which exclude it when publishing to npm.</p>
 <h3 id="appendix-c-on-variance-in-typescript">Appendix C: On Variance in TypeScript</h3>
-<p>As alluded to in <a href="https://semver-ts.org/#variance">Changes to Types: Variance</a>, there are several complicating factors for the discussion of variance in TypeScript:</p>
+<p>As alluded to in <a href="https://www.semver-ts.org/#variance">Changes to Types: Variance</a>, there are several complicating factors for the discussion of variance in TypeScript:</p>
 <ul>
 <li>the combination of inference with pervasive mutability</li>
 <li>structural typing</li>
@@ -1037,7 +1042,7 @@ Type 'unknown' is not assignable to type '{}'.</p>
 <p>Strictly speaking, one value may stop being comparable to another value in this scenario. However, this is both a rare edge case and fits under the standard rule where changes which simply let users delete now-defunct code are allowed.</p>
 </div>
 <div class="footnote-definition" id="variance-in-discriminating"><sup class="footnote-definition-label">7</sup>
-<p>Mostly, anyway—see <a href="https://semver-ts.org/#higher-order-type-operations">Appendix C: On Variance in TypeScript – Higher-order type operations</a> below for a discussion of how the <code>in</code> operator (or similar operations discriminating between unions) makes this cause breakage in some cases. These are rare enough, and easily-enough solved, that the rule remains workable.</p>
+<p>Mostly, anyway—see <a href="https://www.semver-ts.org/#higher-order-type-operations">Appendix C: On Variance in TypeScript – Higher-order type operations</a> below for a discussion of how the <code>in</code> operator (or similar operations discriminating between unions) makes this cause breakage in some cases. These are rare enough, and easily-enough solved, that the rule remains workable.</p>
 </div>
 <div class="footnote-definition" id="const-controversy"><sup class="footnote-definition-label">8</sup>
 <p>Rightly so, in my opinion!</p>
