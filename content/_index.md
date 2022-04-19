@@ -1,14 +1,14 @@
 ---
 title: Semantic Versioning for TypeScript Types
 extra:
-  date: 2022-04-12
+  date: 2022-04-19
   version: "1.0.0-beta.1"
 
 ---
 
 ## Summary <!-- omit in toc -->
 
-This RFC proposes a definition of [Semantic Versioning][semver] for managing changes to TypeScript types, including when the TypeScript compiler makes breaking changes in its type-checking and type emit across a “minor” release. (Note that this RFC addresses *only* type checking and type emit, *not* the “transpilation” mode of the TypeScript compiler.)
+This document defines a specification of [Semantic Versioning][semver] for managing changes to TypeScript types, including when the TypeScript compiler makes breaking changes in its type-checking and type emit across a “minor” release. (Note that this RFC addresses *only* type checking and type emit, *not* the “transpilation” mode of the TypeScript compiler.)
 
 [semver]: https://semver.org
 
