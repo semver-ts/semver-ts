@@ -728,7 +728,7 @@ The current options include:
 
 `expect-type` seems to be the best option, and a number of libraries in the TS community are already using `expect-type` successfully (see [**Appendix A**](#appendix-a-existing-implementations) above). However, for the purposes of *this* RFC, we do not make a specific recommendation about which library to use. The tradeoffs above are offered to help authors make an informed choice in this space.
 
-Users should add one of these libraries and generate a set of tests corresponding to their public API. These tests should be written is such a way as to test the imported API as consumers will consume the library. For example, type tests should not import using relative paths, but using the absolute paths at which the types should resolve, just as consumers would. 
+Users should add one of these libraries and generate a set of tests corresponding to their public API. These tests should be written in such a way as to test the imported API as consumers will consume the library. For example, type tests should not import using relative paths, but using the absolute paths at which the types should resolve, just as consumers would.
 
 These type tests should be specific and precise. It is important, for example, to guarantee that an API element never *accidentally* becomes `any`, thereby making many things allowable which should not be in the case of function arguments, and "infecting" the caller's code by eliminating type safety on the result in the case of function return values. For example, the `expect-type` library's `.toEqualTypeOf` assertion is robust against precisely this scenario; package authors are also encouraged to use its `.not` modifier and `.toBeAny()` method where appropriate to prevent this failure mode.
 
