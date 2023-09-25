@@ -8,7 +8,19 @@ description = "A specification for managing changes to TypeScript types, includi
 compile_sass = true
 
 # Whether to build a search index to be used later on by a JavaScript library
-build_search_index = false
+build_search_index = true
+
+# The default language; used in feeds and search index
+# Note: the search index doesn't support Chinese/Japanese/Korean Languages
+default_language = "en"
+
+[search]
+# Whether to include the title of the page/section in the index
+include_title = true
+# Whether to include the description of the page/section in the index
+include_description = false
+# Whether to include the rendered content of the page/section in the index
+include_content = true
 
 [markdown]
 # Whether to do syntax highlighting
@@ -23,5 +35,5 @@ highlight_theme = "css"
   # { theme = "charcoal", filename = "syntax-theme-dark.css" },
 # ]
 
-[extra]
-# Put all your custom variables here
+[link_checker]
+internal_level = "warn"
