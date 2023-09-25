@@ -17,5 +17,6 @@
         }
       ]
     }
-  }
+  },
+  "openLogOnRun" : "start"
 }
