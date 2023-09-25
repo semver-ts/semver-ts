@@ -1,0 +1,21 @@
+{
+  "actions" : {
+    "build" : {
+      "postActions" : [
+        {
+          "script" : "zola build",
+          "type" : "runScript"
+        }
+      ]
+    },
+    "run" : {
+      "enabled" : true,
+      "postActions" : [
+        {
+          "script" : "zola serve",
+          "type" : "runScript"
+        }
+      ]
+    }
+  }
+}
