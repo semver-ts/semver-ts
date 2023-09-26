@@ -600,7 +600,11 @@ For example: a package with `strictNullChecks: false` could make a function retu
 - With `noUncheckedIndexedAccess: false`, an author could change a type `SomeObj` from `{ a: string }` to `{ [key: string]: string }` and accessing `someObj.a.length` would now error.
 - With `exactOptionalPropertyTypes: false` the difference between `{}` and `{ foo: undefined }` would go unchecked at runtime, although this can have significant effects on runtime type checks, since `hasOwn`, `hasOwnProperty`, and the `in` operator will treat the two differently.
 
-Accordingly, conforming packages must use `strict: true` in their compiler settings. Additionally, communities may define further strictness settings to which they commit to conform which include “pedantic” strictness settings like `noPropertyAccessFromIndexSignature`. For example, a given community might commit to a set of *additional* strictness flags it supports for its own types for any LTS release, published in Ember’s own TypeScript documentation.
+Accordingly, conforming packages must use `strict: true`, `noUncheckedIndexAccess: true`, and `exactOptionalPropertyTypes: true` in their compiler settings.
+Moreover, libraries must always fully specify full optionality on properties, e.g. `{ foo?: string | undefined }`, rather than `{ foo?: string }` or `{ foo: string | undefined }`.
+This guarantees the library must handle all the possibly-`undefined` variants.
+
+Additionally, communities may define further strictness settings to which they commit to conform which include “pedantic” strictness settings like `noPropertyAccessFromIndexSignature`. For example, a given community might commit to a set of *additional* strictness flags it supports for its own types for any LTS release, published in Ember’s own TypeScript documentation.
 
 **Note:** While the TypeScript compiler may include new strictness flags under `strict: true` in any release, this is simply a special case of TypeScript’s policy on breaking changes.
 
@@ -631,6 +635,7 @@ To conform to this standard, a package must:
 - specify the currently-supported versions of TypeScript
 - specify the definition of “public API” used by the library (e.g. “only documented types” vs. “all published types” etc.)
 - author and publish its types with `strict: true`, `noUncheckedIndexedAccess: true`, and `exactOptionalPropertyTypes: true` in its compiler configuration
+- always fully specify optional properties on objects with both `?` and `| undefined`
 
 
 ## Drawbacks
