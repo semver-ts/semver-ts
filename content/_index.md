@@ -61,6 +61,7 @@ Note that this summary elides *many* important details, and those details may su
 -   Packages must be authored with the following compiler options:
     -   `strict: true`
     -   `noUncheckedIndexedAccess: true`
+    -   `exactOptionalPropertyTypes: true`
 
 -   Libraries should generally be authored with the following compiler options:
     -   `esModuleInterop: false`
@@ -337,7 +338,7 @@ Changing a symbol is a breaking change when:
 -   removing an exported symbol, since users' existing imports will stop working. This is a breaking change for value exports (`let`, `const`, `class`, `function`) independent of types, but removing exported `interface`, `type` alias, or `namespace` declarations is breaking as well.
 
     This includes changing a previously type-and-value export such as `export class` to either—
-    
+
     -   a type-only export, since the exported value symbol has been removed:
 
         ```diff
@@ -348,7 +349,7 @@ Changing a symbol is a breaking change when:
         +
         +export type { Foo };
         ```
-    
+
     -   a value-only export, since the exported type symbol has been removed:
 
         ```diff
@@ -389,7 +390,7 @@ A change to any object type (user constructible or not) is breaking when:
 
     -   if it was previously `string` but now is `string | number`, some of the user's existing *reads* of the property will now be wrong ([playground][reads-of-property]). Note that this includes making a property optional.
 
-    -   if it was previously `string | number` but now is `string`, some of the user's existing *writes* to the property will now be wrong ([playground][writes-to-property]). Note that this includes making a previously-optional property required. 
+    -   if it was previously `string | number` but now is `string`, some of the user's existing *writes* to the property will now be wrong ([playground][writes-to-property]). Note that this includes making a previously-optional property required.
 
         Note that at present, TypeScript cannot actually catch all variants of this error. [This playground][writes-to-property] demonstrates that there is a runtime error but no *type* error in one scenario. TypeScript's type system understands these types in terms of *assignability*, rather than local *mutability*. However, package authors should test for the catchable variant of this condition.
 
@@ -594,9 +595,12 @@ Bug fix/patch releases to TypeScript (as described above under [Bug fixes](#bug-
 
 Type-checking in TypeScript behaves differently under different “strictness” settings, and the compiler adds more strictness settings over time. Changes to types which are not breaking under looser compiler settings may be breaking under stricter compiler settings.
 
-For example: a package with `strictNullChecks: false` could make a function return type nullable without the compiler reporting it within the package or the package’s type tests. However, as described above, this is a breaking change for consumers which have `strictNullChecks: true`. (By contrast, a *consumer* may disable strictness settings safely: code which type-checks under a stricter setting also type-checks under a less strict setting.) Likewise, with `noUncheckedIndexedAccess: false`, an author could change a type `SomeObj` from `{ a: string }` to `{ [key: string]: string }` and accessing `someObj.a.length` would now error.
+For example: a package with `strictNullChecks: false` could make a function return type nullable without the compiler reporting it within the package or the package’s type tests. However, as described above, this is a breaking change for consumers which have `strictNullChecks: true`. (By contrast, a *consumer* may disable strictness settings safely: code which type-checks under a stricter setting also type-checks under a less strict setting.) Likewise:
 
-Accordingly, conforming packages must use `strict: true` in their compiler settings. Additionally, communities may define further strictness settings to which they commit to conform which include “pedantic” strictness settings like `noUncheckedIndexedAccess`. For example, the Ember community might commit to a set of *additional* strictness flags it supports for its own types for any LTS release, published in Ember’s own TypeScript documentation.
+- With `noUncheckedIndexedAccess: false`, an author could change a type `SomeObj` from `{ a: string }` to `{ [key: string]: string }` and accessing `someObj.a.length` would now error.
+- With `exactOptionalPropertyTypes: false` the difference between `{}` and `{ foo: undefined }` would go unchecked at runtime, although this can have significant effects on runtime type checks, since `hasOwn`, `hasOwnProperty`, and the `in` operator will treat the two differently.
+
+Accordingly, conforming packages must use `strict: true` in their compiler settings. Additionally, communities may define further strictness settings to which they commit to conform which include “pedantic” strictness settings like `noPropertyAccessFromIndexSignature`. For example, a given community might commit to a set of *additional* strictness flags it supports for its own types for any LTS release, published in Ember’s own TypeScript documentation.
 
 **Note:** While the TypeScript compiler may include new strictness flags under `strict: true` in any release, this is simply a special case of TypeScript’s policy on breaking changes.
 
@@ -626,7 +630,7 @@ To conform to this standard, a package must:
 - specify the compiler support policy
 - specify the currently-supported versions of TypeScript
 - specify the definition of “public API” used by the library (e.g. “only documented types” vs. “all published types” etc.)
-- author and publish its types with `strict: true` and `noUncheckedIndexedAccess: true` in its compiler configuration
+- author and publish its types with `strict: true`, `noUncheckedIndexedAccess: true`, and `exactOptionalPropertyTypes: true` in its compiler configuration
 
 
 ## Drawbacks
@@ -882,9 +886,9 @@ The recommended flow would be as follows:
     ```sh
     npm install --save-dev downlevel-dts npm-run-all rimraf
     ```
-    
-    or 
-    
+
+    or
+
     ```sh
     yarn add --dev downlevel-dts npm-run-all rimraf
     ```
@@ -978,7 +982,7 @@ This approach is a variant on [**Updating types to maintain compatibility**](#up
     ```
 
     —and the contents of `sub-package.d.ts` would be:
-    
+
     ```ts
     declare module 'my-library/sub-package' {
       export function dontCarePromise(): Promise<unknown>;
