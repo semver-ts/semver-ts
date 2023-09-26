@@ -600,7 +600,7 @@ For example: a package with `strictNullChecks: false` could make a function retu
 - With `noUncheckedIndexedAccess: false`, an author could change a type `SomeObj` from `{ a: string }` to `{ [key: string]: string }` and accessing `someObj.a.length` would now error.
 - With `exactOptionalPropertyTypes: false` the difference between `{}` and `{ foo: undefined }` would go unchecked at runtime, although this can have significant effects on runtime type checks, since `hasOwn`, `hasOwnProperty`, and the `in` operator will treat the two differently.
 
-Accordingly, conforming packages must use `strict: true` in their compiler settings. Additionally, communities may define further strictness settings to which they commit to conform which include “pedantic” strictness settings like `noUncheckedIndexedAccess`. For example, a given community might commit to a set of *additional* strictness flags it supports for its own types for any LTS release, published in Ember’s own TypeScript documentation.
+Accordingly, conforming packages must use `strict: true` in their compiler settings. Additionally, communities may define further strictness settings to which they commit to conform which include “pedantic” strictness settings like `noPropertyAccessFromIndexSignature`. For example, a given community might commit to a set of *additional* strictness flags it supports for its own types for any LTS release, published in Ember’s own TypeScript documentation.
 
 **Note:** While the TypeScript compiler may include new strictness flags under `strict: true` in any release, this is simply a special case of TypeScript’s policy on breaking changes.
 
