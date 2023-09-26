@@ -1,0 +1,6 @@
+{
+  "prettier.format-on-save" : "Disable",
+  "prettier.format-on-save.ignore-without-config" : "Global Default",
+  "workspace.preview_type" : "custom",
+  "workspace.preview_url" : "http:\/\/127.0.0.1:1111"
+}
