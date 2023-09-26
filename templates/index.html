@@ -13,29 +13,23 @@
   <meta property="og:description" content="{{config.description}}">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:creator" content="@chriskrycho">
-  
+
 </head>
 
 <body>
   <article>
-    <h1>{{section.title}}</h1>
-    <p class="status">
-      Version {{section.extra.version}}<br/>
-      (Last updated on {{section.extra.date | date(format="%B %e, %Y") }})<br/>
-      See the <a href="https://github.com/typed-ember/semver">source</a>,
-      file an <a href="https://github.com/typed-ember/semver/issues">issue</a>,
-      or suggest a <a href="https://github.com/typed-ember/semver/pulls">change</a>.
-    </p>
-    <hr/>
+    <section class='site-heading'>
+      <h1>{{section.title}}</h1>
+      <p class="status">
+        Version {{section.extra.version}}<br/>
+        (Last updated on {{section.extra.date | date(format="%B %e, %Y") }})<br/>
+        See the <a href="https://github.com/typed-ember/semver">source</a>,
+        file an <a href="https://github.com/typed-ember/semver/issues">issue</a>,
+        or suggest a <a href="https://github.com/typed-ember/semver/pulls">change</a>.
+      </p>
+    </section>
 
     {{section.content | safe}}
-
-    <hr/>
-
-    <p class='hosting'><a
-href="https://vercel.com?utm_source=typed-ember&utm_campaign=oss"><img
-src="https://www.datocms-assets.com/31049/1618983297-powered-by-vercel.svg" /></a></p>
-    </p>
   </article>
 </body>
 
