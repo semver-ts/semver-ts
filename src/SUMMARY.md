@@ -23,4 +23,4 @@
     - [Adopters](./appendices/a-adopters.md)
     - [Tooling](./appendices/b-tooling.md)
     - [Variance in TypeScript](./appendices/c-variance-in-typescript.md)
-
+    - [History](./appendices/d-history.md)
