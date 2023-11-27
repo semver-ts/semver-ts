@@ -3,7 +3,15 @@
     "build" : {
       "postActions" : [
         {
-          "script" : "zola build",
+          "script" : "mdbook build ",
+          "type" : "runScript"
+        }
+      ]
+    },
+    "clean" : {
+      "postActions" : [
+        {
+          "script" : "mdbook clean",
           "type" : "runScript"
         }
       ]
@@ -12,7 +20,7 @@
       "enabled" : true,
       "postActions" : [
         {
-          "script" : "zola serve",
+          "script" : "mdbook serve",
           "type" : "runScript"
         }
       ]

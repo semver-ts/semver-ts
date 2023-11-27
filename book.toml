@@ -1,0 +1,24 @@
+[book]
+title = "Semantic Versioning for TypeScript Types"
+authors = ["Chris Krycho"]
+language = "en"
+multilingual = false
+src = "src"
+
+[preprocessor.toc]
+command = "mdbook-toc"
+renderer = ["html"]
+
+[preprocessor.open-on-gh]
+command = "mdbook-open-on-gh"
+renderer = ["html"]
+
+[output.html]
+preferred-dark-them = "coal"
+git-repository-url = "https://github.com/semver-ts/semver-ts"
+cname = "www.semver-ts.org"
+git-branch = "main"
+open-on-text = "Suggestions welcome! [Edit this page on GitHub.]"
+additional-css = ["styles/open-in.css"]
+
+[output.linkcheck]
