@@ -1,0 +1,484 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Practical Guidance - Semantic Versioning for TypeScript Types</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="styles/open-in.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Background and Basics</li><li class="chapter-item expanded "><a href="1-background.html"><strong aria-hidden="true">1.</strong> TypeScript’s Versioning Policy</a></li><li class="chapter-item expanded "><a href="2-conformance.html"><strong aria-hidden="true">2.</strong> Conformance</a></li><li class="chapter-item expanded "><a href="3-practical-guidance.html" class="active"><strong aria-hidden="true">3.</strong> Practical Guidance</a></li><li class="chapter-item expanded affix "><li class="part-title">Formal Specification</li><li class="chapter-item expanded "><a href="formal-spec/index.html"><strong aria-hidden="true">4.</strong> Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="formal-spec/1-definitions.html"><strong aria-hidden="true">4.1.</strong> Definitions</a></li><li class="chapter-item expanded "><a href="formal-spec/2-breaking-changes.html"><strong aria-hidden="true">4.2.</strong> Breaking Changes</a></li><li class="chapter-item expanded "><a href="formal-spec/3-non-breaking-changes.html"><strong aria-hidden="true">4.3.</strong> Non-Breaking Changes</a></li><li class="chapter-item expanded "><a href="formal-spec/4-bug-fixes.html"><strong aria-hidden="true">4.4.</strong> Bug Fixes</a></li><li class="chapter-item expanded "><a href="formal-spec/5-compiler-considerations.html"><strong aria-hidden="true">4.5.</strong> Compiler Considerations</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="appendices/index.html"><strong aria-hidden="true">5.</strong> Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendices/a-adopters.html"><strong aria-hidden="true">5.1.</strong> Adopters</a></li><li class="chapter-item expanded "><a href="appendices/b-tooling.html"><strong aria-hidden="true">5.2.</strong> Tooling</a></li><li class="chapter-item expanded "><a href="appendices/c-variance-in-typescript.html"><strong aria-hidden="true">5.3.</strong> Variance in TypeScript</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Semantic Versioning for TypeScript Types</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/semver-ts/semver-ts" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="practical-guidance"><a class="header" href="#practical-guidance">Practical Guidance</a></h1>
+<p>It is insufficient merely to be <em>aware</em> of breaking changes. It is also important to <em>mitigate</em> them, to minimize churn and breakage for package users!</p>
+<ul>
+<li><a href="#minimize-breaking-changes">Minimize breaking changes</a>
+<ul>
+<li><a href="#avoiding-user-constructibility">Avoiding user constructibility</a></li>
+<li><a href="#updating-types-to-maintain-compatibility">Updating types to maintain compatibility</a></li>
+<li><a href="#downleveling-types">&quot;Downleveling&quot; types</a></li>
+<li><a href="#opt-in-future-types">Opt-in future types</a></li>
+<li><a href="#matching-exports-to-public-api">Matching exports to public API</a></li>
+</ul>
+</li>
+<li><a href="#reasons-to-make-a-breaking-change">Reasons to Make a Breaking Change</a></li>
+</ul>
+<h2 id="minimize-breaking-changes"><a class="header" href="#minimize-breaking-changes">Minimize breaking changes</a></h2>
+<h3 id="avoiding-user-constructibility"><a class="header" href="#avoiding-user-constructibility">Avoiding user constructibility</a></h3>
+<p>For types where it is useful to publish an interface for end users, but where users should not construct the interface themselves, authors have a number of options (noting that this list is not exhaustive):</p>
+<ul>
+<li>
+<p>The type can simply be documented as non-user-constructible. This is the easiest, and allows an escape hatch for scenarios like testing, where users will recognize that if the public interface changes, they will necessarily need to update their test mocks to match. This can further be mitigated by providing a sanctioned test helper to construct test versions of the types.</p>
+</li>
+<li>
+<p>Export a nominal-like version of the type, using <code>export type</code> with a class with a private field:</p>
+<details>
+<summary>implementation of a nominal-like class in TS</summary>
+<pre><code class="language-ts">class Person {
+  // 1.  The private brand means this cannot be constructed other than the
+  //     class's own constructor, because other approaches cannot add the
+  //     private field. Even if you write a class yourself with a matching
+  //     private field, TS will treat them as distinct.
+  // 2.  Using `declare` means this marker has no runtime over head: it will
+  //     not be emitted by TypeScript or Babel.
+  // 3.  Because the class itself is declared but not exported, the only way
+  //     to construct it is using the function exported lower in the module.
+  declare private __brand: void;
+
+  name: string;
+  age: number;
+
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
+}
+
+// This exports only the *type* side of `Person`, not the *value* side, so
+// users can neither call `new Person(...)` nor subclass it. Per the note
+// above, they also cannot *implement* their own version of `Person`, since
+// they do not have the ability to add the private field.
+export type { Person };
+
+// This is the controlled way of building a person: users can only get a
+// `Person` by calling this function, even though they can *name* the type
+// by doing `import type { Person} from '...';`.
+export function buildPerson(name: string, age: number): Person {
+  return new Person(name, age);
+}
+</code></pre>
+</details>
+</li>
+</ul>
+<p>This <em>cannot</em> be constructed outside the module. Note that it may be useful to provide corresponding test helpers for scenarios like this, since users cannot safely provide their own mocks.</p>
+<ul>
+<li>
+<p>Document that users can create their own local aliases for these types, while <em>not</em> exporting the types in a public way. This has one of the same upsides as the use of the classes with a private brand: the type is not constructible other than via the module. It also shares the upside of being able to create your own instance of it for test code. However, it has ergonomic downsides, requiring the use of the <code>ReturnType</code> utility class and requiring all consumers to generate that utility type for themselves.</p>
+</li>
+<li>
+<p>Provide sanctioned mocks for testing purposes. Since these live alongside, and therefore can be tested with and kept in sync with the package they are mocks for, they can also be provided with the exact same versioning stability guarantees as the package code itself.</p>
+</li>
+</ul>
+<p>Each of these leaves this module in control of the construction of <code>Person</code>s, which allows more flexibility for evolving the API, since non-user-constructible types are subject to fewer breaking change constraints than user-constructible types. Whichever is chosen for a given type, authors should document it clearly.</p>
+<h3 id="updating-types-to-maintain-compatibility"><a class="header" href="#updating-types-to-maintain-compatibility">Updating types to maintain compatibility</a></h3>
+<p>Sometimes, it is possible when TypeScript makes a breaking change to update the types so they are backwards compatible, without impacting consumers at all. For example, <a href="https://github.com/microsoft/TypeScript/issues/33272">TypeScript 3.5</a> changed the default resolution of an otherwise-unspecified generic type from the empty object <code>{}</code> to <code>unknown</code>. This change was an improvement in the robustness of the type system, but it meant that any code which happened to rely on the previous behavior broke.</p>
+<p>This example from <a href="https://github.com/microsoft/TypeScript/issues/33272">Google's writeup on the TS 3.5 changes</a> illustrates the point. Given this function:</p>
+<pre><code class="language-ts">function dontCarePromise() {
+  return new Promise((resolve) =&gt; {
+    resolve();
+  });
+}
+</code></pre>
+<p>In TypeScript versions before 3.5, the return type of this function was inferred to be <code>Promise&lt;{}&gt;</code>. From 3.5 forward, it became <code>Promise&lt;unknown&gt;</code>. If a user ever wrote down this type somewhere, like so:</p>
+<pre><code class="language-ts">const myPromise: Promise&lt;{}&gt; = dontCarePromise();
+</code></pre>
+<p>…then it broke on TS 3.5, with the compiler reporting an error (<a href="https://www.typescriptlang.org/play/?ts=3.5.1&amp;ssl=1&amp;ssc=27&amp;pln=1&amp;pc=40#code/GYVwdgxgLglg9mABAEwVAwgQwE4FMAK2cAtjAM64AUAlIgN4CwAUIonlCNkmLgO6KES5KpTxk4AGwBuuWgF4AfPWatWYyTJoBuFYgC+1HUz3NmEBGSiJiAT0GkKALgFEHuADx09SuSjRY8e2FtIA">playground</a>):</p>
+<blockquote>
+<p>Type 'Promise<unknown>' is not assignable to type 'Promise&lt;{}&gt;'.
+Type 'unknown' is not assignable to type '{}'.</p>
+</blockquote>
+<p>This change could be mitigated by supplying a default type argument equal to the original value (<a href="https://www.typescriptlang.org/play/?ts=3.5.1#code/GYVwdgxgLglg9mABAEwVAwgQwE4FMAK2cAtjAM64AUAlAFyKEnm4A8A3gL4B8ibAsAChEiPFBDYkYXAHcGRUhUqU8ZOABsAbrmqIAvD35DhI3Ks1VqAbkHCOVwR0GCICMlETEAnowW56P5nZuPRQ0LDwAxSsgA">playground</a>):</p>
+<pre><code class="language-ts">function dontCarePromise(): Promise&lt;{}&gt; {
+  return new Promise((resolve) =&gt; {
+    resolve();
+  });
+}
+</code></pre>
+<p>This is a totally-backwards compatible bugfix-style change, and should be released in a bugfix/point release. Users can then just upgrade to the bugfix release <em>before</em> upgrading their own TypeScript version—and will experience <em>zero</em> impact from the breaking TypeScript change.</p>
+<p>Later, the default type argument <code>Promise&lt;{}&gt;</code> could be dropped and defaulted to the new value for a major release of the library when desired (per the policy <a href="#supported-compiler-versions">outlined below</a>, giving it the new semantics. (Also see <a href="#opt-in-future-types"><b>Opt-in future types</b></a> below for a means to allow users to <em>opt in</em> to these changes before the major version.)</p>
+<h3 id="downleveling-types"><a class="header" href="#downleveling-types">&quot;Downleveling&quot; types</a></h3>
+<p>When a new version of TypeScript includes a backwards-incompatible change to <em>emitted type definitions</em>, as they did in <a href="https://github.com/microsoft/TypeScript/pull/33470">3.7</a>, the strategy of changing the types directly may not work. However, it is still possible to provide backwards-compatible types, using the combination of <a href="https://github.com/sandersn/downlevel-dts">downlevel-dts</a> and <a href="https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-1.html#version-selection-with-typesversions">typesVersions</a>. (In some cases, this may also require some manual tweaking of types, but this should be rare for most packages.)</p>
+<ul>
+<li>
+<p>The <a href="https://github.com/sandersn/downlevel-dts"><code>downlevel-dts</code></a> tool allows you to take a <code>.d.ts</code> file which is not valid for an earlier version of TypeScript (e.g. the changes to class field emit mentioned in <a href="./formal-spec/2-breaking-changes.html"><strong>Formal Specification: Breaking Changes</strong></a>), and emit a version which <em>is</em> compatible with that version. It supports targeting all TypeScript versions later than 3.4.</p>
+</li>
+<li>
+<p>TypeScript supports using the <a href="https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-1.html#version-selection-with-typesversions"><code>typesVersions</code></a> key in a <code>package.json</code> file to specify a specific set of type definitions (which may consist of one or more <code>.d.ts</code> files) which correspond to a specific TypeScript version.</p>
+</li>
+</ul>
+<p>The recommended flow would be as follows:</p>
+<ol>
+<li>
+<p>Add <code>downlevel-dts</code>, <code>npm-run-all</code>, and <code>rimraf</code>  to your dev dependencies:</p>
+<pre><code class="language-sh">npm install --save-dev downlevel-dts npm-run-all rimraf
+</code></pre>
+<p>or</p>
+<pre><code class="language-sh">yarn add --dev downlevel-dts npm-run-all rimraf
+</code></pre>
+</li>
+<li>
+<p>Create a script to downlevel the types to all supported TypeScript versions:</p>
+<pre><code class="language-sh"># scripts/downlevel.sh
+npm run downlevel-dts . --to 3.7 ts3.7
+npm run downlevel-dts . --to 3.8 ts3.8
+npm run downlevel-dts . --to 3.9 ts3.9
+npm run downlevel-dts . --to 4.0 ts4.0
+</code></pre>
+</li>
+<li>
+<p>Update the <code>scripts</code> key in <code>package.json</code>  to generate downleveled types generated by running <code>downlevel-dts</code> on the output from <code>tsc</code>, and to clean up the results after publication. For example, using <code>ember-cli-typescript</code>’s tooling:</p>
+<pre><code class="language-diff">{
+  &quot;scripts&quot;: {
+-   &quot;prepublishOnly&quot;: &quot;ember ts:precompile&quot;,
++   &quot;prepublish:types&quot;: &quot;ember ts:precompile&quot;,
++   &quot;prepublish:downlevel&quot;: &quot;./scripts/downlevel.sh&quot;,
++   &quot;prepublishOnly&quot;: &quot;run-s prepublish:types prepublish:downlevel&quot;,
+-   &quot;postpublish&quot;: &quot;ember ts:clean&quot;,
++   &quot;clean:ts&quot;: &quot;ember ts:clean&quot;,
++   &quot;clean:downlevel&quot;: &quot;rimraf ./ts3.7 ./ts3.8 ./ts3.9 ./ts4.0&quot;,
++   &quot;clean&quot;: &quot;npm-run-all --aggregate-output --parallel clean:*&quot;,
++   &quot;postpublish&quot;: &quot;npm run clean&quot;,
+  }
+}
+</code></pre>
+</li>
+<li>
+<p>Add a <code>typesVersions</code> key to <code>package.json</code>, with the following contents:</p>
+<pre><code class="language-json">{
+  &quot;types&quot;: &quot;index.d.ts&quot;,
+  &quot;typesVersions&quot;: {
+    &quot;3.7&quot;: { &quot;*&quot;: [&quot;ts3.7/*&quot;] },
+    &quot;3.8&quot;: { &quot;*&quot;: [&quot;ts3.8/*&quot;] },
+    &quot;3.9&quot;: { &quot;*&quot;: [&quot;ts3.9/*&quot;] },
+    &quot;4.0&quot;: { &quot;*&quot;: [&quot;ts4.0/*&quot;] },
+  }
+}
+</code></pre>
+<p>This will tell TypeScript how to use the types generated by this process. Note that we explicitly include the <code>types</code> key so TypeScript will fall back to the defaults for 3.9 and higher.</p>
+</li>
+<li>
+<p>If using the <code>files</code> key in <code>package.json</code> to specify files to include (unusual but not impossible for TypeScript-authored packages), add each of the output directories (<code>ts3.7</code>, <code>ts3.8</code>, <code>ts3.9</code>, <code>ts4.0</code>) to the list of entries.</p>
+</li>
+</ol>
+<p>Now consumers using older versions of TypeScript will be buffered from the breaking changes in type definition emit.</p>
+<p>If the community adopts this practice broadly we will want to invest in tooling to automate support for managing dependencies, downleveling, and type tests. However, the core constraints of this RFC do not depend on such tooling existing, and the exact requirements of those tools will emerge organically as the community begins implementing this RFC's recommendations.</p>
+<h3 id="opt-in-future-types"><a class="header" href="#opt-in-future-types">Opt-in future types</a></h3>
+<p>In the case of significant breaking changes to <em>only</em> the types—whether because the package author wants to make a change, or because of TypeScript version changes—packages may supply <em>future</em> types, which users may opt into <em>before</em> the library ships a breaking change. (We expect this use case will be rare, but important.)</p>
+<p>In this case, package authors will need to <em>hand-author</em> the types for the future version of the types, and supply them at a specific location which users can then import directly in their <code>types/my-app.d.ts</code> file—which will override the normal types location, while not requiring the user to modify the <code>paths</code> key in their <code>tsconfig.json</code>.</p>
+<p>This approach is a variant on <a href="#updating-types-to-maintain-compatibility"><strong>Updating types to maintain compatibility</strong></a>. Using that same example, a package author who wanted to provide opt-in future types instead (or in addition) would follow this procedure:</p>
+<ol>
+<li>
+<p>Backwards-compatibly <em>fix</em> the types by explicitly setting the return type on <code>dontCarePromise</code>, just as discussed above:</p>
+<pre><code class="language-diff">- function dontCarePromise() {
++ function dontCarePromise(): Promise&lt;{}&gt; {
+</code></pre>
+</li>
+<li>
+<p>Create a new directory, named something like <code>ts3.5</code>.</p>
+</li>
+<li>
+<p>Generate the type definition files for the package by running <code>ember ts:precompile</code>.</p>
+</li>
+<li>
+<p>Manually move the generated type definition files into <code>ts3.5</code>.</p>
+</li>
+<li>
+<p>In the <code>ts3.5</code> directory, either <em>remove</em> or <em>change</em> the explicit return type, so that the default from TypeScript 3.5 is restored:</p>
+<pre><code class="language-diff">- function dontCarePromise(): Promise&lt;{}&gt; {
++ function dontCarePromise(): Promise&lt;unknown&gt; {
+</code></pre>
+</li>
+<li>
+<p>Wrap each module file in the generated definition with a <code>declare module</code> specifying the <em>canonical</em> module name. For example, if our <code>dontCarePromise</code> definition were from a module at <code>my-library/sub-package</code>, we would have the following structure:</p>
+<pre><code>my-library/
+  ts3.5/
+    index.d.ts
+    sub-package.d.ts
+</code></pre>
+<p>—and the contents of <code>sub-package.d.ts</code> would be:</p>
+<pre><code class="language-ts">declare module 'my-library/sub-package' {
+  export function dontCarePromise(): Promise&lt;unknown&gt;;
+}
+</code></pre>
+</li>
+<li>
+<p>Explicitly include each such sub-module in the import graph available from <code>ts3.5/index.d.ts</code>—either via direct import in that file or via imports in the other modules. (Note that these imports can simply be of the form <code>import 'some-module';</code>, rather than importing specific types or values from the modules.)</p>
+</li>
+<li>
+<p>Commit the <code>ts3.5</code> directory, since it now needs to be maintained manually until a breaking change of the library is released which opts into the new behavior.</p>
+</li>
+<li>
+<p>Cut a release which includes the new fixes. With that release:</p>
+<ul>
+<li>
+<p>Inform users about the incoming breaking change.</p>
+</li>
+<li>
+<p>Tell users to add <code>import 'fancy-package/ts3.5';</code> to the entry point of their package or a similar location. For example, in Ember, users would add the import to the top of their <code>types/my-app.d.ts</code> or <code>types/my-package.d.ts</code> file (which are generated by <code>ember-cli-typescript</code>).</p>
+</li>
+</ul>
+</li>
+<li>
+<p>At a later point, cut a breaking change which opts into the TypeScript 3.5 behavior.</p>
+<ul>
+<li>
+<p>Remove the <code>ts3.5</code> directory from the repository.</p>
+</li>
+<li>
+<p>Note in the release notes that users who did not previously opt into the changes will need to do so now.</p>
+</li>
+<li>
+<p>Note in the release notes that users who <em>did</em> previously opt into the changes should remove the <code>import 'fancy-package/ts3.5';</code> import from <code>types/my-app.d.ts</code> or <code>types/my-package.d.ts</code>.</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="matching-exports-to-public-api"><a class="header" href="#matching-exports-to-public-api">Matching exports to public API</a></h3>
+<p>Another optional tool for managing public API is <a href="https://api-extractor.com">API Extractor</a>. Authors can mark their exports as <code>@public</code>, <code>@protected</code>, <code>@private</code>, <code>@alpha</code>, <code>@beta</code>, etc. and use the tool to generate type definitions accordingly. For example, for mitigating a future TypeScript version change, or experimenting on a new API, authors can use <code>@alpha</code> or <code>@beta</code> and use <code>typesVersions</code> to publish to a dedicated directory. Similarly, authors can make an export public for use through the package or even a set of related packages in a moinorepo, but mark it as <code>@private</code> and use API Extractor to generate types which exclude it when publishing to npm.</p>
+<h2 id="reasons-to-make-a-breaking-change"><a class="header" href="#reasons-to-make-a-breaking-change">Reasons to Make a Breaking Change</a></h2>
+<p>Each of the kinds of breaking changes defined below will trigger a compiler error for consumers, surfacing the error. As such, they should be easily detectable by testing infrastructure (see below under <a href="#detect-breaking-changes-in-types"><strong>Detect breaking changes in types</strong></a>).</p>
+<p>There are several reasons why breaking changes may occur:</p>
+<ol>
+<li>
+<p>The author of the package may choose to change the API for whatever reason. This is no different than the situation today for packages which do not support TypeScript. This would be a major version independent of types.</p>
+</li>
+<li>
+<p>The author of the package may need to make changes to adapt to changes in the JavaScript ecosystem, for example to support Octane idioms in Ember.js. This is likewise identical with the situation for packages which do not support TypeScript: it would require a major version regardless.</p>
+</li>
+<li>
+<p>Adopting a new version of TypeScript may change the meaning of existing types. For example, in TypeScript 3.5, generic types without a specified default type changed their default value from <code>{}</code> to <code>unknown</code>. This improved type safety, but broke many existing types, as <a href="https://github.com/microsoft/TypeScript/issues/33272">described in detail by Google</a>.</p>
+</li>
+<li>
+<p>Adopting a new version of TypeScript may change the type definitions emitted in <code>.d.ts</code> files in backwards-incompatible ways. For example, changing to use the finalized ECMAScript spec for class fields meant that <a href="https://github.com/microsoft/TypeScript/pull/33470">types emitted by TypeScript 3.7 were incompatible with TypeScript 3.5 and earlier</a>.</p>
+</li>
+</ol>
+<p>The kinds of breaking changes represented by reasons (1) and (2) are described in more detail in <a href="./formal-spec/2-breaking-changes.html"><strong>Formal Specification: Breaking Changes</strong></a>; reasons (3) and (4) are discussed in <a href="./formal-spec/5-compiler-considerations.html"><strong>Formal Specification: Compiler Considerations</strong></a>.</p>
+<p>Additionally, there are some changes which we define <em>not</em> to be breaking changes because, while they will cause the compiler to produce a type error, they will do so in a way which simply allows the removal of now-defunct code.</p>
+<footer id="open-on-gh">Found a bug? <a href="https://github.com/semver-ts/semver-ts/edit/main/src/3-practical-guidance.md">Edit this file on GitHub.</a></footer>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="2-conformance.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="formal-spec/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="2-conformance.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="formal-spec/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

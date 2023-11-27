@@ -1,0 +1,393 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Breaking Changes - Semantic Versioning for TypeScript Types</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../styles/open-in.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Background and Basics</li><li class="chapter-item expanded "><a href="../1-background.html"><strong aria-hidden="true">1.</strong> TypeScript’s Versioning Policy</a></li><li class="chapter-item expanded "><a href="../2-conformance.html"><strong aria-hidden="true">2.</strong> Conformance</a></li><li class="chapter-item expanded "><a href="../3-practical-guidance.html"><strong aria-hidden="true">3.</strong> Practical Guidance</a></li><li class="chapter-item expanded affix "><li class="part-title">Formal Specification</li><li class="chapter-item expanded "><a href="../formal-spec/index.html"><strong aria-hidden="true">4.</strong> Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../formal-spec/1-definitions.html"><strong aria-hidden="true">4.1.</strong> Definitions</a></li><li class="chapter-item expanded "><a href="../formal-spec/2-breaking-changes.html" class="active"><strong aria-hidden="true">4.2.</strong> Breaking Changes</a></li><li class="chapter-item expanded "><a href="../formal-spec/3-non-breaking-changes.html"><strong aria-hidden="true">4.3.</strong> Non-Breaking Changes</a></li><li class="chapter-item expanded "><a href="../formal-spec/4-bug-fixes.html"><strong aria-hidden="true">4.4.</strong> Bug Fixes</a></li><li class="chapter-item expanded "><a href="../formal-spec/5-compiler-considerations.html"><strong aria-hidden="true">4.5.</strong> Compiler Considerations</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/index.html"><strong aria-hidden="true">5.</strong> Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../appendices/a-adopters.html"><strong aria-hidden="true">5.1.</strong> Adopters</a></li><li class="chapter-item expanded "><a href="../appendices/b-tooling.html"><strong aria-hidden="true">5.2.</strong> Tooling</a></li><li class="chapter-item expanded "><a href="../appendices/c-variance-in-typescript.html"><strong aria-hidden="true">5.3.</strong> Variance in TypeScript</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Semantic Versioning for TypeScript Types</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/semver-ts/semver-ts" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="breaking-changes"><a class="header" href="#breaking-changes">Breaking Changes</a></h1>
+<ul>
+<li><a href="#symbols">Symbols</a></li>
+<li><a href="#interfaces-type-aliases-and-classes">Interfaces, Type Aliases, and Classes</a></li>
+<li><a href="#functions">Functions</a></li>
+<li><a href="#notes">Notes</a></li>
+</ul>
+<h2 id="symbols"><a class="header" href="#symbols">Symbols</a></h2>
+<p>Changing a symbol is a breaking change when:</p>
+<ul>
+<li>
+<p>changing the name of an exported symbol (type or value), since users' existing imports will need to be updated. This is breaking for value exports (<code>let</code>, <code>const</code>, <code>class</code>, <code>function</code>) independent of types, but renaming exported <code>interface</code>, <code>type</code> alias, or <code>namespace</code> declarations is breaking as well.</p>
+</li>
+<li>
+<p>removing an exported symbol, since users' existing imports will stop working. This is a breaking change for value exports (<code>let</code>, <code>const</code>, <code>class</code>, <code>function</code>) independent of types, but removing exported <code>interface</code>, <code>type</code> alias, or <code>namespace</code> declarations is breaking as well.</p>
+<p>This includes changing a previously type-and-value export such as <code>export class</code> to either—</p>
+<ul>
+<li>
+<p>a type-only export, since the exported value symbol has been removed:</p>
+<pre><code class="language-diff">-export class Foo {
++class Foo {
+  neato: string;
+}
++
++export type { Foo };
+</code></pre>
+</li>
+<li>
+<p>a value-only export, since the exported type symbol has been removed:</p>
+<pre><code class="language-diff">-export class Foo {
++class _Foo {
+  neato: string;
+}
++
++export let Foo: typeof _Foo;
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>changing the kind (<em>value</em> vs. <em>type</em>) of an exported symbol in any way, since users' imports and own definitions may both be broken, since imports resolve all symbols imported together if they share a name:</p>
+<ul>
+<li>
+<p>Given a <em>value</em>-only exported symbol, including <code>namespace</code> declarations, adding a <em>type</em> export with the same name as the <em>value</em> may break users' code: they may have imported the value and safely created a type of the same name. Their existing import will now cause a re-declaration conflict. Note that this is distinct from adding an entirely new type export where there was no type or value export previously, since the user could never accidentally introduce the conflict, and could work around the conflict using the <code>as</code> import specifier when introducing the import.</p>
+</li>
+<li>
+<p>Given a <em>type</em>-only exported symbol, including <code>type</code>, <code>interface</code>, or <code>export type</code> for a type or value, adding a <em>value</em> export with the same name may break users' code: they may have imported the type and safely created a value of the same name. Their existing import will now cause a re-declaration conflict. Note that this is distinct from adding an entirely new value export where there was no type or value export previously, since the user could never accidentally introduce the conflict, and could work around the conflict using the <code>as</code> import specifier when introducing the import. (Type-only imports via <code>import type</code> do not change this because they still import the symbol into value space to use with <code>typeof</code>, e.g. to get a class' constructor.)</p>
+</li>
+<li>
+<p>Given a <code>namespace</code> export, changing it to a value-only export (that is, to an exported object) will break all nested type access, since types cannot be exported as nested members of non-<code>namespace</code> values. (<code>namespace</code> exports cannot be directly converted to type-only exports.)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>changing an <code>interface</code> to a <code>type</code> alias will break any user code which used interface merging</p>
+</li>
+<li>
+<p>changing a <code>namespace</code> export to any other type will break any code which used namespace merging</p>
+</li>
+<li>
+<p>changing a <code>class</code> export to a type-only export will break any code which extended the class or constructed an instance of the class (<a href="https://www.typescriptlang.org/play?#code/PTAEEEDtQIgewE4EsDmTIEMA2NQBMBTAYywwQwBck5IAaUAdwAsCEDQKXGm4t2SMAZ0GMhoAgA8ADogoE8AOgBQhAW1ADhoAOpCAotNnzQAbwC+SpSFAAVJkhEOOXAgEcArkgBu2ApAqgcABmoBgcAJ5SBAC0NFjh4oYIAcGhGqTC9MxIREyMcO5YeKCQiAC22PFWYABG7AzIFHLQWEgA1uycDgBc1aB9AAZDfZoiuoIGMsnG5n2SUwEUkewmOvpJcsUW1kMDSqOgAPoAcnAUk0bFs0tRoKfnG8YAvEf3F9N4ANyWBwDK7jVRgAxRDvTaJZp4MbrBYzCx-AHAxBvR7FSSQkQo2FXCwqYikdRBdyQIhUGgcDAdQTjMHyAAUDBhl26awmqIAlCyvHAkF88Wp2ESSWToBRKQRBFjLgymR8WVKPpzQNzed99jRBAFGWzsaAXpACAxWbS8HT2d8iBqAqUHrr9Ya7mcTWbPkA">playground</a>), and changing a <code>class</code> export to a value-only export will break any code which referred to the class as a type (<a href="https://www.typescriptlang.org/play?#code/PTAEEEDtQIgewE4EsDmTIEMA2NQBMBTAYywwQwBck5IAaUAdwAsCEDQKXGm4t2SMAZ0GMhoAgA8ADogoE8AOgBQhAW1ADhoAOpCAotNnzQAbwC+SpSFAAVJkhEOOXAgEcArkgBu2ApAqgcABmoBigPljuBAC0NFgAnuKGCAHBoRqkwgqgAHKIALbYCaDxcO6MZVh4VmAMyHLOTgxInKAABpIyKaB8FG2g5JyszhjQbaqk6r1typoiAPp5FAZdcnimFhNk7L25cMvJawBcHPFSBGmL+ytGeADclnOgAMruAEZzAGKINynGknJIHgRLpBL81hslE9Xh9MoJvggluD-hJAcC9gdVsZzJYtuogu5IEQqDQOBgANYEQSg5F4AAUDH0h3kJxpzLwAEoTl44Eh7ipiJN2ASiSToBQKVSkeyGUysXgTtL5Vzwrz+VCaIIAoywezQABeUCQAgMHRy250jkPIiagKQa56w3G01Ki1WoA">playground</a>)</p>
+</li>
+</ul>
+<h2 id="interfaces-type-aliases-and-classes"><a class="header" href="#interfaces-type-aliases-and-classes">Interfaces, Type Aliases, and Classes</a></h2>
+<p>Object types may be defined with interfaces, type aliases, or classes. Interfaces and type aliases define type symbols only. Classes define both type symbols and value symbols. The <code>namespace</code> construct defines a value symbol (as well as introducing a context in which you can name other nested type or value symbols). The additional constraints for the value symbols introduced by classes are covered above under <a href="#symbols">Breaking Changes: Symbols</a>.</p>
+<p>A change to any object type (user constructible or not) is breaking when:</p>
+<ul>
+<li>
+<p>a non-<code>readonly</code> object property's type changes in any way:</p>
+<ul>
+<li>
+<p>if it was previously <code>string</code> but now is <code>string | number</code>, some of the user's existing <em>reads</em> of the property will now be wrong (<a href="https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgOrADYfQEwiZAbwFgAoZC5OALmQGcwpQBzAbjIF8yzRJZEUAEWA5c+ImUpVaDJiGbIAPshABXALYAjaO1JdSZGKpAIwwAPYEAFnBA4MEOuixiQACgBucDKoi1n2CL4AJS0alrQEuSUUBBgqlAEXj4QAHRwqQ7yYFa6+mR4CBhwscgOYMgA7piBeCD+Na66NnYOTo1B7tUuncG6BRBFJSjlyDgirrTCop3NtvaOAa5u4zN1fWRAA">playground</a>). Note that this includes making a property optional.</p>
+</li>
+<li>
+<p>if it was previously <code>string | number</code> but now is <code>string</code>, some of the user's existing <em>writes</em> to the property will now be wrong (<a href="https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgOrADYYHJylAewHdkBvAWAChkbk4AuZAZzClAHNkAfZEAVwC2AI2gBuKgF8qVUJFiIUAEWAATXPmJkqtOo37Cxk6ZRh8QCMMAIhkRNpCYAVAuizrCRABQA3OBj4QjK44eB4AlFrUtL7+EAB0cMgAvMgA5AAWEFgEqeKUUpRUKhAIGHgoGBBgtpghGkRBte7EeXbADs7BzV5ETaHEYXlFJWVQFVXIKqrdjMpq-UR5U-P1CcnIAEQADgRgcGAEG6LIAPQnyPCYTFRtHS599Z7L3YOn50x8CEgQKkzI0IQQBACHwmBgAJ5UIA">playground</a>). Note that this includes making a previously-optional property required.</p>
+<p>Note that at present, TypeScript cannot actually catch all variants of this error. <a href="https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgOrADYYHJylAewHdkBvAWAChkbk4AuZAZzClAHNkAfZEAVwC2AI2gBuKgF8qVUJFiIUAEWAATXPmJkqtOo37Cxk6ZRh8QCMMAIhkRNpCYAVAuizrCRABQA3OBj4QjK44eB4AlFrUtL7+EAB0cMgAvMgA5AAWEFgEqeKUUpRUKhAIGHgoGBBgtpghGkRBte7EeXbADs7BzV5ETaHEYXlFJWVQFVXIKqrdjMpq-UR5U-P1CcnIAEQADgRgcGAEG6LIAPQnyPCYTFRtHS599Z7L3YOn50x8CEgQKkzI0IQQBACHwmBgAJ5UIA">This playground</a> demonstrates that there is a runtime error but no <em>type</em> error in one scenario. TypeScript's type system understands these types in terms of <em>assignability</em>, rather than local <em>mutability</em>. However, package authors should test for the catchable variant of this condition.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>a property is removed from the type entirely, since some of the user's existing uses of the type will break, even if the property was optional (<a href="https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgEIHU4GcDyAHMYAexDgBtkBvAWAChkHk4AuZAIyKLIjhAG46jdgH5WHLj350AvnTqhIsRClQAlCAFsiANwgATKoMYt2nbrwG1ZtOtzDISZAJ4BBVBBhEoEVhmz5CEnJkAF4qJlYwKABXFGlLO2RQBDJovX1Ud09vX0xcAmJSCjDKCOQo2IAadlZ4Miw4y1sIe0dXFxhFX3UtXQMSsorG5vtk1PS9VA6utB6dfVDwkyHqtlryBuR4oA">optional</a>, <a href="https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgEIHU4GcBKECOArsFBACbIDeAsAFDIPJwBcyARgPYcA2EcIAbjqN2rTjz6C6AXzp1QkWIhSo8AWw4A3clWGMW7Lr35Das2nV5hkoBN0JlyqVBBgdSrDNjxESOgLxUTKxgUIQQADSiyPDcWCjSppYQ1rb2jmSoAIIwip7qWgFBBqHhUWyssfHIiUA">required</a>)</p>
+</li>
+</ul>
+<p>A change to a user-constructible type is breaking when:</p>
+<ul>
+<li>a required property is added to the type, since all of the user's existing constructions of the type will be incorrect (<a href="https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgEIRgeyig3gWAChkTk4AuZAI00wBsI4QBuIgXyKNElkRQEEYPZAWKkK1WgyasxJKpRABXALZVosjoSIg4KiAGcADnzQZsEAKpGAJnEgiipZAzDIEmEAbBQlCMMCelOhYOMgAvCJklD5KKGyanIS6+samgjzWdg6izq7unt6+-oEglBnQEVESsfGJhEA">new-required-property</a>)</li>
+</ul>
+<p>A change to a non-user-constructible object type is breaking when:</p>
+<ul>
+<li>
+<p>a <code>readonly</code> object property type becomes a <em>less specific (&quot;wider&quot;) type</em>, for example if it was previously <code>string</code> but now is <code>string | string[]</code>—since the user's existing handling of the property will be wrong in some cases (<a href="https://www.typescriptlang.org/play/#code/CYUwxgNghgTiAEkoGdnwPIwJYHMsDsoJ4BvAKHnjimAHt8IBPeABxlpZBgBdGAueMm7Z8OANxkAvmTKgkcRNFTwA6llD4QwUhSoga9Jq3ace-QcII54AHwsicAbQC6UmQDMArvjDcs9eAALKHxgCBBkTFwCIgA5WHYAdwAKADciTxABKLxCCABKAXxPAFsAIy4dSjhuTxh8eHSITIA6Ng4uXhbw0W5AiWlZcGgFcO54KGzsXKIJORGEMfgygTUNLQlg0PDI6ZiIeJgk5Kh8zZCwiJz9w+Oys7IgA">playground</a>—the playground uses a class but an interface or type alias would have the same behavior).</p>
+<p>Note that this includes making a property optional, since these are equivalent for the purposes of type-checking:</p>
+<pre><code class="language-diff">interface A {
+- a: string;
++ a?: string;
+}
+</code></pre>
+<pre><code class="language-diff">interface A {
+- a: string;
++ a: string | undefined;
+}
+</code></pre>
+</li>
+</ul>
+<h2 id="functions"><a class="header" href="#functions">Functions</a></h2>
+<p>For functions which return or accept user-constructible types, the rules specified for <a href="#interfaces-type-aliases-and-classes">Breaking Changes: Interfaces, Type Aliases, and Classes</a> hold. Otherwise, a change to the type of a function is breaking when:</p>
+<ul>
+<li>
+<p>an argument or return type changes entirely, for example if a function previously accepted <code>number</code> and now accepts <code>{ count: number }</code>, or previously returned <code>string</code> and now returns <code>boolean</code>—since the user will have to change all call sites for the function (<a href="https://www.typescriptlang.org/play?#code/PTAEEkFsEMHMEsB2BTUALZAnVAXN0dQ9UAiRaSZAZwAdoBjZE0BnAV2gBtOBPUAKzZVC2GtirJEOKkQwAoEKCoVU8SDQD2mHAC5QAAzWbtoAN6hYyHADUubVAF9QAM0wbIoAORV3yALTQACaBGoieANz6cnKByPSc0NigkBqBbJyoAPKY8AjknGZyoMUubIj0OPChLPSMNNK2nPYAFIEE0HqIbJAARlgAlHoAbhrwgeFyDtGx8Ymo5JS0DKgAwviIloGFJaXlldUMdQ12yK3teub0GmW6oF29WKAOg6AjYxNTctm5SFwAdIdkPUqI0WgBGABMAGZ+hM1tANshAgDakDjk1TpCYeEgA">playground</a>)</p>
+</li>
+<li>
+<p>a function (including a class constructor or methods) argument <em>requires a more specific (&quot;narrower&quot;) type</em>, for example if it previously accepted <code>string | number</code> but now requires <code>string</code>—since the user will have to change some calls to the function (<a href="https://www.typescriptlang.org/play?#code/PTAEEkFsEMHMEsB2BTUALZAnVAXN0dQ9UAiRaSZAZwAdoBjZE0BnAV2gBtOBPUAKzZVC2GtirJEOKkQwAoEKCoVU8SDQD2mHAC5QAAzWbtoAN6hYyHADUubVAF9QAM0wbIoAORV3yALTQACaBGoieANz6cnKByPSc0Nig5JS0DKgA8pjwCOScZnKgRS5siPQ48KEs9Iw00rac9gAUgQTQesLZiLCgAD7JbJAARlgAlHoAbhrwgeFyDtGx8YmoKdR0jKAA6jOSyIEFxSVlFVUMtfV2yC1tHThdsOOgUzNzCwpgQlig9BqxclkckguAA6c7IOpUBrNACMACYAMyjOaA3Kg8GQ6HXTwYbgaTzIuQ7WIoQJgmoQy6Na7wpFzYl7MkYqnNHHIPEE8JAA">playground</a>)</p>
+</li>
+<li>
+<p>a function (including a class constructor or method) <em>returns a less specific (&quot;wider&quot;) type</em>, for example if it previously returned <code>string</code> but now returns <code>string | null</code>—since the user's existing handling of the return value will be wrong in some cases (<a href="https://www.typescriptlang.org/play?#code/PTAEEkFsEMHMEsB2BTUALZAnVAXN0dQ9UAiRaSZAZwAdoBjZE0BnAV2gBtOBPUAKzZVC2GtirJEOKkQwAoEKCoVU8SDQD2mHAC5QAAzWbtoAN6hYyHADUubVAF9QAM0wbIoAORV3yALTQACaBGoieANz6cnKByPSc0Nig5JS0DKgA8pjwCOScZnKgRS5siPQ48KEWVrac9gAUAJR6wtmIsOFyDtGx8YmoKdR0jKAA6vCxKIEFxSVlFVWWNnbITS04bbCgAD7JbNyd3QpgQlig9Bqxcs6l5ZWI6NCIgZzIAErU+zj1AG4r65tGjNith2JgHn86sgAHSvdp4Q7RfDPV4fKhfepZHJILjQpa1BqNRqdZEvd6fTjfcaTZCBPE1FZNYlyIA">playground</a>).</p>
+<p>This includes widening from a <em>type guard</em> to a more general check. For example:</p>
+<pre><code class="language-diff">-function isString(x: string | number): x is string {
++function isString(x: string): boolean {
+  return typeof x === 'string';
+}
+</code></pre>
+<p>This change would cause user-land code that expects narrowing to break:</p>
+<pre><code class="language-ts">if (isString(value)) {
+  return value.length;
+} else {
+  return value;
+}
+</code></pre>
+</li>
+<li>
+<p>a function (including a class constructor or method) adds any new <em>required</em> arguments—since all user invocations of the function will now be broken (<a href="https://www.typescriptlang.org/play/#code/CYUwxgNghgTiAEAzArgOzAFwJYHtXwAc4A3XZAZwAooAuecjGLVAcwEo7ictgBuAKFCRYCFOmx54yAsCgYQwanQZNWAGngAjOqmQBbTSBgd4XHgP4QQGeFHgBeQiTJUA5ARwY5OV2wFWbTQcpGTkFSndPb19eIA">playground</a>)</p>
+</li>
+<li>
+<p>a function (including a class constructor or method) removes an existing argument entirely—since user invocations of the function may now fail to type-check</p>
+<ul>
+<li>
+<p>if the argument was required, <em>all</em> invocations will fail to type-check (<a href="https://www.typescriptlang.org/play/?ssl=2&amp;ssc=35&amp;pln=2&amp;pc=47#code/CYUwxgNghgTiAEAzArgOzAFwJYHtXwAc4A3XZAZwAooAuecjGLVAcwBp4AjO1ZAW04gYASjrEcWYAG4AUKEiwEKdNjzxkBYFAwhg1OgyatR8cZNkyIIDPCjwAvIRJkqAcgI4M2nK44BGACZhWSsbTgd1TW1dSndPb194QOCgA">playground</a>)</p>
+</li>
+<li>
+<p>if the argument was optional, any invocations which used it will fail to type-check (<a href="https://www.typescriptlang.org/play?#code/CYUwxgNghgTiAEAzArgOzAFwJYHtXwAc4A3XZAZwAooAuecjGLVAcwBp4AjAfjtWQC2nEDACUdYjizAA3AChQkWAhTpseeMgLAoGEMGp0GTVuPiTp8uRBAZ4UeAF5CJMlQDkBHBl053HAEYAJlF5GztOJ01tXX1KT29ff3hg0OtbeDAoohBSHAp4rx8MPzTw+GAorR09AwTi0vkgA">playground</a>)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>changing a function from a <code>function</code> declaration to an arrow function declaration, since it changes the type of <code>this</code>, the effect of calling <code>bind</code> or <code>call</code> on the function, and requires parameters to be contravariant instead of allowing bivariance</p>
+</li>
+</ul>
+<hr />
+<h2 id="notes"><a class="header" href="#notes">Notes</a></h2>
+<div class="footnote-definition" id="variance"><sup class="footnote-definition-label">1</sup>
+<p>For the purposes of this discussion, I will <em>assume</em> knowledge of variance, rather than explaining it.</p>
+</div>
+<div class="footnote-definition" id="satisficery"><sup class="footnote-definition-label">2</sup>
+<p>Precisely because SemVer is a <em>sociological</em> and not only a <em>technical</em> contract, the problem is tractable: We define a breaking change as above, and accept the reality that some changes are not preventable (but may in many cases be mitigated or fixed automatically). This is admittedly unsatisfying, but we believe it <a href="https://www.merriam-webster.com/dictionary/satisfice">satisfices</a> our constraints.</p>
+</div>
+<div class="footnote-definition" id="thanks-to-ryan"><sup class="footnote-definition-label">3</sup>
+<p>Thanks to <a href="https://github.com/RyanCavanaugh">Ryan Cavanaugh</a> of the TypeScript team for pointing out the various examples which motivated this discussion.</p>
+</div>
+<div class="footnote-definition" id="nit-on-comparability"><sup class="footnote-definition-label">4</sup>
+<p>Strictly speaking, one value may stop being comparable to another value in this scenario. However, this is both a rare edge case and fits under the standard rule where changes which simply let users delete now-defunct code are allowed.</p>
+</div>
+<div class="footnote-definition" id="variance-in-discriminating"><sup class="footnote-definition-label">5</sup>
+<p>Mostly, anyway—see <a href="#higher-order-type-operations">Appendix C: On Variance in TypeScript – Higher-order type operations</a> below for a discussion of how the <code>in</code> operator (or similar operations discriminating between unions) makes this cause breakage in some cases. These are rare enough, and easily-enough solved, that the rule remains workable.</p>
+</div>
+<footer id="open-on-gh">Found a bug? <a href="https://github.com/semver-ts/semver-ts/edit/main/src/formal-spec/2-breaking-changes.md">Edit this file on GitHub.</a></footer>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../formal-spec/1-definitions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../formal-spec/3-non-breaking-changes.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../formal-spec/1-definitions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../formal-spec/3-non-breaking-changes.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

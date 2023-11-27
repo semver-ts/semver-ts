@@ -1,0 +1,295 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Definitions - Semantic Versioning for TypeScript Types</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../styles/open-in.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Background and Basics</li><li class="chapter-item expanded "><a href="../1-background.html"><strong aria-hidden="true">1.</strong> TypeScript’s Versioning Policy</a></li><li class="chapter-item expanded "><a href="../2-conformance.html"><strong aria-hidden="true">2.</strong> Conformance</a></li><li class="chapter-item expanded "><a href="../3-practical-guidance.html"><strong aria-hidden="true">3.</strong> Practical Guidance</a></li><li class="chapter-item expanded affix "><li class="part-title">Formal Specification</li><li class="chapter-item expanded "><a href="../formal-spec/index.html"><strong aria-hidden="true">4.</strong> Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../formal-spec/1-definitions.html" class="active"><strong aria-hidden="true">4.1.</strong> Definitions</a></li><li class="chapter-item expanded "><a href="../formal-spec/2-breaking-changes.html"><strong aria-hidden="true">4.2.</strong> Breaking Changes</a></li><li class="chapter-item expanded "><a href="../formal-spec/3-non-breaking-changes.html"><strong aria-hidden="true">4.3.</strong> Non-Breaking Changes</a></li><li class="chapter-item expanded "><a href="../formal-spec/4-bug-fixes.html"><strong aria-hidden="true">4.4.</strong> Bug Fixes</a></li><li class="chapter-item expanded "><a href="../formal-spec/5-compiler-considerations.html"><strong aria-hidden="true">4.5.</strong> Compiler Considerations</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/index.html"><strong aria-hidden="true">5.</strong> Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../appendices/a-adopters.html"><strong aria-hidden="true">5.1.</strong> Adopters</a></li><li class="chapter-item expanded "><a href="../appendices/b-tooling.html"><strong aria-hidden="true">5.2.</strong> Tooling</a></li><li class="chapter-item expanded "><a href="../appendices/c-variance-in-typescript.html"><strong aria-hidden="true">5.3.</strong> Variance in TypeScript</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Semantic Versioning for TypeScript Types</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/semver-ts/semver-ts" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="definitions"><a class="header" href="#definitions">Definitions</a></h1>
+<dl>
+<dt>Symbols</dt>
+<dd>
+<p>There are two kinds of <em>symbols</em> in TypeScript: value symbols and type symbols. (Note that these are distinct from the <a href="http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol">Symbol</a> object in JavaScript.)</p>
+<p>Value symbols represent values present at runtime in JavaScript:</p>
+<ul>
+<li><code>let</code>, <code>const</code>, and <code>var</code> bindings</li>
+<li><code>function</code> declarations</li>
+<li><code>class</code> declarations</li>
+<li><code>enum</code> and <code>const enum</code> declarations</li>
+<li><code>namespace</code> declarations (which produce or represent <em>objects</em> at runtime)</li>
+</ul>
+<p>Type symbols represent types which are used in type checking:</p>
+<ul>
+<li><code>interface</code> declarations</li>
+<li><code>type</code> (type alias) declarations</li>
+<li><code>function</code> declarations</li>
+<li><code>class</code> declarations</li>
+<li><code>enum</code> and <code>const enum</code> declarations</li>
+</ul>
+<p>(Note that <code>namespace</code> declarations can also be present in type-only declarations, as when a type is exported from a namespace and referenced like <code>let val: SomeNamespace.ExportedInterface</code>, but the value produced by the <code>namespace</code> is not itself a type.)</p>
+</dd>
+<dt>Functions</dt>
+<dd>
+<p>Unless otherwise specified, &quot;functions&quot; always refers interchangeably to: functions in standalone scope, whether defined with either <code>function</code> or an arrow; class methods; and class constructors.</p>
+</dd>
+<dt>User constructibility</dt>
+<dd>
+<p>A type is user-constructible if the consumer of a package is allowed to create their own objects which match a given type structurally, that is, <em>without</em> using a function or class exported from the package which provides the type.</p>
+<p>For example, a package may choose to export an interface to allow users to name the type returned by a function, while specifying that the only legal way to construct such an interface is via that exported function, in which case the type is <em>not</em> user-constructible.</p>
+<p>Alternatively, a package may export an interface or type alias explicitly for users to construct objects implementing that type, in which case the type <em>is</em> user-constructible.</p>
+</dd>
+<dd>
+<p>Using the type-level <code>typeof</code> operator to construct a type using the type of an exported item from a library wholly defeats the ability of authors to specify a public API. Accordingly:</p>
+<ol>
+<li>Authors who wish to treat any given type as user-constructible should export a type definition for it under their public API contract (see the next section).</li>
+<li>A type defined in terms of <code>typeof</code> which “breaks” under the rules discussed below is <em>not</em> breaking, because it was not legally user-constructible.</li>
+</ol>
+</dd>
+<dd>
+<p>One challenge for this definition is the common scenario where code is not ordinarily user-constructible but may need to be mocked for tests. Changes to these <em>do not</em> constitute breaking changes—but library authors can also mitigate the challenge presented by this scenario. (See discussion below under <a href="#avoiding-user-constructibility">Appendix B: Tooling – Mitigate Breaking Changes – Avoiding User constructibility</a>.)</p>
+</dd>
+<dd>
+<p><strong>Non-normative example:</strong> in Ember.js today, the interface for a <code>Transition</code> is public API and consumers can rely on its stability, but only Ember is allowed to create <code>Transition</code> instances.</p>
+<p>If a user imported the <code>Transition</code> interface and wrote a <code>class CustomTransition implements Transition { ... }</code>, this would be stepping outside the SemVer contract.</p>
+</dd>
+<dt>Public API</dt>
+<dd>
+<p><strong>Overview:</strong> Some packages may choose to specify that the public API consists of <em>documented</em> exports, in which case no published type may be considered public API unless it is in the documentation. Other packages may choose to say the reverse: all exports are public unless explicitly defined as private (for example with the <code>@private</code> JSDoc annotation, a note in the docs, etc.).
+In either case, no change to a type documented as private is a breaking change, whether or not the type is exported, where <em>documented as private</em> is defined in terms of the documentation norm of the package in question.</p>
+</dd>
+<dd>
+<p><strong>Documentation of user constructibility:</strong> Exported types (interfaces, type aliases, and the type side of classes) may be defined by documentation to be user-constructible or not.</p>
+</dd>
+<dd>
+<p><strong>Documentation of subclassibility:</strong> Exported classes may be defined by documentation to be user-subclassible or not.</p>
+</dd>
+<dd>
+<p><strong>Re-exports:</strong> using the <code>export * from</code> re-export syntax can in theory cause breakage by causing export conflicts: if the library being re-exported and the library doing the re-export both export the same name. For this reason, changes caused by the <code>export * from ...</code> are never breaking changes.<sup class="footnote-reference"><a href="#re-export-antipattern">1</a></sup></p>
+</dd>
+</dl>
+<h2 id="notes"><a class="header" href="#notes">Notes</a></h2>
+<div class="footnote-definition" id="re-export-antipattern"><sup class="footnote-definition-label">1</sup>
+<p>In general, it is an antipattern for one package to re-export another package directly like this, and the cases where it makes sense (e.g. Ember re-exporting Glimmer APIs) are cases of collaborators which can manage this.</p>
+</div>
+<footer id="open-on-gh">Found a bug? <a href="https://github.com/semver-ts/semver-ts/edit/main/src/formal-spec/1-definitions.md">Edit this file on GitHub.</a></footer>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../formal-spec/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../formal-spec/2-breaking-changes.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../formal-spec/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../formal-spec/2-breaking-changes.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
