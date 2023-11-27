@@ -32,4 +32,5 @@ jobs:
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: book # The folder the action should deploy.
+          # We have multiple back ends, so pick the right one!
+          folder: "book/html" # The folder the action should deploy.
