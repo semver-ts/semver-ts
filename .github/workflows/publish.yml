@@ -39,3 +39,16 @@ jobs:
       #   run: mdbook-admonish --version
       # - name: Show katex version
       #   run: mdbook-katex --version
+      - name: Build Book
+        run: |
+          mdbook build
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          # Upload entire repository
+          path: 'book'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
