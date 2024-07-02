@@ -41,7 +41,7 @@ Type-checking in TypeScript behaves differently under different “strictness”
 
 For example: a package with `strictNullChecks: false` could make a function return type nullable without the compiler reporting it within the package or the package’s type tests. However, as described above, this is a breaking change for consumers which have `strictNullChecks: true`. (By contrast, a *consumer* may disable strictness settings safely: code which type-checks under a stricter setting also type-checks under a less strict setting.) Likewise:
 
-- With `noUncheckedIndexedAccess: false`, an author could change a type `SomeObj` from `{ a: string }` to `{ [key: string]: string }` and accessing `someObj.a.length` would now error.
+- With `noUncheckedIndexedAccess: false`, an author could change a type `SomeObj` from `{ a: string }` to `{ [key: string]: string }` and accessing `someObj.a.length` would not error.
 - With `exactOptionalPropertyTypes: false` the difference between `{}` and `{ foo: undefined }` would go unchecked at runtime, although this can have significant effects on runtime type checks, since `hasOwn`, `hasOwnProperty`, and the `in` operator will treat the two differently.
 
 Accordingly, conforming packages must use `strict: true`, `noUncheckedIndexAccess: true`, and `exactOptionalPropertyTypes: true` in their compiler settings.
