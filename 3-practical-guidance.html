@@ -91,7 +91,9 @@
             <div class="sidebar-scrollbox">
                 <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Background and Basics</li><li class="chapter-item expanded "><a href="1-background.html"><strong aria-hidden="true">1.</strong> TypeScript’s Versioning Policy</a></li><li class="chapter-item expanded "><a href="2-conformance.html"><strong aria-hidden="true">2.</strong> Conformance</a></li><li class="chapter-item expanded "><a href="3-practical-guidance.html" class="active"><strong aria-hidden="true">3.</strong> Practical Guidance</a></li><li class="chapter-item expanded affix "><li class="part-title">Formal Specification</li><li class="chapter-item expanded "><a href="formal-spec/index.html"><strong aria-hidden="true">4.</strong> Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="formal-spec/1-definitions.html"><strong aria-hidden="true">4.1.</strong> Definitions</a></li><li class="chapter-item expanded "><a href="formal-spec/2-breaking-changes.html"><strong aria-hidden="true">4.2.</strong> Breaking Changes</a></li><li class="chapter-item expanded "><a href="formal-spec/3-non-breaking-changes.html"><strong aria-hidden="true">4.3.</strong> Non-Breaking Changes</a></li><li class="chapter-item expanded "><a href="formal-spec/4-bug-fixes.html"><strong aria-hidden="true">4.4.</strong> Bug Fixes</a></li><li class="chapter-item expanded "><a href="formal-spec/5-compiler-considerations.html"><strong aria-hidden="true">4.5.</strong> Compiler Considerations</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="appendices/index.html"><strong aria-hidden="true">5.</strong> Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendices/a-adopters.html"><strong aria-hidden="true">5.1.</strong> Adopters</a></li><li class="chapter-item expanded "><a href="appendices/b-tooling.html"><strong aria-hidden="true">5.2.</strong> Tooling</a></li><li class="chapter-item expanded "><a href="appendices/c-variance-in-typescript.html"><strong aria-hidden="true">5.3.</strong> Variance in TypeScript</a></li><li class="chapter-item expanded "><a href="appendices/d-history.html"><strong aria-hidden="true">5.4.</strong> History</a></li></ol></li></ol>
             </div>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
         </nav>
 
         <!-- Track and set sidebar scroll position -->
@@ -182,7 +184,7 @@
 <ul>
 <li><a href="#avoiding-user-constructibility">Avoiding user constructibility</a></li>
 <li><a href="#updating-types-to-maintain-compatibility">Updating types to maintain compatibility</a></li>
-<li><a href="#downleveling-types">&quot;Downleveling&quot; types</a></li>
+<li><a href="#downleveling-types">"Downleveling" types</a></li>
 <li><a href="#opt-in-future-types">Opt-in future types</a></li>
 <li><a href="#matching-exports-to-public-api">Matching exports to public API</a></li>
 </ul>
@@ -272,7 +274,7 @@ Type 'unknown' is not assignable to type '{}'.</p>
 </code></pre>
 <p>This is a totally-backwards compatible bugfix-style change, and should be released in a bugfix/point release. Users can then just upgrade to the bugfix release <em>before</em> upgrading their own TypeScript version—and will experience <em>zero</em> impact from the breaking TypeScript change.</p>
 <p>Later, the default type argument <code>Promise&lt;{}&gt;</code> could be dropped and defaulted to the new value for a major release of the library when desired (per the policy <a href="#supported-compiler-versions">outlined below</a>, giving it the new semantics. (Also see <a href="#opt-in-future-types"><b>Opt-in future types</b></a> below for a means to allow users to <em>opt in</em> to these changes before the major version.)</p>
-<h3 id="downleveling-types"><a class="header" href="#downleveling-types">&quot;Downleveling&quot; types</a></h3>
+<h3 id="downleveling-types"><a class="header" href="#downleveling-types">"Downleveling" types</a></h3>
 <p>When a new version of TypeScript includes a backwards-incompatible change to <em>emitted type definitions</em>, as they did in <a href="https://github.com/microsoft/TypeScript/pull/33470">3.7</a>, the strategy of changing the types directly may not work. However, it is still possible to provide backwards-compatible types, using the combination of <a href="https://github.com/sandersn/downlevel-dts">downlevel-dts</a> and <a href="https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-1.html#version-selection-with-typesversions">typesVersions</a>. (In some cases, this may also require some manual tweaking of types, but this should be rare for most packages.)</p>
 <ul>
 <li>
@@ -304,16 +306,16 @@ npm run downlevel-dts . --to 4.0 ts4.0
 <li>
 <p>Update the <code>scripts</code> key in <code>package.json</code>  to generate downleveled types generated by running <code>downlevel-dts</code> on the output from <code>tsc</code>, and to clean up the results after publication. For example, using <code>ember-cli-typescript</code>’s tooling:</p>
 <pre><code class="language-diff">{
-  &quot;scripts&quot;: {
--   &quot;prepublishOnly&quot;: &quot;ember ts:precompile&quot;,
-+   &quot;prepublish:types&quot;: &quot;ember ts:precompile&quot;,
-+   &quot;prepublish:downlevel&quot;: &quot;./scripts/downlevel.sh&quot;,
-+   &quot;prepublishOnly&quot;: &quot;run-s prepublish:types prepublish:downlevel&quot;,
--   &quot;postpublish&quot;: &quot;ember ts:clean&quot;,
-+   &quot;clean:ts&quot;: &quot;ember ts:clean&quot;,
-+   &quot;clean:downlevel&quot;: &quot;rimraf ./ts3.7 ./ts3.8 ./ts3.9 ./ts4.0&quot;,
-+   &quot;clean&quot;: &quot;npm-run-all --aggregate-output --parallel clean:*&quot;,
-+   &quot;postpublish&quot;: &quot;npm run clean&quot;,
+  "scripts": {
+-   "prepublishOnly": "ember ts:precompile",
++   "prepublish:types": "ember ts:precompile",
++   "prepublish:downlevel": "./scripts/downlevel.sh",
++   "prepublishOnly": "run-s prepublish:types prepublish:downlevel",
+-   "postpublish": "ember ts:clean",
++   "clean:ts": "ember ts:clean",
++   "clean:downlevel": "rimraf ./ts3.7 ./ts3.8 ./ts3.9 ./ts4.0",
++   "clean": "npm-run-all --aggregate-output --parallel clean:*",
++   "postpublish": "npm run clean",
   }
 }
 </code></pre>
@@ -321,12 +323,12 @@ npm run downlevel-dts . --to 4.0 ts4.0
 <li>
 <p>Add a <code>typesVersions</code> key to <code>package.json</code>, with the following contents:</p>
 <pre><code class="language-json">{
-  &quot;types&quot;: &quot;index.d.ts&quot;,
-  &quot;typesVersions&quot;: {
-    &quot;3.7&quot;: { &quot;*&quot;: [&quot;ts3.7/*&quot;] },
-    &quot;3.8&quot;: { &quot;*&quot;: [&quot;ts3.8/*&quot;] },
-    &quot;3.9&quot;: { &quot;*&quot;: [&quot;ts3.9/*&quot;] },
-    &quot;4.0&quot;: { &quot;*&quot;: [&quot;ts4.0/*&quot;] },
+  "types": "index.d.ts",
+  "typesVersions": {
+    "3.7": { "*": ["ts3.7/*"] },
+    "3.8": { "*": ["ts3.8/*"] },
+    "3.9": { "*": ["ts3.9/*"] },
+    "4.0": { "*": ["ts4.0/*"] },
   }
 }
 </code></pre>

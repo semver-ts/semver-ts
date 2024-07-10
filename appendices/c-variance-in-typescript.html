@@ -91,7 +91,9 @@
             <div class="sidebar-scrollbox">
                 <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Background and Basics</li><li class="chapter-item expanded "><a href="../1-background.html"><strong aria-hidden="true">1.</strong> TypeScript’s Versioning Policy</a></li><li class="chapter-item expanded "><a href="../2-conformance.html"><strong aria-hidden="true">2.</strong> Conformance</a></li><li class="chapter-item expanded "><a href="../3-practical-guidance.html"><strong aria-hidden="true">3.</strong> Practical Guidance</a></li><li class="chapter-item expanded affix "><li class="part-title">Formal Specification</li><li class="chapter-item expanded "><a href="../formal-spec/index.html"><strong aria-hidden="true">4.</strong> Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../formal-spec/1-definitions.html"><strong aria-hidden="true">4.1.</strong> Definitions</a></li><li class="chapter-item expanded "><a href="../formal-spec/2-breaking-changes.html"><strong aria-hidden="true">4.2.</strong> Breaking Changes</a></li><li class="chapter-item expanded "><a href="../formal-spec/3-non-breaking-changes.html"><strong aria-hidden="true">4.3.</strong> Non-Breaking Changes</a></li><li class="chapter-item expanded "><a href="../formal-spec/4-bug-fixes.html"><strong aria-hidden="true">4.4.</strong> Bug Fixes</a></li><li class="chapter-item expanded "><a href="../formal-spec/5-compiler-considerations.html"><strong aria-hidden="true">4.5.</strong> Compiler Considerations</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/index.html"><strong aria-hidden="true">5.</strong> Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../appendices/a-adopters.html"><strong aria-hidden="true">5.1.</strong> Adopters</a></li><li class="chapter-item expanded "><a href="../appendices/b-tooling.html"><strong aria-hidden="true">5.2.</strong> Tooling</a></li><li class="chapter-item expanded "><a href="../appendices/c-variance-in-typescript.html" class="active"><strong aria-hidden="true">5.3.</strong> Variance in TypeScript</a></li><li class="chapter-item expanded "><a href="../appendices/d-history.html"><strong aria-hidden="true">5.4.</strong> History</a></li></ol></li></ol>
             </div>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
         </nav>
 
         <!-- Track and set sidebar scroll position -->
@@ -189,7 +191,7 @@
 <p>A consumer might use this code in the construction of an array, and then having leaned on inference, push both <code>string</code>s and <code>number</code>s into it:</p>
 <pre><code class="language-ts">const myArray = [example()]; // Array&lt;string | number&gt;
 myArray.push(123);           // ✅
-myArray.push(&quot;hello&quot;);       // ✅
+myArray.push("hello");       // ✅
 </code></pre>
 <p>The author of the library might later update <code>example</code> to return only <code>string</code>s:</p>
 <pre><code class="language-ts">declare function example(): string;
@@ -197,17 +199,17 @@ myArray.push(&quot;hello&quot;);       // ✅
 <p>This would be safe under the rule for write-only types, which is the intuition underlying many of the definitions below—but for our array example, it is <em>not</em> safe: <code>.push()</code>-ing in a <code>number</code> is now illegal.</p>
 <pre><code class="language-ts">const myArray = [example()]; // Array&lt;string&gt;
 myArray.push(123);           // ❌ number not assignable to string
-myArray.push(&quot;hello&quot;);       // ✅
+myArray.push("hello");       // ✅
 </code></pre>
 <p>What's more, we don't need an object like an array to trigger this kind of behavior. Using a <code>let</code> binding instead of a <code>const</code> binding will produce exactly the same issue. Under the original definition of <code>example</code>, this would be perfectly legal:</p>
 <pre><code class="language-ts">let value = example(); // string | number
 value = 123;           // ✅
-value = &quot;hello&quot;;       // ✅
+value = "hello";       // ✅
 </code></pre>
 <p>But it stops being valid as soon as <code>example</code> is narrowed:</p>
 <pre><code class="language-ts">let value = example(); // string
 value = 123;           // ❌ number not assignable to string
-value = &quot;hello&quot;;       // ✅
+value = "hello";       // ✅
 </code></pre>
 <p>While lint guidelines preferring <code>const</code> may <em>help</em> mitigate the latter, they are controversial<sup class="footnote-reference"><a href="#const-controversy">1</a></sup> and they do not and cannot help with the <code>Array</code> example or others like it. Nor is it feasible to require a “functional” immutable-update style, given that JavaScript lacks robust immutable data structures, which would allow for recommending that approach.</p>
 <p>In this case, cautious users may work around this by explicitly annotating their types to match the return type of the:</p>
@@ -251,7 +253,7 @@ takesA(c); // ❌
     case 'number':
       return `x is the number ${x}`;  // 3
     default:
-      return `x is &quot;undefined&quot;`;      // 4
+      return `x is "undefined"`;      // 4
   }
 }
 </code></pre>

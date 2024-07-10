@@ -91,7 +91,9 @@
             <div class="sidebar-scrollbox">
                 <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Background and Basics</li><li class="chapter-item expanded "><a href="../1-background.html"><strong aria-hidden="true">1.</strong> TypeScript’s Versioning Policy</a></li><li class="chapter-item expanded "><a href="../2-conformance.html"><strong aria-hidden="true">2.</strong> Conformance</a></li><li class="chapter-item expanded "><a href="../3-practical-guidance.html"><strong aria-hidden="true">3.</strong> Practical Guidance</a></li><li class="chapter-item expanded affix "><li class="part-title">Formal Specification</li><li class="chapter-item expanded "><a href="../formal-spec/index.html"><strong aria-hidden="true">4.</strong> Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../formal-spec/1-definitions.html"><strong aria-hidden="true">4.1.</strong> Definitions</a></li><li class="chapter-item expanded "><a href="../formal-spec/2-breaking-changes.html"><strong aria-hidden="true">4.2.</strong> Breaking Changes</a></li><li class="chapter-item expanded "><a href="../formal-spec/3-non-breaking-changes.html"><strong aria-hidden="true">4.3.</strong> Non-Breaking Changes</a></li><li class="chapter-item expanded "><a href="../formal-spec/4-bug-fixes.html" class="active"><strong aria-hidden="true">4.4.</strong> Bug Fixes</a></li><li class="chapter-item expanded "><a href="../formal-spec/5-compiler-considerations.html"><strong aria-hidden="true">4.5.</strong> Compiler Considerations</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="../appendices/index.html"><strong aria-hidden="true">5.</strong> Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../appendices/a-adopters.html"><strong aria-hidden="true">5.1.</strong> Adopters</a></li><li class="chapter-item expanded "><a href="../appendices/b-tooling.html"><strong aria-hidden="true">5.2.</strong> Tooling</a></li><li class="chapter-item expanded "><a href="../appendices/c-variance-in-typescript.html"><strong aria-hidden="true">5.3.</strong> Variance in TypeScript</a></li><li class="chapter-item expanded "><a href="../appendices/d-history.html"><strong aria-hidden="true">5.4.</strong> History</a></li></ol></li></ol>
             </div>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
         </nav>
 
         <!-- Track and set sidebar scroll position -->
@@ -183,7 +185,7 @@
 <p>If a function is typed as accepting <code>any</code> but actually requires a <code>string</code>, this will cause an error at runtime, and is a bug.</p>
 </li>
 <li>
-<p>If a function is typed as returning <code>string | number</code> but is intended to return only <code>string</code>, this is a bug. Note that this is distinct from the runtime behavior: a package author may intentionally specify the type as wider than the current implementation with the expectation of future changes. This will not cause an error at runtime, since consumers must &quot;narrow&quot; the type to use it, and narrowing the type would not even be a breaking change.</p>
+<p>If a function is typed as returning <code>string | number</code> but is intended to return only <code>string</code>, this is a bug. Note that this is distinct from the runtime behavior: a package author may intentionally specify the type as wider than the current implementation with the expectation of future changes. This will not cause an error at runtime, since consumers must "narrow" the type to use it, and narrowing the type would not even be a breaking change.</p>
 </li>
 <li>
 <p>If an interface is defined as having a property which is <em>not</em> part of the public API of the runtime object, or if an interface is defined as <em>missing</em> a property which the public API of the runtime object does have, this is a bug.</p>
@@ -196,7 +198,7 @@
 <p>It is essential that types be well-tested! See discussion below under <a href="#appendix-b-tooling"><strong>Appendix B: Tooling</strong></a>.</p>
 </li>
 <li>
-<p>If a given type bug has existed for long enough, an author may choose to treat it as <a href="https://twitter.com/wycats/status/918644693759488005">&quot;intimate API&quot;</a> and change the <em>runtime</em> behavior to match the types rather than vice versa.</p>
+<p>If a given type bug has existed for long enough, an author may choose to treat it as <a href="https://twitter.com/wycats/status/918644693759488005">"intimate API"</a> and change the <em>runtime</em> behavior to match the types rather than vice versa.</p>
 </li>
 </ol>
 <footer id="open-on-gh">Found a bug? <a href="https://github.com/semver-ts/semver-ts/edit/main/src/formal-spec/4-bug-fixes.md">Edit this file on GitHub.</a></footer>

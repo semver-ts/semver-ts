@@ -92,7 +92,9 @@
             <div class="sidebar-scrollbox">
                 <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Background and Basics</li><li class="chapter-item expanded "><a href="1-background.html"><strong aria-hidden="true">1.</strong> TypeScript’s Versioning Policy</a></li><li class="chapter-item expanded "><a href="2-conformance.html"><strong aria-hidden="true">2.</strong> Conformance</a></li><li class="chapter-item expanded "><a href="3-practical-guidance.html"><strong aria-hidden="true">3.</strong> Practical Guidance</a></li><li class="chapter-item expanded affix "><li class="part-title">Formal Specification</li><li class="chapter-item expanded "><a href="formal-spec/index.html"><strong aria-hidden="true">4.</strong> Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="formal-spec/1-definitions.html"><strong aria-hidden="true">4.1.</strong> Definitions</a></li><li class="chapter-item expanded "><a href="formal-spec/2-breaking-changes.html"><strong aria-hidden="true">4.2.</strong> Breaking Changes</a></li><li class="chapter-item expanded "><a href="formal-spec/3-non-breaking-changes.html"><strong aria-hidden="true">4.3.</strong> Non-Breaking Changes</a></li><li class="chapter-item expanded "><a href="formal-spec/4-bug-fixes.html"><strong aria-hidden="true">4.4.</strong> Bug Fixes</a></li><li class="chapter-item expanded "><a href="formal-spec/5-compiler-considerations.html"><strong aria-hidden="true">4.5.</strong> Compiler Considerations</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="appendices/index.html"><strong aria-hidden="true">5.</strong> Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendices/a-adopters.html"><strong aria-hidden="true">5.1.</strong> Adopters</a></li><li class="chapter-item expanded "><a href="appendices/b-tooling.html"><strong aria-hidden="true">5.2.</strong> Tooling</a></li><li class="chapter-item expanded "><a href="appendices/c-variance-in-typescript.html"><strong aria-hidden="true">5.3.</strong> Variance in TypeScript</a></li><li class="chapter-item expanded "><a href="appendices/d-history.html"><strong aria-hidden="true">5.4.</strong> History</a></li></ol></li></ol>
             </div>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
         </nav>
 
         <!-- Track and set sidebar scroll position -->
@@ -217,7 +219,7 @@
 <h2 id="why"><a class="header" href="#why">Why?</a></h2>
 <p>For TypeScript packages be good citizens of the broader, semantically-versioned JavaScript ecosystem, package authors need a useful definition of SemVer for TypeScript’s type system.</p>
 <p>This is somewhat more complicated than in other languages, even those other statically-typed languages with language-level SemVer guarantees (such as <a href="https://rust-lang.github.io/rfcs/1122-language-semver.html">Rust</a> and Elm), because TypeScript has an unusually flexible type system. In particular, its <a href="https://en.wikipedia.org/wiki/Structural_type_system">structural type system</a> means many more kinds of both breaking and non-breaking changes are possible than in languages with a <a href="https://en.wikipedia.org/wiki/Nominal_type_system">nominal type system</a>.<sup class="footnote-reference"><a href="#other-structural-types">1</a></sup> Accordingly, this document proposes a definition of SemVer which accounts for the extra flexibility afforded by these features.</p>
-<p>Furthermore, unlike the rest of the JavaScript ecosystem, the TypeScript compiler explicitly <em>rejects</em> SemVer. TypeScript's core team argues that <em>every</em> change to a compiler is a breaking change, and that SemVer is therefore meaningless for TypeScript. We do not agree with this characterization, but take the TypeScript team's position as a given for the purposes of this document. Accordingly, every TypeScript non-patch release may be a breaking change, and &quot;major&quot; numbers for releases signify nothing beyond having reached <code>x.9</code> in the previous cycle.</p>
+<p>Furthermore, unlike the rest of the JavaScript ecosystem, the TypeScript compiler explicitly <em>rejects</em> SemVer. TypeScript's core team argues that <em>every</em> change to a compiler is a breaking change, and that SemVer is therefore meaningless for TypeScript. We do not agree with this characterization, but take the TypeScript team's position as a given for the purposes of this document. Accordingly, every TypeScript non-patch release may be a breaking change, and "major" numbers for releases signify nothing beyond having reached <code>x.9</code> in the previous cycle.</p>
 <p>This means that defining SemVer for TypeScript Types requires that we specify a definition of Semantic Versioning which can absorb breaking changes in the TypeScript compiler as well as intentional changes by package authors. As such, it also requires clearly defined TypeScript compiler version support policies.</p>
 <h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
 <p>This section is a non-normative short summary for easy digestion. See the <a href="./formal-spec/index.html"><strong>Formal Specification</strong></a> for normative text.</p>
@@ -234,7 +236,7 @@
 <li>widening what it provides to you</li>
 <li>removing exports</li>
 </ul>
-<p>Note that this summary elides <em>many</em> important details, and those details may surprise you! In particular &quot;what it accepts&quot; and &quot;what it provides&quot; have considerable depth and nuance: they include interfaces or types you can construct, function arguments, class field mutability, and more.</p>
+<p>Note that this summary elides <em>many</em> important details, and those details may surprise you! In particular "what it accepts" and "what it provides" have considerable depth and nuance: they include interfaces or types you can construct, function arguments, class field mutability, and more.</p>
 <h3 id="for-package-authors"><a class="header" href="#for-package-authors">For package authors</a></h3>
 <ul>
 <li>
@@ -283,7 +285,7 @@
 </div>
 <footer id="open-on-gh">Found a bug? <a href="https://github.com/semver-ts/semver-ts/edit/main/src/index.md">Edit this file on GitHub.</a></footer><div style="break-before: page; page-break-before: always;"></div><h1 id="typescripts-versioning-policy"><a class="header" href="#typescripts-versioning-policy">TypeScript’s Versioning Policy</a></h1>
 <p>TypeScript <em><strong>does not</strong></em> adhere to Semantic Versioning, but since it participates in the npm ecosystem, it uses the same format for its version numbers: <code>&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;</code>.</p>
-<p>In Semantic Versioning, <code>&lt;major&gt;</code> would be a breaking change release, <code>&lt;minor&gt;</code> would be a backwards-compatible feature-addition release, and <code>&lt;patch&gt;</code> would be a &quot;bug fix&quot; release.</p>
+<p>In Semantic Versioning, <code>&lt;major&gt;</code> would be a breaking change release, <code>&lt;minor&gt;</code> would be a backwards-compatible feature-addition release, and <code>&lt;patch&gt;</code> would be a "bug fix" release.</p>
 <p>In TypeScript, both <code>&lt;major&gt;</code> and <code>&lt;minor&gt;</code> releases <em>may</em> introduce breaking changes of the sort that Semantic Versioning reserves for the <code>&lt;major&gt;</code> slot in the version number. Not all <code>&lt;minor&gt;</code> <em>or</em> <code>&lt;major&gt;</code> releases <em>do</em> introduce breaking changes in the normal Semantic Versioning sense, but either <em>may</em>. Accordingly, and for simplicity, the JavaScript ecosystem should treat <em>all</em> TypeScript <code>&lt;major&gt;.&lt;minor&gt;</code> releases as a major release.</p>
 <p>TypeScript's use of patch releases is more in line with the rest of the ecosystem's use of patch versions. The TypeScript Wiki <a href="https://github.com/microsoft/TypeScript/wiki/TypeScript&#x27;s-Release-Process/e669ab1ad96edc1a7bcef5f6d9e35e24397891e5">currently summarizes patch releases</a> as follows:</p>
 <blockquote>
@@ -295,7 +297,7 @@
 </ul>
 <p>These fixes are typically weighed against the cost (how hard it would be for the team to retroactively apply/release a change), the risk (how much code is changed, how understandable is the fix), as well as how feasible it would be to wait for the next version.</p>
 </blockquote>
-<p>These three categories of fixes are well within the normally-understood range of fixes that belong in a &quot;bug fix&quot; release in the npm ecosystem. In these cases, a user's code may stop type-checking, but <em>only</em> if they were depending on buggy behavior. This matches users' expectations around runtime code: a SemVer patch release to a package which fixes a bug may cause packages which were depending on that bug to stop working.</p>
+<p>These three categories of fixes are well within the normally-understood range of fixes that belong in a "bug fix" release in the npm ecosystem. In these cases, a user's code may stop type-checking, but <em>only</em> if they were depending on buggy behavior. This matches users' expectations around runtime code: a SemVer patch release to a package which fixes a bug may cause packages which were depending on that bug to stop working.</p>
 <p>By example:</p>
 <ul>
 <li><code>4.8.3</code> to <code>4.8.4</code>: always considered a bug fix</li>
@@ -319,7 +321,7 @@
 <ul>
 <li><a href="3-practical-guidance.html#avoiding-user-constructibility">Avoiding user constructibility</a></li>
 <li><a href="3-practical-guidance.html#updating-types-to-maintain-compatibility">Updating types to maintain compatibility</a></li>
-<li><a href="3-practical-guidance.html#downleveling-types">&quot;Downleveling&quot; types</a></li>
+<li><a href="3-practical-guidance.html#downleveling-types">"Downleveling" types</a></li>
 <li><a href="3-practical-guidance.html#opt-in-future-types">Opt-in future types</a></li>
 <li><a href="3-practical-guidance.html#matching-exports-to-public-api">Matching exports to public API</a></li>
 </ul>
@@ -409,7 +411,7 @@ Type 'unknown' is not assignable to type '{}'.</p>
 </code></pre>
 <p>This is a totally-backwards compatible bugfix-style change, and should be released in a bugfix/point release. Users can then just upgrade to the bugfix release <em>before</em> upgrading their own TypeScript version—and will experience <em>zero</em> impact from the breaking TypeScript change.</p>
 <p>Later, the default type argument <code>Promise&lt;{}&gt;</code> could be dropped and defaulted to the new value for a major release of the library when desired (per the policy <a href="3-practical-guidance.html#supported-compiler-versions">outlined below</a>, giving it the new semantics. (Also see <a href="3-practical-guidance.html#opt-in-future-types"><b>Opt-in future types</b></a> below for a means to allow users to <em>opt in</em> to these changes before the major version.)</p>
-<h3 id="downleveling-types"><a class="header" href="#downleveling-types">&quot;Downleveling&quot; types</a></h3>
+<h3 id="downleveling-types"><a class="header" href="#downleveling-types">"Downleveling" types</a></h3>
 <p>When a new version of TypeScript includes a backwards-incompatible change to <em>emitted type definitions</em>, as they did in <a href="https://github.com/microsoft/TypeScript/pull/33470">3.7</a>, the strategy of changing the types directly may not work. However, it is still possible to provide backwards-compatible types, using the combination of <a href="https://github.com/sandersn/downlevel-dts">downlevel-dts</a> and <a href="https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-1.html#version-selection-with-typesversions">typesVersions</a>. (In some cases, this may also require some manual tweaking of types, but this should be rare for most packages.)</p>
 <ul>
 <li>
@@ -441,16 +443,16 @@ npm run downlevel-dts . --to 4.0 ts4.0
 <li>
 <p>Update the <code>scripts</code> key in <code>package.json</code>  to generate downleveled types generated by running <code>downlevel-dts</code> on the output from <code>tsc</code>, and to clean up the results after publication. For example, using <code>ember-cli-typescript</code>’s tooling:</p>
 <pre><code class="language-diff">{
-  &quot;scripts&quot;: {
--   &quot;prepublishOnly&quot;: &quot;ember ts:precompile&quot;,
-+   &quot;prepublish:types&quot;: &quot;ember ts:precompile&quot;,
-+   &quot;prepublish:downlevel&quot;: &quot;./scripts/downlevel.sh&quot;,
-+   &quot;prepublishOnly&quot;: &quot;run-s prepublish:types prepublish:downlevel&quot;,
--   &quot;postpublish&quot;: &quot;ember ts:clean&quot;,
-+   &quot;clean:ts&quot;: &quot;ember ts:clean&quot;,
-+   &quot;clean:downlevel&quot;: &quot;rimraf ./ts3.7 ./ts3.8 ./ts3.9 ./ts4.0&quot;,
-+   &quot;clean&quot;: &quot;npm-run-all --aggregate-output --parallel clean:*&quot;,
-+   &quot;postpublish&quot;: &quot;npm run clean&quot;,
+  "scripts": {
+-   "prepublishOnly": "ember ts:precompile",
++   "prepublish:types": "ember ts:precompile",
++   "prepublish:downlevel": "./scripts/downlevel.sh",
++   "prepublishOnly": "run-s prepublish:types prepublish:downlevel",
+-   "postpublish": "ember ts:clean",
++   "clean:ts": "ember ts:clean",
++   "clean:downlevel": "rimraf ./ts3.7 ./ts3.8 ./ts3.9 ./ts4.0",
++   "clean": "npm-run-all --aggregate-output --parallel clean:*",
++   "postpublish": "npm run clean",
   }
 }
 </code></pre>
@@ -458,12 +460,12 @@ npm run downlevel-dts . --to 4.0 ts4.0
 <li>
 <p>Add a <code>typesVersions</code> key to <code>package.json</code>, with the following contents:</p>
 <pre><code class="language-json">{
-  &quot;types&quot;: &quot;index.d.ts&quot;,
-  &quot;typesVersions&quot;: {
-    &quot;3.7&quot;: { &quot;*&quot;: [&quot;ts3.7/*&quot;] },
-    &quot;3.8&quot;: { &quot;*&quot;: [&quot;ts3.8/*&quot;] },
-    &quot;3.9&quot;: { &quot;*&quot;: [&quot;ts3.9/*&quot;] },
-    &quot;4.0&quot;: { &quot;*&quot;: [&quot;ts4.0/*&quot;] },
+  "types": "index.d.ts",
+  "typesVersions": {
+    "3.7": { "*": ["ts3.7/*"] },
+    "3.8": { "*": ["ts3.8/*"] },
+    "3.9": { "*": ["ts3.9/*"] },
+    "4.0": { "*": ["ts4.0/*"] },
   }
 }
 </code></pre>
@@ -584,11 +586,11 @@ npm run downlevel-dts . --to 4.0 ts4.0
 <li>Some published types represent private API.</li>
 </ul>
 <h2 id="defining-the-contract"><a class="header" href="#defining-the-contract">Defining the contract</a></h2>
-<p>It is impossible to define the difference between breaking and non-breaking changes purely in the abstract. Instead, we must define exactly what changes are &quot;backwards-compatible&quot; and which are &quot;breaking,&quot; and we must further define what constitutes a legitimate &quot;bug fix&quot; for type definitions designed to represent runtime behavior. Note that this is a <em>socio-technical</em> contract, not a purely-technical contract, and therefore (contra <a href="http://www.hyrumslaw.com">Hyrum’s Law</a>) a breaking change is not simply <em>any observable change to a system</em> but rather <em>a change to the system which violates the contract</em>.</p>
+<p>It is impossible to define the difference between breaking and non-breaking changes purely in the abstract. Instead, we must define exactly what changes are "backwards-compatible" and which are "breaking," and we must further define what constitutes a legitimate "bug fix" for type definitions designed to represent runtime behavior. Note that this is a <em>socio-technical</em> contract, not a purely-technical contract, and therefore (contra <a href="http://www.hyrumslaw.com">Hyrum’s Law</a>) a breaking change is not simply <em>any observable change to a system</em> but rather <em>a change to the system which violates the contract</em>.</p>
 <p>Accordingly, we propose careful and specific definitions of breaking, non-breaking, and bug-fix changes for TypeScript types. Because types are designed to represent runtime behavior, we assume throughout that these changes <em>do</em> in fact correctly represent changes to runtime behavior, and that changes which <em>incorrectly</em> represent runtime behavior are <em>bugs</em>.</p>
-<p><strong>Note:</strong> The examples supplied throughout via links to the TypeScript are illustrative rather than normative. However, the distinction between &quot;observed&quot; and &quot;promised&quot; behavior in TypeScript is quite loose: there is no independent specification, so the formal behavior of the type system is implementation-specified.</p>
+<p><strong>Note:</strong> The examples supplied throughout via links to the TypeScript are illustrative rather than normative. However, the distinction between "observed" and "promised" behavior in TypeScript is quite loose: there is no independent specification, so the formal behavior of the type system is implementation-specified.</p>
 <h2 id="variance"><a class="header" href="#variance">Variance</a></h2>
-<p>Virtually all of the rules around what constitutes a breaking change to types come down to <em>variance</em>.<sup class="footnote-reference"><a href="#variance">1</a></sup> In a real sense, everything in the discussion below is a way of showing the variance rules by example.<sup class="footnote-reference"><a href="#thanks-to-ryan">2</a></sup></p>
+<p>Virtually all of the rules around what constitutes a breaking change to types come down to <em>variance</em>.[^variance] In a real sense, everything in the discussion below is a way of showing the variance rules by example.[^thanks-to-ryan]</p>
 <p>In many cases, these are the standard variance rules applicable in any and all languages with types:</p>
 <ul>
 <li>read-only types (sources) may be covariant</li>
@@ -598,7 +600,7 @@ npm run downlevel-dts . --to 4.0 ts4.0
 <p>These basic intuitions underlie the guidelines below. However, several factors complicate them.</p>
 <p>First of all, notice that the vast majority of objects in JavaScript are mutable, which means they must be <em>invariant</em>. When combined with type inference, this effectively means that <em>any</em> change to an object type <em>can</em> cause breakage for consumers. (The only real counter-examples are <code>readonly</code> types.)</p>
 <p>Additionally, TypeScript has two other features many other languages do not which complicate reasoning about variance: <em>structural typing</em>, <em>higher-order type operations</em>. The result of these additional features is a further impossibility of safely writing types which can be <em>guaranteed</em> never to stop compiling for runtime-safe changes.</p>
-<p>Accordingly, we propose the rules below, with the caveat that (as noted in several places throughout) they will <em>not</em> prevent all possible breakage—only the majority of it, and substantially the worst of it. Most of all, they give us a workable approach which can be well-tested and well-understood, and the edge cases identified here do not prevent the rules from being generally useful or applicable.<sup class="footnote-reference"><a href="#satisficery">3</a></sup></p>
+<p>Accordingly, we propose the rules below, with the caveat that (as noted in several places throughout) they will <em>not</em> prevent all possible breakage—only the majority of it, and substantially the worst of it. Most of all, they give us a workable approach which can be well-tested and well-understood, and the edge cases identified here do not prevent the rules from being generally useful or applicable.[^satisficery]</p>
 <p>For a more detailed explanation and analysis of the impact of variance on these rules, see <a href="formal-spec/../appendices/c-variance-in-typescript.html"><strong>Appendix C: Variance in TypeScript</strong></a>.</p>
 <footer id="open-on-gh">Found a bug? <a href="https://github.com/semver-ts/semver-ts/edit/main/src/formal-spec/index.md">Edit this file on GitHub.</a></footer><div style="break-before: page; page-break-before: always;"></div><h1 id="definitions"><a class="header" href="#definitions">Definitions</a></h1>
 <dl>
@@ -625,7 +627,7 @@ npm run downlevel-dts . --to 4.0 ts4.0
 </dd>
 <dt>Functions</dt>
 <dd>
-<p>Unless otherwise specified, &quot;functions&quot; always refers interchangeably to: functions in standalone scope, whether defined with either <code>function</code> or an arrow; class methods; and class constructors.</p>
+<p>Unless otherwise specified, "functions" always refers interchangeably to: functions in standalone scope, whether defined with either <code>function</code> or an arrow; class methods; and class constructors.</p>
 </dd>
 <dt>User constructibility</dt>
 <dd>
@@ -756,7 +758,7 @@ In either case, no change to a type documented as private is a breaking change, 
 <p>A change to a non-user-constructible object type is breaking when:</p>
 <ul>
 <li>
-<p>a <code>readonly</code> object property type becomes a <em>less specific (&quot;wider&quot;) type</em>, for example if it was previously <code>string</code> but now is <code>string | string[]</code>—since the user's existing handling of the property will be wrong in some cases (<a href="https://www.typescriptlang.org/play/#code/CYUwxgNghgTiAEkoGdnwPIwJYHMsDsoJ4BvAKHnjimAHt8IBPeABxlpZBgBdGAueMm7Z8OANxkAvmTKgkcRNFTwA6llD4QwUhSoga9Jq3ace-QcII54AHwsicAbQC6UmQDMArvjDcs9eAALKHxgCBBkTFwCIgA5WHYAdwAKADciTxABKLxCCABKAXxPAFsAIy4dSjhuTxh8eHSITIA6Ng4uXhbw0W5AiWlZcGgFcO54KGzsXKIJORGEMfgygTUNLQlg0PDI6ZiIeJgk5Kh8zZCwiJz9w+Oys7IgA">playground</a>—the playground uses a class but an interface or type alias would have the same behavior).</p>
+<p>a <code>readonly</code> object property type becomes a <em>less specific ("wider") type</em>, for example if it was previously <code>string</code> but now is <code>string | string[]</code>—since the user's existing handling of the property will be wrong in some cases (<a href="https://www.typescriptlang.org/play/#code/CYUwxgNghgTiAEkoGdnwPIwJYHMsDsoJ4BvAKHnjimAHt8IBPeABxlpZBgBdGAueMm7Z8OANxkAvmTKgkcRNFTwA6llD4QwUhSoga9Jq3ace-QcII54AHwsicAbQC6UmQDMArvjDcs9eAALKHxgCBBkTFwCIgA5WHYAdwAKADciTxABKLxCCABKAXxPAFsAIy4dSjhuTxh8eHSITIA6Ng4uXhbw0W5AiWlZcGgFcO54KGzsXKIJORGEMfgygTUNLQlg0PDI6ZiIeJgk5Kh8zZCwiJz9w+Oys7IgA">playground</a>—the playground uses a class but an interface or type alias would have the same behavior).</p>
 <p>Note that this includes making a property optional, since these are equivalent for the purposes of type-checking:</p>
 <pre><code class="language-diff">interface A {
 - a: string;
@@ -777,10 +779,10 @@ In either case, no change to a type documented as private is a breaking change, 
 <p>an argument or return type changes entirely, for example if a function previously accepted <code>number</code> and now accepts <code>{ count: number }</code>, or previously returned <code>string</code> and now returns <code>boolean</code>—since the user will have to change all call sites for the function (<a href="https://www.typescriptlang.org/play?#code/PTAEEkFsEMHMEsB2BTUALZAnVAXN0dQ9UAiRaSZAZwAdoBjZE0BnAV2gBtOBPUAKzZVC2GtirJEOKkQwAoEKCoVU8SDQD2mHAC5QAAzWbtoAN6hYyHADUubVAF9QAM0wbIoAORV3yALTQACaBGoieANz6cnKByPSc0NigkBqBbJyoAPKY8AjknGZyoMUubIj0OPChLPSMNNK2nPYAFIEE0HqIbJAARlgAlHoAbhrwgeFyDtGx8Ymo5JS0DKgAwviIloGFJaXlldUMdQ12yK3teub0GmW6oF29WKAOg6AjYxNTctm5SFwAdIdkPUqI0WgBGABMAGZ+hM1tANshAgDakDjk1TpCYeEgA">playground</a>)</p>
 </li>
 <li>
-<p>a function (including a class constructor or methods) argument <em>requires a more specific (&quot;narrower&quot;) type</em>, for example if it previously accepted <code>string | number</code> but now requires <code>string</code>—since the user will have to change some calls to the function (<a href="https://www.typescriptlang.org/play?#code/PTAEEkFsEMHMEsB2BTUALZAnVAXN0dQ9UAiRaSZAZwAdoBjZE0BnAV2gBtOBPUAKzZVC2GtirJEOKkQwAoEKCoVU8SDQD2mHAC5QAAzWbtoAN6hYyHADUubVAF9QAM0wbIoAORV3yALTQACaBGoieANz6cnKByPSc0Nig5JS0DKgA8pjwCOScZnKgRS5siPQ48KEs9Iw00rac9gAUgQTQesLZiLCgAD7JbJAARlgAlHoAbhrwgeFyDtGx8YmoKdR0jKAA6jOSyIEFxSVlFVUMtfV2yC1tHThdsOOgUzNzCwpgQlig9BqxclkckguAA6c7IOpUBrNACMACYAMyjOaA3Kg8GQ6HXTwYbgaTzIuQ7WIoQJgmoQy6Na7wpFzYl7MkYqnNHHIPEE8JAA">playground</a>)</p>
+<p>a function (including a class constructor or methods) argument <em>requires a more specific ("narrower") type</em>, for example if it previously accepted <code>string | number</code> but now requires <code>string</code>—since the user will have to change some calls to the function (<a href="https://www.typescriptlang.org/play?#code/PTAEEkFsEMHMEsB2BTUALZAnVAXN0dQ9UAiRaSZAZwAdoBjZE0BnAV2gBtOBPUAKzZVC2GtirJEOKkQwAoEKCoVU8SDQD2mHAC5QAAzWbtoAN6hYyHADUubVAF9QAM0wbIoAORV3yALTQACaBGoieANz6cnKByPSc0Nig5JS0DKgA8pjwCOScZnKgRS5siPQ48KEs9Iw00rac9gAUgQTQesLZiLCgAD7JbJAARlgAlHoAbhrwgeFyDtGx8YmoKdR0jKAA6jOSyIEFxSVlFVUMtfV2yC1tHThdsOOgUzNzCwpgQlig9BqxclkckguAA6c7IOpUBrNACMACYAMyjOaA3Kg8GQ6HXTwYbgaTzIuQ7WIoQJgmoQy6Na7wpFzYl7MkYqnNHHIPEE8JAA">playground</a>)</p>
 </li>
 <li>
-<p>a function (including a class constructor or method) <em>returns a less specific (&quot;wider&quot;) type</em>, for example if it previously returned <code>string</code> but now returns <code>string | null</code>—since the user's existing handling of the return value will be wrong in some cases (<a href="https://www.typescriptlang.org/play?#code/PTAEEkFsEMHMEsB2BTUALZAnVAXN0dQ9UAiRaSZAZwAdoBjZE0BnAV2gBtOBPUAKzZVC2GtirJEOKkQwAoEKCoVU8SDQD2mHAC5QAAzWbtoAN6hYyHADUubVAF9QAM0wbIoAORV3yALTQACaBGoieANz6cnKByPSc0Nig5JS0DKgA8pjwCOScZnKgRS5siPQ48KEWVrac9gAUAJR6wtmIsOFyDtGx8YmoKdR0jKAA6vCxKIEFxSVlFVWWNnbITS04bbCgAD7JbNyd3QpgQlig9Bqxcs6l5ZWI6NCIgZzIAErU+zj1AG4r65tGjNith2JgHn86sgAHSvdp4Q7RfDPV4fKhfepZHJILjQpa1BqNRqdZEvd6fTjfcaTZCBPE1FZNYlyIA">playground</a>).</p>
+<p>a function (including a class constructor or method) <em>returns a less specific ("wider") type</em>, for example if it previously returned <code>string</code> but now returns <code>string | null</code>—since the user's existing handling of the return value will be wrong in some cases (<a href="https://www.typescriptlang.org/play?#code/PTAEEkFsEMHMEsB2BTUALZAnVAXN0dQ9UAiRaSZAZwAdoBjZE0BnAV2gBtOBPUAKzZVC2GtirJEOKkQwAoEKCoVU8SDQD2mHAC5QAAzWbtoAN6hYyHADUubVAF9QAM0wbIoAORV3yALTQACaBGoieANz6cnKByPSc0Nig5JS0DKgA8pjwCOScZnKgRS5siPQ48KEWVrac9gAUAJR6wtmIsOFyDtGx8YmoKdR0jKAA6vCxKIEFxSVlFVWWNnbITS04bbCgAD7JbNyd3QpgQlig9Bqxcs6l5ZWI6NCIgZzIAErU+zj1AG4r65tGjNith2JgHn86sgAHSvdp4Q7RfDPV4fKhfepZHJILjQpa1BqNRqdZEvd6fTjfcaTZCBPE1FZNYlyIA">playground</a>).</p>
 <p>This includes widening from a <em>type guard</em> to a more general check. For example:</p>
 <pre><code class="language-diff">-function isString(x: string | number): x is string {
 +function isString(x: string): boolean {
@@ -849,20 +851,20 @@ In either case, no change to a type documented as private is a breaking change, 
 <p>a new optional property is added to the type, since all existing code will continue working (<a href="https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgPJWAc1HANsgbwFgAoZc5OALmQGcwMRMBuUgX1NNElkRQFUADgBM4kYYVIVKNeoxZSKAIwD8NEAFcAtkuisSHEqWEQEuOFBQwNIBGGAB7EMktgNUELXRYcuABQAlDTe2CB4+iZmFlY2do7Oru6eQqLigTQpYhDC+sam5pbI1rb2TshgcADWEF4YoXh+AB7Bdb5ByABuDsA5eVGFxXFlFdW0mWnNyOPZ7V09uSRhWjWCfMgAQhAwDpbTkmQUAPSHyAhOchpDIIrkuBBgMmitYfgAvISPAEQAFhC4uA5Psg2AtpMcXPcktlkEoAJ7IXDAJRQCywm4I+4wlo+F7Id6JDy1HENAKgo4nBB4cxKYCIsBog7kEY1EK+PxwUno5lE+r+AhfX7-QHAgLsTiLODLWirJDIACCMB4e2IjOQ4LOngYl1K11Vdwe1CmIiyEne-MNPz+AKBIPFYJOBJA0LhCKRKKgDOk+qxT2JbwhbkJ02EgTJ5HVVLgNLpnoo3NZL3ZnNV3ODSf00njzwaSmTmaqNTTuYzcYLY2NaXNNEtQptooMpCAA">playground</a>)</p>
 </li>
 <li>
-<p>a <code>readonly</code> object property on the type becomes a <em>more specific (&quot;narrower&quot;) type</em>, for example if it was previously <code>string | string[]</code> and now is always <code>string[]</code>—since all user code will continue working and type-checking (<a href="https://www.typescriptlang.org/play?#code/CYUwxgNghgTiAEkoGdnwPIwJYHMsDsoJ4BvAKHngAcYB7KkGAFwE8AueZJ7fHeAH07cCOANoBdANxkAvmTKgkcRNFTwAcrDoB3EMFIVqdBs3ZCeOWfIBmAV3xgmWWvngALKPmAQQyTLgIiTRgdAAoANyJbEA5-PEIIAEoOfFsAWwAjRgNKOCZbGFdIiGiAOhp6RlZSn14mN2k5BXBoZR8meChY7HiiaUVWhHb4DI5gnT1pDy8fPx7AiHHabVCoRKnPb184haWVjPWyIA">playground</a>). Note that this includes a previously-optional property becoming required.<sup class="footnote-reference"><a href="#nit-on-comparability">1</a></sup></p>
+<p>a <code>readonly</code> object property on the type becomes a <em>more specific ("narrower") type</em>, for example if it was previously <code>string | string[]</code> and now is always <code>string[]</code>—since all user code will continue working and type-checking (<a href="https://www.typescriptlang.org/play?#code/CYUwxgNghgTiAEkoGdnwPIwJYHMsDsoJ4BvAKHngAcYB7KkGAFwE8AueZJ7fHeAH07cCOANoBdANxkAvmTKgkcRNFTwAcrDoB3EMFIVqdBs3ZCeOWfIBmAV3xgmWWvngALKPmAQQyTLgIiTRgdAAoANyJbEA5-PEIIAEoOfFsAWwAjRgNKOCZbGFdIiGiAOhp6RlZSn14mN2k5BXBoZR8meChY7HiiaUVWhHb4DI5gnT1pDy8fPx7AiHHabVCoRKnPb184haWVjPWyIA">playground</a>). Note that this includes a previously-optional property becoming required.[^nit-on-comparability]</p>
 </li>
 <li>
-<p>a new required property is added to the object—since its presence does not require the consuming code to use the property at a type level (<a href="https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgPJWAc1HANsgbwFgAoZc5OALmQGcwMRMBuUgX1NNElkRQFUADgBM4kYYVIVKNeoxZSKAIxogArgFsl0ViQ4lSwiAlxwoKGGpAIwwAPYhk5sGqgha6LDlwAKAJQ0ntggeLpGJmYWVjb2js6u7kKi4v40SWIQwrqGxqbmyJbWtg7IYHAA1hAeGMF4PgAegTXeAcgAbnbAWTkR+YUxJWWVtOkpjcijma0dXdkkIRpVgnzIAEIQMHbmk5JkFAD0+04QLm6ZyEoAnsi4wEpQZpeK5LgnMmjNIfgAvMen7kFvP5dNJXmBkKAYNBzBJfvE3NUvF9gZw9uRDsgEHhTEpgLcwNcAO7AMAACz+CUyz1KFSqgORcD8IIoQzpnzqkOhU10+lICyWKwAgjAeDtiGjkBj4SBzlcbncHlAnhKMQBhUlwJigTClUkoYAaQRbcHAWiYrbmGwXYxwNS0fWOMkocx4drQWixZB2GC600AGmpGMudjUyEJIdwEm0yGEnSYyAABgajVBwQRkABlOyLACS4Gg8CQyDYBSg2eQAHJaNmIABaW73R4V5gJgMqo6aiRO5BqEQZCTcAsrcNqSPIDVtFDd2hwRbIfl+uh2XUoCD1QS3BAkwMd2gezAgRbgMMRiT0PH4ZZ75A+OBmteCYziPzIABUndfNwyUB79ohIB3c183qMAzUJUlgAQclzAARzUYB8m7QQy0fVMiVPShcGra1fzgJRXjDElSRDMBAI0OxhGAGBILEWJqTBd5JlhCkESY4FJSOc9cHwO99xCfCIHot5OSgGFkDhE4EhGPsUiZVFpAxLFuLwvESSJIiWJlYRqVZRFal8RlmXIXT6Q5EAoVE7kdNpaTkkyW85IlXS2JEmFHP0IA">playground</a>)<sup class="footnote-reference"><a href="#variance-in-discriminating">2</a></sup></p>
+<p>a new required property is added to the object—since its presence does not require the consuming code to use the property at a type level (<a href="https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgPJWAc1HANsgbwFgAoZc5OALmQGcwMRMBuUgX1NNElkRQFUADgBM4kYYVIVKNeoxZSKAIxogArgFsl0ViQ4lSwiAlxwoKGGpAIwwAPYhk5sGqgha6LDlwAKAJQ0ntggeLpGJmYWVjb2js6u7kKi4v40SWIQwrqGxqbmyJbWtg7IYHAA1hAeGMF4PgAegTXeAcgAbnbAWTkR+YUxJWWVtOkpjcijma0dXdkkIRpVgnzIAEIQMHbmk5JkFAD0+04QLm6ZyEoAnsi4wEpQZpeK5LgnMmjNIfgAvMen7kFvP5dNJXmBkKAYNBzBJfvE3NUvF9gZw9uRDsgEHhTEpgLcwNcAO7AMAACz+CUyz1KFSqgORcD8IIoQzpnzqkOhU10+lICyWKwAgjAeDtiGjkBj4SBzlcbncHlAnhKMQBhUlwJigTClUkoYAaQRbcHAWiYrbmGwXYxwNS0fWOMkocx4drQWixZB2GC600AGmpGMudjUyEJIdwEm0yGEnSYyAABgajVBwQRkABlOyLACS4Gg8CQyDYBSg2eQAHJaNmIABaW73R4V5gJgMqo6aiRO5BqEQZCTcAsrcNqSPIDVtFDd2hwRbIfl+uh2XUoCD1QS3BAkwMd2gezAgRbgMMRiT0PH4ZZ75A+OBmteCYziPzIABUndfNwyUB79ohIB3c183qMAzUJUlgAQclzAARzUYB8m7QQy0fVMiVPShcGra1fzgJRXjDElSRDMBAI0OxhGAGBILEWJqTBd5JlhCkESY4FJSOc9cHwO99xCfCIHot5OSgGFkDhE4EhGPsUiZVFpAxLFuLwvESSJIiWJlYRqVZRFal8RlmXIXT6Q5EAoVE7kdNpaTkkyW85IlXS2JEmFHP0IA">playground</a>)[^variance-in-discriminating]</p>
 </li>
 </ul>
 <h2 id="functions-1"><a class="header" href="#functions-1">Functions</a></h2>
 <p>For functions which return or accept user-constructible types, the rules specified for <a href="formal-spec/3-non-breaking-changes.html#interfaces-type-aliases-and-classes-1">Non-breaking Changes: Interfaces, Type Aliases, and Classes</a> hold. Otherwise, a change to a function declaration is <em>not</em> breaking when:</p>
 <ul>
 <li>
-<p>a function (including a class method or constructor) <em>accepts a less specific (&quot;wider&quot;) type</em>, for example if it previously accepted only a <code>boolean</code> but now accepts <code>boolean | undefined</code>—since all existing user code will continue working and type-checking (<a href="https://www.typescriptlang.org/play?#code/PTAEEkFsEMHMEsB2BTUALZAnVAXN0dQ9UAiRaSZAZwAdoBjZE0BnAV2gBtOBPUAKzZVC2GtirJEOKkQwAoEKCoVU8SDQD2mHAC5QAAzWbtoAN6hYyHADUubVAF9QAM0wbIoAORV3yALTQACaBGoieANz6cnKByPSc0Nig5JS0DKgA8pjwCOScZnKgRS5siPQ48KEs9Iw00rac9gAUgQTQegBGGhqcyNCIAJR6AG4a8IHhcg7RsfGJqCnUdIygAOrjksiBBcUlZRVVDLX1dsgtbZ3dvf2gAD6gpbHOSFtDoKPjk9MKYEJYoPQNLE5FkckguAA6I7IOpUBrNHCYewDSag3KQ6Gw+FnZxcCQouTrWIoQJQmowk6NM6I5GTImbUmYynNXGcfHhIA">playground</a>)</p>
+<p>a function (including a class method or constructor) <em>accepts a less specific ("wider") type</em>, for example if it previously accepted only a <code>boolean</code> but now accepts <code>boolean | undefined</code>—since all existing user code will continue working and type-checking (<a href="https://www.typescriptlang.org/play?#code/PTAEEkFsEMHMEsB2BTUALZAnVAXN0dQ9UAiRaSZAZwAdoBjZE0BnAV2gBtOBPUAKzZVC2GtirJEOKkQwAoEKCoVU8SDQD2mHAC5QAAzWbtoAN6hYyHADUubVAF9QAM0wbIoAORV3yALTQACaBGoieANz6cnKByPSc0Nig5JS0DKgA8pjwCOScZnKgRS5siPQ48KEs9Iw00rac9gAUgQTQegBGGhqcyNCIAJR6AG4a8IHhcg7RsfGJqCnUdIygAOrjksiBBcUlZRVVDLX1dsgtbZ3dvf2gAD6gpbHOSFtDoKPjk9MKYEJYoPQNLE5FkckguAA6I7IOpUBrNHCYewDSag3KQ6Gw+FnZxcCQouTrWIoQJQmowk6NM6I5GTImbUmYynNXGcfHhIA">playground</a>)</p>
 </li>
 <li>
-<p>a function (including a class method) which <em>returns a more specific (&quot;narrower&quot;) type</em>, for example if it previously returned <code>number | undefined</code> and now always returns <code>number</code>—since all user code will continue working and type-checking (<a href="https://www.typescriptlang.org/play?#code/PTAEEkFsEMHMEsB2BTUALZAnVAXN0dQ9UAiRaSZAZwAdoBjZE0BnAV2gBtOBPUAKzZVC2GtirJEOKkQwAoEKCoVU8SDQD2mHAC5QAAzWbtoAN6hYyHADUubVAF9QAM0wbIoAORV3yALTQACaBGoieANz6cnKByPSc0Nig5JS0DKgA8pjwCOScZnKgRS5siPQ48KEWVrac9gAUAJR6wtmIsKAAPsls3OFyDtGx8YmoKdR0jKAAcoluAO7IgQXFJWUVVZY2dshNLThtsP2DCmBCWKD0GrFyzqXllYjo0IiBnMgAStS9OPUAbjt9ocuj1uM0epAAEYXUyFYrYdiYJ4AurIAD8ADp3u08KA0WjQAAGY7RfCvd5fKg-epZHJILgYra1BqNRr9MlvT7fTi-WaYBZLRk1HZNNlyIA">playground</a>)</p>
+<p>a function (including a class method) which <em>returns a more specific ("narrower") type</em>, for example if it previously returned <code>number | undefined</code> and now always returns <code>number</code>—since all user code will continue working and type-checking (<a href="https://www.typescriptlang.org/play?#code/PTAEEkFsEMHMEsB2BTUALZAnVAXN0dQ9UAiRaSZAZwAdoBjZE0BnAV2gBtOBPUAKzZVC2GtirJEOKkQwAoEKCoVU8SDQD2mHAC5QAAzWbtoAN6hYyHADUubVAF9QAM0wbIoAORV3yALTQACaBGoieANz6cnKByPSc0Nig5JS0DKgA8pjwCOScZnKgRS5siPQ48KEWVrac9gAUAJR6wtmIsKAAPsls3OFyDtGx8YmoKdR0jKAAcoluAO7IgQXFJWUVVZY2dshNLThtsP2DCmBCWKD0GrFyzqXllYjo0IiBnMgAStS9OPUAbjt9ocuj1uM0epAAEYXUyFYrYdiYJ4AurIAD8ADp3u08KA0WjQAAGY7RfCvd5fKg-epZHJILgYra1BqNRr9MlvT7fTi-WaYBZLRk1HZNNlyIA">playground</a>)</p>
 </li>
 <li>
 <p>a function (including a class constructor or method) makes a previously-required argument optional—since all existing user code will continue to work with it (<a href="https://www.typescriptlang.org/play/#code/CYUwxgNghgTiAEAzArgOzAFwJYHtXwAc4A3XZAZwAooAuecjGLVAcwBp4AjO1ZAW04gYASjrEcWYAG4AUKEiwEKdNjzxkBYFAwhg1OgyasOnAPw9+gkWInSZMiCAzwo8ALyESZKgHICODG0cHw4ARgAmYVlHZ053dU1tXUo-AKCQ+AiooA">playground</a>)</p>
@@ -879,7 +881,7 @@ In either case, no change to a type documented as private is a breaking change, 
 <p>If a function is typed as accepting <code>any</code> but actually requires a <code>string</code>, this will cause an error at runtime, and is a bug.</p>
 </li>
 <li>
-<p>If a function is typed as returning <code>string | number</code> but is intended to return only <code>string</code>, this is a bug. Note that this is distinct from the runtime behavior: a package author may intentionally specify the type as wider than the current implementation with the expectation of future changes. This will not cause an error at runtime, since consumers must &quot;narrow&quot; the type to use it, and narrowing the type would not even be a breaking change.</p>
+<p>If a function is typed as returning <code>string | number</code> but is intended to return only <code>string</code>, this is a bug. Note that this is distinct from the runtime behavior: a package author may intentionally specify the type as wider than the current implementation with the expectation of future changes. This will not cause an error at runtime, since consumers must "narrow" the type to use it, and narrowing the type would not even be a breaking change.</p>
 </li>
 <li>
 <p>If an interface is defined as having a property which is <em>not</em> part of the public API of the runtime object, or if an interface is defined as <em>missing</em> a property which the public API of the runtime object does have, this is a bug.</p>
@@ -892,7 +894,7 @@ In either case, no change to a type documented as private is a breaking change, 
 <p>It is essential that types be well-tested! See discussion below under <a href="formal-spec/4-bug-fixes.html#appendix-b-tooling"><strong>Appendix B: Tooling</strong></a>.</p>
 </li>
 <li>
-<p>If a given type bug has existed for long enough, an author may choose to treat it as <a href="https://twitter.com/wycats/status/918644693759488005">&quot;intimate API&quot;</a> and change the <em>runtime</em> behavior to match the types rather than vice versa.</p>
+<p>If a given type bug has existed for long enough, an author may choose to treat it as <a href="https://twitter.com/wycats/status/918644693759488005">"intimate API"</a> and change the <em>runtime</em> behavior to match the types rather than vice versa.</p>
 </li>
 </ol>
 <footer id="open-on-gh">Found a bug? <a href="https://github.com/semver-ts/semver-ts/edit/main/src/formal-spec/4-bug-fixes.md">Edit this file on GitHub.</a></footer><div style="break-before: page; page-break-before: always;"></div><h1 id="compiler-considerations"><a class="header" href="#compiler-considerations">Compiler considerations</a></h1>
@@ -922,7 +924,7 @@ In either case, no change to a type documented as private is a breaking change, 
 <p>Type-checking in TypeScript behaves differently under different “strictness” settings, and the compiler adds more strictness settings over time. Changes to types which are not breaking under looser compiler settings may be breaking under stricter compiler settings.</p>
 <p>For example: a package with <code>strictNullChecks: false</code> could make a function return type nullable without the compiler reporting it within the package or the package’s type tests. However, as described above, this is a breaking change for consumers which have <code>strictNullChecks: true</code>. (By contrast, a <em>consumer</em> may disable strictness settings safely: code which type-checks under a stricter setting also type-checks under a less strict setting.) Likewise:</p>
 <ul>
-<li>With <code>noUncheckedIndexedAccess: false</code>, an author could change a type <code>SomeObj</code> from <code>{ a: string }</code> to <code>{ [key: string]: string }</code> and accessing <code>someObj.a.length</code> would now error.</li>
+<li>With <code>noUncheckedIndexedAccess: false</code>, an author could change a type <code>SomeObj</code> from <code>{ a: string }</code> to <code>{ [key: string]: string }</code> and accessing <code>someObj.a.length</code> would not error.</li>
 <li>With <code>exactOptionalPropertyTypes: false</code> the difference between <code>{}</code> and <code>{ foo: undefined }</code> would go unchecked at runtime, although this can have significant effects on runtime type checks, since <code>hasOwn</code>, <code>hasOwnProperty</code>, and the <code>in</code> operator will treat the two differently.</li>
 </ul>
 <p>Accordingly, conforming packages must use <code>strict: true</code>, <code>noUncheckedIndexAccess: true</code>, and <code>exactOptionalPropertyTypes: true</code> in their compiler settings.
@@ -1033,7 +1035,7 @@ Since adopting this policy in these implementations (beginning in early summer 2
 </ul>
 <p><code>expect-type</code> seems to be the best option, and a number of libraries in the TS community are already using <code>expect-type</code> successfully (see <a href="appendices/./a-adopters.html"><strong>Appendix A</strong></a> above). However, for the purposes of <em>this</em> RFC, we do not make a specific recommendation about which library to use; if another equally useful tool appears, authors should feel free to use it. We do, however, recommend <em>against</em> using <code>dtslint</code> or <code>tsd</code>. Beyond that, the tradeoffs above are offered to help authors make an informed choice in this space.</p>
 <p>Users should add one of these libraries and generate a set of tests corresponding to their public API. These tests should be written in such a way as to test the imported API as consumers will consume the library. For example, type tests should not import using relative paths, but using the absolute paths at which the types should resolve, just as consumers would.</p>
-<p>These type tests should be specific and precise. It is important, for example, to guarantee that an API element never <em>accidentally</em> becomes <code>any</code>, thereby making many things allowable which should not be in the case of function arguments, and &quot;infecting&quot; the caller's code by eliminating type safety on the result in the case of function return values. For example, the <code>expect-type</code> library's <code>.toEqualTypeOf</code> assertion is robust against precisely this scenario; package authors are also encouraged to use its <code>.not</code> modifier and <code>.toBeAny()</code> method where appropriate to prevent this failure mode.</p>
+<p>These type tests should be specific and precise. It is important, for example, to guarantee that an API element never <em>accidentally</em> becomes <code>any</code>, thereby making many things allowable which should not be in the case of function arguments, and "infecting" the caller's code by eliminating type safety on the result in the case of function return values. For example, the <code>expect-type</code> library's <code>.toEqualTypeOf</code> assertion is robust against precisely this scenario; package authors are also encouraged to use its <code>.not</code> modifier and <code>.toBeAny()</code> method where appropriate to prevent this failure mode.</p>
 <p>To be safe, these tests should be placed in a directory which does not emit runtime code—either colocated with the library's runtime tests, or in a dedicated <code>type-tests</code> directory. Additionally, type tests should <em>never</em> export any code.</p>
 <p>In addition to <em>writing</em> these tests, package authors should make sure to run the tests (as appropriate to the testing tool chosen) in their continuous integration configuration, so that any changes made to the library are validated to make sure the API has not been changed accidentally.</p>
 <p>Further, just as packages are encouraged to test against a matrix of peer dependencies versions, they should do likewise with TypeScript. For example:</p>
@@ -1058,7 +1060,7 @@ Since adopting this policy in these implementations (beginning in early summer 2
 <p>A consumer might use this code in the construction of an array, and then having leaned on inference, push both <code>string</code>s and <code>number</code>s into it:</p>
 <pre><code class="language-ts">const myArray = [example()]; // Array&lt;string | number&gt;
 myArray.push(123);           // ✅
-myArray.push(&quot;hello&quot;);       // ✅
+myArray.push("hello");       // ✅
 </code></pre>
 <p>The author of the library might later update <code>example</code> to return only <code>string</code>s:</p>
 <pre><code class="language-ts">declare function example(): string;
@@ -1066,17 +1068,17 @@ myArray.push(&quot;hello&quot;);       // ✅
 <p>This would be safe under the rule for write-only types, which is the intuition underlying many of the definitions below—but for our array example, it is <em>not</em> safe: <code>.push()</code>-ing in a <code>number</code> is now illegal.</p>
 <pre><code class="language-ts">const myArray = [example()]; // Array&lt;string&gt;
 myArray.push(123);           // ❌ number not assignable to string
-myArray.push(&quot;hello&quot;);       // ✅
+myArray.push("hello");       // ✅
 </code></pre>
 <p>What's more, we don't need an object like an array to trigger this kind of behavior. Using a <code>let</code> binding instead of a <code>const</code> binding will produce exactly the same issue. Under the original definition of <code>example</code>, this would be perfectly legal:</p>
 <pre><code class="language-ts">let value = example(); // string | number
 value = 123;           // ✅
-value = &quot;hello&quot;;       // ✅
+value = "hello";       // ✅
 </code></pre>
 <p>But it stops being valid as soon as <code>example</code> is narrowed:</p>
 <pre><code class="language-ts">let value = example(); // string
 value = 123;           // ❌ number not assignable to string
-value = &quot;hello&quot;;       // ✅
+value = "hello";       // ✅
 </code></pre>
 <p>While lint guidelines preferring <code>const</code> may <em>help</em> mitigate the latter, they are controversial<sup class="footnote-reference"><a href="#const-controversy">1</a></sup> and they do not and cannot help with the <code>Array</code> example or others like it. Nor is it feasible to require a “functional” immutable-update style, given that JavaScript lacks robust immutable data structures, which would allow for recommending that approach.</p>
 <p>In this case, cautious users may work around this by explicitly annotating their types to match the return type of the:</p>
@@ -1120,7 +1122,7 @@ takesA(c); // ❌
     case 'number':
       return `x is the number ${x}`;  // 3
     default:
-      return `x is &quot;undefined&quot;`;      // 4
+      return `x is "undefined"`;      // 4
   }
 }
 </code></pre>
