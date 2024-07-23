@@ -86,8 +86,8 @@ const myPromise: Promise<{}> = dontCarePromise();
 
 …then it broke on TS 3.5, with the compiler reporting an error ([playground][3.5-breakage-plaground]):
 
-> Type 'Promise<unknown>' is not assignable to type 'Promise<{}>'.
->   Type 'unknown' is not assignable to type '{}'.
+    Type 'Promise<unknown>' is not assignable to type 'Promise<{}>'.
+      Type 'unknown' is not assignable to type '{}'.
 
 This change could be mitigated by supplying a default type argument equal to the original value ([playground][3.5-mitigation-playground]):
 
