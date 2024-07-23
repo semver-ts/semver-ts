@@ -43,3 +43,12 @@ Accordingly, we propose the rules below, with the caveat that (as noted in sever
 
 
 For a more detailed explanation and analysis of the impact of variance on these rules, see [**Appendix C: Variance in TypeScript**](../appendices/c-variance-in-typescript.md).
+
+
+## Notes
+
+[^variance]: For the purposes of this discussion, I will *assume* knowledge of variance, rather than explaining it.
+
+[^thanks-to-ryan]: Thanks to [Ryan Cavanaugh](https://github.com/RyanCavanaugh) of the TypeScript team for pointing out the various examples which motivated this discussion.
+
+[^satisficery]: Precisely because SemVer is a *sociological* and not only a *technical* contract, the problem is tractable: We define a breaking change as above, and accept the reality that some changes are not preventable (but may in many cases be mitigated or fixed automatically). This is admittedly unsatisfying, but we believe it [satisfices](https://www.merriam-webster.com/dictionary/satisfice) our constraints.
