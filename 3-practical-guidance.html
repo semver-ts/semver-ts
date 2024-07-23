@@ -261,10 +261,9 @@ export function buildPerson(name: string, age: number): Person {
 <pre><code class="language-ts">const myPromise: Promise&lt;{}&gt; = dontCarePromise();
 </code></pre>
 <p>…then it broke on TS 3.5, with the compiler reporting an error (<a href="https://www.typescriptlang.org/play/?ts=3.5.1&amp;ssl=1&amp;ssc=27&amp;pln=1&amp;pc=40#code/GYVwdgxgLglg9mABAEwVAwgQwE4FMAK2cAtjAM64AUAlIgN4CwAUIonlCNkmLgO6KES5KpTxk4AGwBuuWgF4AfPWatWYyTJoBuFYgC+1HUz3NmEBGSiJiAT0GkKALgFEHuADx09SuSjRY8e2FtIA">playground</a>):</p>
-<blockquote>
-<p>Type 'Promise<unknown>' is not assignable to type 'Promise&lt;{}&gt;'.
-Type 'unknown' is not assignable to type '{}'.</p>
-</blockquote>
+<pre><code class="language-plain">Type 'Promise&lt;unknown&gt;' is not assignable to type 'Promise&lt;{}&gt;'.
+  Type 'unknown' is not assignable to type '{}'.
+</code></pre>
 <p>This change could be mitigated by supplying a default type argument equal to the original value (<a href="https://www.typescriptlang.org/play/?ts=3.5.1#code/GYVwdgxgLglg9mABAEwVAwgQwE4FMAK2cAtjAM64AUAlAFyKEnm4A8A3gL4B8ibAsAChEiPFBDYkYXAHcGRUhUqU8ZOABsAbrmqIAvD35DhI3Ks1VqAbkHCOVwR0GCICMlETEAnowW56P5nZuPRQ0LDwAxSsgA">playground</a>):</p>
 <pre><code class="language-ts">function dontCarePromise(): Promise&lt;{}&gt; {
   return new Promise((resolve) =&gt; {
