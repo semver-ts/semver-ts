@@ -156,19 +156,3 @@ For functions which return or accept user-constructible types, the rules specifi
 [remove-required-argument]: https://www.typescriptlang.org/play/?ssl=2&ssc=35&pln=2&pc=47#code/CYUwxgNghgTiAEAzArgOzAFwJYHtXwAc4A3XZAZwAooAuecjGLVAcwBp4AjO1ZAW04gYASjrEcWYAG4AUKEiwEKdNjzxkBYFAwhg1OgyatR8cZNkyIIDPCjwAvIRJkqAcgI4M2nK44BGACZhWSsbTgd1TW1dSndPb194QOCgA
 
 [remove-optional-argument]: https://www.typescriptlang.org/play?#code/CYUwxgNghgTiAEAzArgOzAFwJYHtXwAc4A3XZAZwAooAuecjGLVAcwBp4AjAfjtWQC2nEDACUdYjizAA3AChQkWAhTpseeMgLAoGEMGp0GTVuPiTp8uRBAZ4UeAF5CJMlQDkBHBl053HAEYAJlF5GztOJ01tXX1KT29ff3hg0OtbeDAoohBSHAp4rx8MPzTw+GAorR09AwTi0vkgA
-
-
----
-
-
-## Notes
-
-[^variance]: For the purposes of this discussion, I will *assume* knowledge of variance, rather than explaining it.
-
-[^satisficery]: Precisely because SemVer is a *sociological* and not only a *technical* contract, the problem is tractable: We define a breaking change as above, and accept the reality that some changes are not preventable (but may in many cases be mitigated or fixed automatically). This is admittedly unsatisfying, but we believe it [satisfices](https://www.merriam-webster.com/dictionary/satisfice) our constraints.
-
-[^thanks-to-ryan]: Thanks to [Ryan Cavanaugh](https://github.com/RyanCavanaugh) of the TypeScript team for pointing out the various examples which motivated this discussion.
-
-[^nit-on-comparability]: Strictly speaking, one value may stop being comparable to another value in this scenario. However, this is both a rare edge case and fits under the standard rule where changes which simply let users delete now-defunct code are allowed.
-
-[^variance-in-discriminating]: Mostly, anyway—see [Appendix C: On Variance in TypeScript – Higher-order type operations](#higher-order-type-operations) below for a discussion of how the `in` operator (or similar operations discriminating between unions) makes this cause breakage in some cases. These are rare enough, and easily-enough solved, that the rule remains workable.
