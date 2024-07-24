@@ -12,8 +12,8 @@ Although this an easy-enough intuition to *describe*, implementing it correctly 
 
 ## Status
 
-- Version 1.0.0-beta.3
-- Last updated on November 26, 2023
+- Version 1.0.0-beta.4
+- Last updated on July 24, 2024
 
 ## Contents
 
