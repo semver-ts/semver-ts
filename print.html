@@ -589,7 +589,7 @@ npm run downlevel-dts . --to 4.0 ts4.0
 <p>Accordingly, we propose careful and specific definitions of breaking, non-breaking, and bug-fix changes for TypeScript types. Because types are designed to represent runtime behavior, we assume throughout that these changes <em>do</em> in fact correctly represent changes to runtime behavior, and that changes which <em>incorrectly</em> represent runtime behavior are <em>bugs</em>.</p>
 <p><strong>Note:</strong> The examples supplied throughout via links to the TypeScript are illustrative rather than normative. However, the distinction between "observed" and "promised" behavior in TypeScript is quite loose: there is no independent specification, so the formal behavior of the type system is implementation-specified.</p>
 <h2 id="variance"><a class="header" href="#variance">Variance</a></h2>
-<p>Virtually all of the rules around what constitutes a breaking change to types come down to <em>variance</em>.[^variance] In a real sense, everything in the discussion below is a way of showing the variance rules by example.[^thanks-to-ryan]</p>
+<p>Virtually all of the rules around what constitutes a breaking change to types come down to <em>variance</em>.<sup class="footnote-reference"><a href="#variance">1</a></sup> In a real sense, everything in the discussion below is a way of showing the variance rules by example.<sup class="footnote-reference"><a href="#thanks-to-ryan">2</a></sup></p>
 <p>In many cases, these are the standard variance rules applicable in any and all languages with types:</p>
 <ul>
 <li>read-only types (sources) may be covariant</li>
@@ -599,8 +599,18 @@ npm run downlevel-dts . --to 4.0 ts4.0
 <p>These basic intuitions underlie the guidelines below. However, several factors complicate them.</p>
 <p>First of all, notice that the vast majority of objects in JavaScript are mutable, which means they must be <em>invariant</em>. When combined with type inference, this effectively means that <em>any</em> change to an object type <em>can</em> cause breakage for consumers. (The only real counter-examples are <code>readonly</code> types.)</p>
 <p>Additionally, TypeScript has two other features many other languages do not which complicate reasoning about variance: <em>structural typing</em>, <em>higher-order type operations</em>. The result of these additional features is a further impossibility of safely writing types which can be <em>guaranteed</em> never to stop compiling for runtime-safe changes.</p>
-<p>Accordingly, we propose the rules below, with the caveat that (as noted in several places throughout) they will <em>not</em> prevent all possible breakage—only the majority of it, and substantially the worst of it. Most of all, they give us a workable approach which can be well-tested and well-understood, and the edge cases identified here do not prevent the rules from being generally useful or applicable.[^satisficery]</p>
+<p>Accordingly, we propose the rules below, with the caveat that (as noted in several places throughout) they will <em>not</em> prevent all possible breakage—only the majority of it, and substantially the worst of it. Most of all, they give us a workable approach which can be well-tested and well-understood, and the edge cases identified here do not prevent the rules from being generally useful or applicable.<sup class="footnote-reference"><a href="#satisficery">3</a></sup></p>
 <p>For a more detailed explanation and analysis of the impact of variance on these rules, see <a href="formal-spec/../appendices/c-variance-in-typescript.html"><strong>Appendix C: Variance in TypeScript</strong></a>.</p>
+<h2 id="notes-1"><a class="header" href="#notes-1">Notes</a></h2>
+<div class="footnote-definition" id="variance"><sup class="footnote-definition-label">1</sup>
+<p>For the purposes of this discussion, I will <em>assume</em> knowledge of variance, rather than explaining it.</p>
+</div>
+<div class="footnote-definition" id="thanks-to-ryan"><sup class="footnote-definition-label">2</sup>
+<p>Thanks to <a href="https://github.com/RyanCavanaugh">Ryan Cavanaugh</a> of the TypeScript team for pointing out the various examples which motivated this discussion.</p>
+</div>
+<div class="footnote-definition" id="satisficery"><sup class="footnote-definition-label">3</sup>
+<p>Precisely because SemVer is a <em>sociological</em> and not only a <em>technical</em> contract, the problem is tractable: We define a breaking change as above, and accept the reality that some changes are not preventable (but may in many cases be mitigated or fixed automatically). This is admittedly unsatisfying, but we believe it <a href="https://www.merriam-webster.com/dictionary/satisfice">satisfices</a> our constraints.</p>
+</div>
 <footer id="open-on-gh">Found a bug? <a href="https://github.com/semver-ts/semver-ts/edit/main/src/formal-spec/index.md">Edit this file on GitHub.</a></footer><div style="break-before: page; page-break-before: always;"></div><h1 id="definitions"><a class="header" href="#definitions">Definitions</a></h1>
 <dl>
 <dt>Symbols</dt>
@@ -663,7 +673,7 @@ In either case, no change to a type documented as private is a breaking change, 
 <p><strong>Re-exports:</strong> using the <code>export * from</code> re-export syntax can in theory cause breakage by causing export conflicts: if the library being re-exported and the library doing the re-export both export the same name. For this reason, changes caused by the <code>export * from ...</code> are never breaking changes.<sup class="footnote-reference"><a href="#re-export-antipattern">1</a></sup></p>
 </dd>
 </dl>
-<h2 id="notes-1"><a class="header" href="#notes-1">Notes</a></h2>
+<h2 id="notes-2"><a class="header" href="#notes-2">Notes</a></h2>
 <div class="footnote-definition" id="re-export-antipattern"><sup class="footnote-definition-label">1</sup>
 <p>In general, it is an antipattern for one package to re-export another package directly like this, and the cases where it makes sense (e.g. Ember re-exporting Glimmer APIs) are cases of collaborators which can manage this.</p>
 </div>
@@ -672,7 +682,6 @@ In either case, no change to a type documented as private is a breaking change, 
 <li><a href="formal-spec/2-breaking-changes.html#symbols">Symbols</a></li>
 <li><a href="formal-spec/2-breaking-changes.html#interfaces-type-aliases-and-classes">Interfaces, Type Aliases, and Classes</a></li>
 <li><a href="formal-spec/2-breaking-changes.html#functions">Functions</a></li>
-<li><a href="formal-spec/2-breaking-changes.html#notes">Notes</a></li>
 </ul>
 <h2 id="symbols"><a class="header" href="#symbols">Symbols</a></h2>
 <p>Changing a symbol is a breaking change when:</p>
@@ -814,29 +823,13 @@ In either case, no change to a type documented as private is a breaking change, 
 <p>changing a function from a <code>function</code> declaration to an arrow function declaration, since it changes the type of <code>this</code>, the effect of calling <code>bind</code> or <code>call</code> on the function, and requires parameters to be contravariant instead of allowing bivariance</p>
 </li>
 </ul>
-<hr />
-<h2 id="notes-2"><a class="header" href="#notes-2">Notes</a></h2>
-<div class="footnote-definition" id="variance"><sup class="footnote-definition-label">1</sup>
-<p>For the purposes of this discussion, I will <em>assume</em> knowledge of variance, rather than explaining it.</p>
-</div>
-<div class="footnote-definition" id="satisficery"><sup class="footnote-definition-label">2</sup>
-<p>Precisely because SemVer is a <em>sociological</em> and not only a <em>technical</em> contract, the problem is tractable: We define a breaking change as above, and accept the reality that some changes are not preventable (but may in many cases be mitigated or fixed automatically). This is admittedly unsatisfying, but we believe it <a href="https://www.merriam-webster.com/dictionary/satisfice">satisfices</a> our constraints.</p>
-</div>
-<div class="footnote-definition" id="thanks-to-ryan"><sup class="footnote-definition-label">3</sup>
-<p>Thanks to <a href="https://github.com/RyanCavanaugh">Ryan Cavanaugh</a> of the TypeScript team for pointing out the various examples which motivated this discussion.</p>
-</div>
-<div class="footnote-definition" id="nit-on-comparability"><sup class="footnote-definition-label">4</sup>
-<p>Strictly speaking, one value may stop being comparable to another value in this scenario. However, this is both a rare edge case and fits under the standard rule where changes which simply let users delete now-defunct code are allowed.</p>
-</div>
-<div class="footnote-definition" id="variance-in-discriminating"><sup class="footnote-definition-label">5</sup>
-<p>Mostly, anyway—see <a href="formal-spec/2-breaking-changes.html#higher-order-type-operations">Appendix C: On Variance in TypeScript – Higher-order type operations</a> below for a discussion of how the <code>in</code> operator (or similar operations discriminating between unions) makes this cause breakage in some cases. These are rare enough, and easily-enough solved, that the rule remains workable.</p>
-</div>
 <footer id="open-on-gh">Found a bug? <a href="https://github.com/semver-ts/semver-ts/edit/main/src/formal-spec/2-breaking-changes.md">Edit this file on GitHub.</a></footer><div style="break-before: page; page-break-before: always;"></div><h1 id="non-breaking-changes"><a class="header" href="#non-breaking-changes">Non-breaking changes</a></h1>
 <p>In each of these cases, some user code becomes <em>superfluous</em>, but it neither fails to type-check nor causes any runtime errors.</p>
 <ul>
 <li><a href="formal-spec/3-non-breaking-changes.html#symbols">Symbols</a></li>
 <li><a href="formal-spec/3-non-breaking-changes.html#interfaces-type-aliases-and-classes">Interfaces, Type Aliases, and Classes</a></li>
 <li><a href="formal-spec/3-non-breaking-changes.html#functions">Functions</a></li>
+<li><a href="formal-spec/3-non-breaking-changes.html#notes">Notes</a></li>
 </ul>
 <h2 id="symbols-1"><a class="header" href="#symbols-1">Symbols</a></h2>
 <p>A change to an exported symbol is <em>not</em> breaking when:</p>
@@ -850,10 +843,10 @@ In either case, no change to a type documented as private is a breaking change, 
 <p>a new optional property is added to the type, since all existing code will continue working (<a href="https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgPJWAc1HANsgbwFgAoZc5OALmQGcwMRMBuUgX1NNElkRQFUADgBM4kYYVIVKNeoxZSKAIwD8NEAFcAtkuisSHEqWEQEuOFBQwNIBGGAB7EMktgNUELXRYcuABQAlDTe2CB4+iZmFlY2do7Oru6eQqLigTQpYhDC+sam5pbI1rb2TshgcADWEF4YoXh+AB7Bdb5ByABuDsA5eVGFxXFlFdW0mWnNyOPZ7V09uSRhWjWCfMgAQhAwDpbTkmQUAPSHyAhOchpDIIrkuBBgMmitYfgAvISPAEQAFhC4uA5Psg2AtpMcXPcktlkEoAJ7IXDAJRQCywm4I+4wlo+F7Id6JDy1HENAKgo4nBB4cxKYCIsBog7kEY1EK+PxwUno5lE+r+AhfX7-QHAgLsTiLODLWirJDIACCMB4e2IjOQ4LOngYl1K11Vdwe1CmIiyEne-MNPz+AKBIPFYJOBJA0LhCKRKKgDOk+qxT2JbwhbkJ02EgTJ5HVVLgNLpnoo3NZL3ZnNV3ODSf00njzwaSmTmaqNTTuYzcYLY2NaXNNEtQptooMpCAA">playground</a>)</p>
 </li>
 <li>
-<p>a <code>readonly</code> object property on the type becomes a <em>more specific ("narrower") type</em>, for example if it was previously <code>string | string[]</code> and now is always <code>string[]</code>—since all user code will continue working and type-checking (<a href="https://www.typescriptlang.org/play?#code/CYUwxgNghgTiAEkoGdnwPIwJYHMsDsoJ4BvAKHngAcYB7KkGAFwE8AueZJ7fHeAH07cCOANoBdANxkAvmTKgkcRNFTwAcrDoB3EMFIVqdBs3ZCeOWfIBmAV3xgmWWvngALKPmAQQyTLgIiTRgdAAoANyJbEA5-PEIIAEoOfFsAWwAjRgNKOCZbGFdIiGiAOhp6RlZSn14mN2k5BXBoZR8meChY7HiiaUVWhHb4DI5gnT1pDy8fPx7AiHHabVCoRKnPb184haWVjPWyIA">playground</a>). Note that this includes a previously-optional property becoming required.[^nit-on-comparability]</p>
+<p>a <code>readonly</code> object property on the type becomes a <em>more specific ("narrower") type</em>, for example if it was previously <code>string | string[]</code> and now is always <code>string[]</code>—since all user code will continue working and type-checking (<a href="https://www.typescriptlang.org/play?#code/CYUwxgNghgTiAEkoGdnwPIwJYHMsDsoJ4BvAKHngAcYB7KkGAFwE8AueZJ7fHeAH07cCOANoBdANxkAvmTKgkcRNFTwAcrDoB3EMFIVqdBs3ZCeOWfIBmAV3xgmWWvngALKPmAQQyTLgIiTRgdAAoANyJbEA5-PEIIAEoOfFsAWwAjRgNKOCZbGFdIiGiAOhp6RlZSn14mN2k5BXBoZR8meChY7HiiaUVWhHb4DI5gnT1pDy8fPx7AiHHabVCoRKnPb184haWVjPWyIA">playground</a>). Note that this includes a previously-optional property becoming required.<sup class="footnote-reference"><a href="#nit-on-comparability">1</a></sup></p>
 </li>
 <li>
-<p>a new required property is added to the object—since its presence does not require the consuming code to use the property at a type level (<a href="https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgPJWAc1HANsgbwFgAoZc5OALmQGcwMRMBuUgX1NNElkRQFUADgBM4kYYVIVKNeoxZSKAIxogArgFsl0ViQ4lSwiAlxwoKGGpAIwwAPYhk5sGqgha6LDlwAKAJQ0ntggeLpGJmYWVjb2js6u7kKi4v40SWIQwrqGxqbmyJbWtg7IYHAA1hAeGMF4PgAegTXeAcgAbnbAWTkR+YUxJWWVtOkpjcijma0dXdkkIRpVgnzIAEIQMHbmk5JkFAD0+04QLm6ZyEoAnsi4wEpQZpeK5LgnMmjNIfgAvMen7kFvP5dNJXmBkKAYNBzBJfvE3NUvF9gZw9uRDsgEHhTEpgLcwNcAO7AMAACz+CUyz1KFSqgORcD8IIoQzpnzqkOhU10+lICyWKwAgjAeDtiGjkBj4SBzlcbncHlAnhKMQBhUlwJigTClUkoYAaQRbcHAWiYrbmGwXYxwNS0fWOMkocx4drQWixZB2GC600AGmpGMudjUyEJIdwEm0yGEnSYyAABgajVBwQRkABlOyLACS4Gg8CQyDYBSg2eQAHJaNmIABaW73R4V5gJgMqo6aiRO5BqEQZCTcAsrcNqSPIDVtFDd2hwRbIfl+uh2XUoCD1QS3BAkwMd2gezAgRbgMMRiT0PH4ZZ75A+OBmteCYziPzIABUndfNwyUB79ohIB3c183qMAzUJUlgAQclzAARzUYB8m7QQy0fVMiVPShcGra1fzgJRXjDElSRDMBAI0OxhGAGBILEWJqTBd5JlhCkESY4FJSOc9cHwO99xCfCIHot5OSgGFkDhE4EhGPsUiZVFpAxLFuLwvESSJIiWJlYRqVZRFal8RlmXIXT6Q5EAoVE7kdNpaTkkyW85IlXS2JEmFHP0IA">playground</a>)[^variance-in-discriminating]</p>
+<p>a new required property is added to the object—since its presence does not require the consuming code to use the property at a type level (<a href="https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgPJWAc1HANsgbwFgAoZc5OALmQGcwMRMBuUgX1NNElkRQFUADgBM4kYYVIVKNeoxZSKAIxogArgFsl0ViQ4lSwiAlxwoKGGpAIwwAPYhk5sGqgha6LDlwAKAJQ0ntggeLpGJmYWVjb2js6u7kKi4v40SWIQwrqGxqbmyJbWtg7IYHAA1hAeGMF4PgAegTXeAcgAbnbAWTkR+YUxJWWVtOkpjcijma0dXdkkIRpVgnzIAEIQMHbmk5JkFAD0+04QLm6ZyEoAnsi4wEpQZpeK5LgnMmjNIfgAvMen7kFvP5dNJXmBkKAYNBzBJfvE3NUvF9gZw9uRDsgEHhTEpgLcwNcAO7AMAACz+CUyz1KFSqgORcD8IIoQzpnzqkOhU10+lICyWKwAgjAeDtiGjkBj4SBzlcbncHlAnhKMQBhUlwJigTClUkoYAaQRbcHAWiYrbmGwXYxwNS0fWOMkocx4drQWixZB2GC600AGmpGMudjUyEJIdwEm0yGEnSYyAABgajVBwQRkABlOyLACS4Gg8CQyDYBSg2eQAHJaNmIABaW73R4V5gJgMqo6aiRO5BqEQZCTcAsrcNqSPIDVtFDd2hwRbIfl+uh2XUoCD1QS3BAkwMd2gezAgRbgMMRiT0PH4ZZ75A+OBmteCYziPzIABUndfNwyUB79ohIB3c183qMAzUJUlgAQclzAARzUYB8m7QQy0fVMiVPShcGra1fzgJRXjDElSRDMBAI0OxhGAGBILEWJqTBd5JlhCkESY4FJSOc9cHwO99xCfCIHot5OSgGFkDhE4EhGPsUiZVFpAxLFuLwvESSJIiWJlYRqVZRFal8RlmXIXT6Q5EAoVE7kdNpaTkkyW85IlXS2JEmFHP0IA">playground</a>)<sup class="footnote-reference"><a href="#variance-in-discriminating">2</a></sup></p>
 </li>
 </ul>
 <h2 id="functions-1"><a class="header" href="#functions-1">Functions</a></h2>
@@ -872,6 +865,13 @@ In either case, no change to a type documented as private is a breaking change, 
 <p>changing a function from an arrow function declaration to <code>function</code> declaration, since it allows the caller to use <code>bind</code> or <code>call</code> meaningfully where they could not before. (Note that at the time of authoring, current TypeScript version 4.3, such a change introduces parameter bivariance. This is not breaking, but may be undesirable.)</p>
 </li>
 </ul>
+<h2 id="notes-3"><a class="header" href="#notes-3">Notes</a></h2>
+<div class="footnote-definition" id="nit-on-comparability"><sup class="footnote-definition-label">1</sup>
+<p>Strictly speaking, one value may stop being comparable to another value in this scenario. However, this is both a rare edge case and fits under the standard rule where changes which simply let users delete now-defunct code are allowed.</p>
+</div>
+<div class="footnote-definition" id="variance-in-discriminating"><sup class="footnote-definition-label">2</sup>
+<p>Mostly, anyway—see <a href="formal-spec/3-non-breaking-changes.html#higher-order-type-operations">Appendix C: On Variance in TypeScript – Higher-order type operations</a> below for a discussion of how the <code>in</code> operator (or similar operations discriminating between unions) makes this cause breakage in some cases. These are rare enough, and easily-enough solved, that the rule remains workable.</p>
+</div>
 <footer id="open-on-gh">Found a bug? <a href="https://github.com/semver-ts/semver-ts/edit/main/src/formal-spec/3-non-breaking-changes.md">Edit this file on GitHub.</a></footer><div style="break-before: page; page-break-before: always;"></div><h1 id="bug-fixes"><a class="header" href="#bug-fixes">Bug fixes</a></h1>
 <p>As with runtime code, types may have bugs. We define a ‘bug' here as a mismatch between types and runtime code. That is: if the types allow code which will cause a runtime type error, or if they forbid code which is allowed at runtime, the types are buggy. Types may be buggy by being inappropriately <em>wider</em> or <em>narrower</em> than runtime.</p>
 <p>For example (noting that this list is illustrative, not exhaustive):</p>

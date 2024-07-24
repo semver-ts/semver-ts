@@ -182,7 +182,6 @@
 <li><a href="#symbols">Symbols</a></li>
 <li><a href="#interfaces-type-aliases-and-classes">Interfaces, Type Aliases, and Classes</a></li>
 <li><a href="#functions">Functions</a></li>
-<li><a href="#notes">Notes</a></li>
 </ul>
 <h2 id="symbols"><a class="header" href="#symbols">Symbols</a></h2>
 <p>Changing a symbol is a breaking change when:</p>
@@ -324,23 +323,6 @@
 <p>changing a function from a <code>function</code> declaration to an arrow function declaration, since it changes the type of <code>this</code>, the effect of calling <code>bind</code> or <code>call</code> on the function, and requires parameters to be contravariant instead of allowing bivariance</p>
 </li>
 </ul>
-<hr />
-<h2 id="notes"><a class="header" href="#notes">Notes</a></h2>
-<div class="footnote-definition" id="variance"><sup class="footnote-definition-label">1</sup>
-<p>For the purposes of this discussion, I will <em>assume</em> knowledge of variance, rather than explaining it.</p>
-</div>
-<div class="footnote-definition" id="satisficery"><sup class="footnote-definition-label">2</sup>
-<p>Precisely because SemVer is a <em>sociological</em> and not only a <em>technical</em> contract, the problem is tractable: We define a breaking change as above, and accept the reality that some changes are not preventable (but may in many cases be mitigated or fixed automatically). This is admittedly unsatisfying, but we believe it <a href="https://www.merriam-webster.com/dictionary/satisfice">satisfices</a> our constraints.</p>
-</div>
-<div class="footnote-definition" id="thanks-to-ryan"><sup class="footnote-definition-label">3</sup>
-<p>Thanks to <a href="https://github.com/RyanCavanaugh">Ryan Cavanaugh</a> of the TypeScript team for pointing out the various examples which motivated this discussion.</p>
-</div>
-<div class="footnote-definition" id="nit-on-comparability"><sup class="footnote-definition-label">4</sup>
-<p>Strictly speaking, one value may stop being comparable to another value in this scenario. However, this is both a rare edge case and fits under the standard rule where changes which simply let users delete now-defunct code are allowed.</p>
-</div>
-<div class="footnote-definition" id="variance-in-discriminating"><sup class="footnote-definition-label">5</sup>
-<p>Mostly, anyway—see <a href="#higher-order-type-operations">Appendix C: On Variance in TypeScript – Higher-order type operations</a> below for a discussion of how the <code>in</code> operator (or similar operations discriminating between unions) makes this cause breakage in some cases. These are rare enough, and easily-enough solved, that the rule remains workable.</p>
-</div>
 <footer id="open-on-gh">Found a bug? <a href="https://github.com/semver-ts/semver-ts/edit/main/src/formal-spec/2-breaking-changes.md">Edit this file on GitHub.</a></footer>
                     </main>
 

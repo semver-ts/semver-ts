@@ -198,7 +198,7 @@
 <p>Accordingly, we propose careful and specific definitions of breaking, non-breaking, and bug-fix changes for TypeScript types. Because types are designed to represent runtime behavior, we assume throughout that these changes <em>do</em> in fact correctly represent changes to runtime behavior, and that changes which <em>incorrectly</em> represent runtime behavior are <em>bugs</em>.</p>
 <p><strong>Note:</strong> The examples supplied throughout via links to the TypeScript are illustrative rather than normative. However, the distinction between "observed" and "promised" behavior in TypeScript is quite loose: there is no independent specification, so the formal behavior of the type system is implementation-specified.</p>
 <h2 id="variance"><a class="header" href="#variance">Variance</a></h2>
-<p>Virtually all of the rules around what constitutes a breaking change to types come down to <em>variance</em>.[^variance] In a real sense, everything in the discussion below is a way of showing the variance rules by example.[^thanks-to-ryan]</p>
+<p>Virtually all of the rules around what constitutes a breaking change to types come down to <em>variance</em>.<sup class="footnote-reference"><a href="#variance">1</a></sup> In a real sense, everything in the discussion below is a way of showing the variance rules by example.<sup class="footnote-reference"><a href="#thanks-to-ryan">2</a></sup></p>
 <p>In many cases, these are the standard variance rules applicable in any and all languages with types:</p>
 <ul>
 <li>read-only types (sources) may be covariant</li>
@@ -208,8 +208,18 @@
 <p>These basic intuitions underlie the guidelines below. However, several factors complicate them.</p>
 <p>First of all, notice that the vast majority of objects in JavaScript are mutable, which means they must be <em>invariant</em>. When combined with type inference, this effectively means that <em>any</em> change to an object type <em>can</em> cause breakage for consumers. (The only real counter-examples are <code>readonly</code> types.)</p>
 <p>Additionally, TypeScript has two other features many other languages do not which complicate reasoning about variance: <em>structural typing</em>, <em>higher-order type operations</em>. The result of these additional features is a further impossibility of safely writing types which can be <em>guaranteed</em> never to stop compiling for runtime-safe changes.</p>
-<p>Accordingly, we propose the rules below, with the caveat that (as noted in several places throughout) they will <em>not</em> prevent all possible breakage—only the majority of it, and substantially the worst of it. Most of all, they give us a workable approach which can be well-tested and well-understood, and the edge cases identified here do not prevent the rules from being generally useful or applicable.[^satisficery]</p>
+<p>Accordingly, we propose the rules below, with the caveat that (as noted in several places throughout) they will <em>not</em> prevent all possible breakage—only the majority of it, and substantially the worst of it. Most of all, they give us a workable approach which can be well-tested and well-understood, and the edge cases identified here do not prevent the rules from being generally useful or applicable.<sup class="footnote-reference"><a href="#satisficery">3</a></sup></p>
 <p>For a more detailed explanation and analysis of the impact of variance on these rules, see <a href="../appendices/c-variance-in-typescript.html"><strong>Appendix C: Variance in TypeScript</strong></a>.</p>
+<h2 id="notes"><a class="header" href="#notes">Notes</a></h2>
+<div class="footnote-definition" id="variance"><sup class="footnote-definition-label">1</sup>
+<p>For the purposes of this discussion, I will <em>assume</em> knowledge of variance, rather than explaining it.</p>
+</div>
+<div class="footnote-definition" id="thanks-to-ryan"><sup class="footnote-definition-label">2</sup>
+<p>Thanks to <a href="https://github.com/RyanCavanaugh">Ryan Cavanaugh</a> of the TypeScript team for pointing out the various examples which motivated this discussion.</p>
+</div>
+<div class="footnote-definition" id="satisficery"><sup class="footnote-definition-label">3</sup>
+<p>Precisely because SemVer is a <em>sociological</em> and not only a <em>technical</em> contract, the problem is tractable: We define a breaking change as above, and accept the reality that some changes are not preventable (but may in many cases be mitigated or fixed automatically). This is admittedly unsatisfying, but we believe it <a href="https://www.merriam-webster.com/dictionary/satisfice">satisfices</a> our constraints.</p>
+</div>
 <footer id="open-on-gh">Found a bug? <a href="https://github.com/semver-ts/semver-ts/edit/main/src/formal-spec/index.md">Edit this file on GitHub.</a></footer>
                     </main>
 
