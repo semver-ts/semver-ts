@@ -206,4 +206,4 @@ The compiler will dutifully report:
 In sum, just as pervasive runtime mutability and inference made it impossible to fully specify an approach which prevents users from experiencing breaking changes.
 
 
-[^const-controversy]: Rightly so, in my opinion!
+[^const-controversy]: Rightly so, in our opinion!
