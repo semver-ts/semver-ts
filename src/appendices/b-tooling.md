@@ -1,6 +1,6 @@
 # Appendix B: Tooling
 
-To successfully adopt this RFC’s recommendations, package authors need to be able to *detect* breaking changes (whether from their own changes or from TypeScript itself) and to *mitigate* them. Package *consumers* need to know the support policy for the library.
+To successfully adopt this specification’s recommendations, package authors need to be able to *detect* breaking changes (whether from their own changes or from TypeScript itself) and to *mitigate* them. Package *consumers* need to know the support policy for the library.
 
 <!-- toc -->
 
@@ -12,7 +12,7 @@ In line with ecosystem norms, badges linking to CI status
 
     ![supported TypeScript versions: 4.1, 4.2 and next](https://img.shields.io/badge/TS%20Versions-4.1%20%7C%204.2%20%7C%20next-blue)
 
-- Example support policy badges (which could link to the published recommendation from this RFC):
+- Example support policy badges (which could link to the published recommendation from this specification):
 
     ![TypeScript support policy](https://img.shields.io/badge/TS%20Support-Rolling%20Window-purple) ![TypeScript support policy](https://img.shields.io/badge/TS%20Support-Simple%20Majors-purple)
 
@@ -51,7 +51,7 @@ The current options include:
 
 [vitest]: https://vitest.dev
 
-`expect-type` seems to be the best option, and a number of libraries in the TS community are already using `expect-type` successfully (see [**Appendix A**](./a-adopters.md) above). However, for the purposes of *this* RFC, we do not make a specific recommendation about which library to use; if another equally useful tool appears, authors should feel free to use it. We do, however, recommend *against* using `dtslint` or `tsd`. Beyond that, the tradeoffs above are offered to help authors make an informed choice in this space.
+`expect-type` seems to be the best option, and a number of libraries in the TS community are already using `expect-type` successfully (see [**Appendix A**](./a-adopters.md) above). However, for the purposes of *this* specification, we do not make a specific recommendation about which library to use; if another equally useful tool appears, authors should feel free to use it. We do, however, recommend *against* using `dtslint` or `tsd`. Beyond that, the tradeoffs above are offered to help authors make an informed choice in this space.
 
 Users should add one of these libraries and generate a set of tests corresponding to their public API. These tests should be written in such a way as to test the imported API as consumers will consume the library. For example, type tests should not import using relative paths, but using the absolute paths at which the types should resolve, just as consumers would.
 

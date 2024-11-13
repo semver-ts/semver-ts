@@ -183,7 +183,7 @@ The recommended flow would be as follows:
 
 Now consumers using older versions of TypeScript will be buffered from the breaking changes in type definition emit.
 
-If the community adopts this practice broadly we will want to invest in tooling to automate support for managing dependencies, downleveling, and type tests. However, the core constraints of this RFC do not depend on such tooling existing, and the exact requirements of those tools will emerge organically as the community begins implementing this RFC's recommendations.
+If the community adopts this practice broadly we will want to invest in tooling to automate support for managing dependencies, downleveling, and type tests. However, the core constraints of this specification do not depend on such tooling existing, and the exact requirements of those tools will emerge organically as the community begins implementing this specification's recommendations.
 
 
 ### Opt-in future types
@@ -251,7 +251,7 @@ This approach is a variant on [**Updating types to maintain compatibility**](#up
 
 ### Matching exports to public API
 
-Another optional tool for managing public API is [API Extractor][api-extractor]. Authors can mark their exports as `@public`, `@protected`, `@private`, `@alpha`, `@beta`, etc. and use the tool to generate type definitions accordingly. For example, for mitigating a future TypeScript version change, or experimenting on a new API, authors can use `@alpha` or `@beta` and use `typesVersions` to publish to a dedicated directory. Similarly, authors can make an export public for use through the package or even a set of related packages in a moinorepo, but mark it as `@private` and use API Extractor to generate types which exclude it when publishing to npm.
+Another optional tool for managing public API is [API Extractor][api-extractor]. Authors can mark their exports as `@public`, `@protected`, `@private`, `@alpha`, `@beta`, etc. and use the tool to generate type definitions accordingly. For example, for mitigating a future TypeScript version change, or experimenting on a new API, authors can use `@alpha` or `@beta` and use `typesVersions` to publish to a dedicated directory. Similarly, authors can make an export public for use through the package or even a set of related packages in a monorepo, but mark it as `@private` and use API Extractor to generate types which exclude it when publishing to npm.
 
 [api-extractor]: https://api-extractor.com
 

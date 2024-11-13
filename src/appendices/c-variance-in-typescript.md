@@ -63,7 +63,7 @@ We do not expect this to be common, however: the cost of this is much higher tha
 
 ## Structural typing
 
-Most programming languages where programmers must deal with variance have *nominal* type systems, and and subtyping relations can be straightforwardly specified in terms of the relations between the types—particular via subclassing (as in Java, C++, and C#) or between interfaces (as in Rust’s `trait` system). In TypeScript, however, subtyping relationships include both subclassing and interface-based subtypes and also *structural subtyping*.
+Most programming languages where programmers must deal with variance have *nominal* type systems, and subtyping relations can be straightforwardly specified in terms of the relations between the types—particular via subclassing (as in Java, C++, and C#) or between interfaces (as in Rust’s `trait` system). In TypeScript, however, subtyping relationships include both subclassing and interface-based subtypes and also *structural subtyping*.
 
 Given types `A` and `B`, `B` is a subtype of `A` for the purposes of assignability (e.g. in function calls) when it is a *superset* of `A`. Most simply:
 
@@ -155,7 +155,7 @@ const x = a() as string; // 👎🏼
 const y = x.length;  // possible runtime error!
 ```
 
-Thus, for the thoroughly pragmatic reason that no one would ever want to write these kinds of casts and the more principled reason that these kinds of casts as readily undermine as support the kinds of type safety TypeScript aims to provide *and* the versioning guarantees this RFC aims to provide, we simply acknowledge that from a practical standpoint, the pervasiveness of type-level mutation makes it impossible to provide a definition of breaking changes which forbids the introduction of compiler errors by even apparently-safe changes.
+Thus, for the thoroughly pragmatic reason that no one would ever want to write these kinds of casts and the more principled reason that these kinds of casts as readily undermine as support the kinds of type safety TypeScript aims to provide *and* the versioning guarantees this specification aims to provide, we simply acknowledge that from a practical standpoint, the pervasiveness of type-level mutation makes it impossible to provide a definition of breaking changes which forbids the introduction of compiler errors by even apparently-safe changes.
 
 The problem runs the other direction, too: while this example shows now-extraneous code which can be deleted, the same underlying issue can also require *adding* code, e.g. when adding a field to a library type which was previously being used to discriminate two objects.
 
