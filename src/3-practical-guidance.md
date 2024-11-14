@@ -47,7 +47,7 @@ For types where it is useful to publish an interface for end users, but where us
 
     // This is the controlled way of building a person: users can only get a
     // `Person` by calling this function, even though they can *name* the type
-    // by doing `import type { Person} from '...';`.
+    // by doing `import type { Person } from '...';`.
     export function buildPerson(name: string, age: number): Person {
       return new Person(name, age);
     }
