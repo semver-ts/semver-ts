@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light" dir="ltr">
+<html lang="en" class="light sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -8,7 +8,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -32,15 +32,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="styles/open-in.css">
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
+
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
-
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -62,19 +64,16 @@
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
             var sidebar = null;
             var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
@@ -84,45 +83,25 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Background and Basics</li><li class="chapter-item expanded "><a href="1-background.html"><strong aria-hidden="true">1.</strong> TypeScript’s Versioning Policy</a></li><li class="chapter-item expanded "><a href="2-conformance.html"><strong aria-hidden="true">2.</strong> Conformance</a></li><li class="chapter-item expanded "><a href="3-practical-guidance.html"><strong aria-hidden="true">3.</strong> Practical Guidance</a></li><li class="chapter-item expanded affix "><li class="part-title">Formal Specification</li><li class="chapter-item expanded "><a href="formal-spec/index.html"><strong aria-hidden="true">4.</strong> Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="formal-spec/1-definitions.html"><strong aria-hidden="true">4.1.</strong> Definitions</a></li><li class="chapter-item expanded "><a href="formal-spec/2-breaking-changes.html"><strong aria-hidden="true">4.2.</strong> Breaking Changes</a></li><li class="chapter-item expanded "><a href="formal-spec/3-non-breaking-changes.html"><strong aria-hidden="true">4.3.</strong> Non-Breaking Changes</a></li><li class="chapter-item expanded "><a href="formal-spec/4-bug-fixes.html"><strong aria-hidden="true">4.4.</strong> Bug Fixes</a></li><li class="chapter-item expanded "><a href="formal-spec/5-compiler-considerations.html"><strong aria-hidden="true">4.5.</strong> Compiler Considerations</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Appendices</li><li class="chapter-item expanded "><a href="appendices/index.html"><strong aria-hidden="true">5.</strong> Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendices/a-adopters.html"><strong aria-hidden="true">5.1.</strong> Adopters</a></li><li class="chapter-item expanded "><a href="appendices/b-tooling.html"><strong aria-hidden="true">5.2.</strong> Tooling</a></li><li class="chapter-item expanded "><a href="appendices/c-variance-in-typescript.html"><strong aria-hidden="true">5.3.</strong> Variance in TypeScript</a></li><li class="chapter-item expanded "><a href="appendices/d-history.html"><strong aria-hidden="true">5.4.</strong> History</a></li></ol></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -367,7 +346,7 @@ export type { Person };
 
 // This is the controlled way of building a person: users can only get a
 // `Person` by calling this function, even though they can *name* the type
-// by doing `import type { Person} from '...';`.
+// by doing `import type { Person } from '...';`.
 export function buildPerson(name: string, age: number): Person {
   return new Person(name, age);
 }
@@ -475,7 +454,7 @@ npm run downlevel-dts . --to 4.0 ts4.0
 </li>
 </ol>
 <p>Now consumers using older versions of TypeScript will be buffered from the breaking changes in type definition emit.</p>
-<p>If the community adopts this practice broadly we will want to invest in tooling to automate support for managing dependencies, downleveling, and type tests. However, the core constraints of this RFC do not depend on such tooling existing, and the exact requirements of those tools will emerge organically as the community begins implementing this RFC's recommendations.</p>
+<p>If the community adopts this practice broadly we will want to invest in tooling to automate support for managing dependencies, downleveling, and type tests. However, the core constraints of this specification do not depend on such tooling existing, and the exact requirements of those tools will emerge organically as the community begins implementing this specification's recommendations.</p>
 <h3 id="opt-in-future-types"><a class="header" href="#opt-in-future-types">Opt-in future types</a></h3>
 <p>In the case of significant breaking changes to <em>only</em> the types—whether because the package author wants to make a change, or because of TypeScript version changes—packages may supply <em>future</em> types, which users may opt into <em>before</em> the library ships a breaking change. (We expect this use case will be rare, but important.)</p>
 <p>In this case, package authors will need to <em>hand-author</em> the types for the future version of the types, and supply them at a specific location which users can then import directly in their <code>types/my-app.d.ts</code> file—which will override the normal types location, while not requiring the user to modify the <code>paths</code> key in their <code>tsconfig.json</code>.</p>
@@ -548,7 +527,7 @@ npm run downlevel-dts . --to 4.0 ts4.0
 </li>
 </ol>
 <h3 id="matching-exports-to-public-api"><a class="header" href="#matching-exports-to-public-api">Matching exports to public API</a></h3>
-<p>Another optional tool for managing public API is <a href="https://api-extractor.com">API Extractor</a>. Authors can mark their exports as <code>@public</code>, <code>@protected</code>, <code>@private</code>, <code>@alpha</code>, <code>@beta</code>, etc. and use the tool to generate type definitions accordingly. For example, for mitigating a future TypeScript version change, or experimenting on a new API, authors can use <code>@alpha</code> or <code>@beta</code> and use <code>typesVersions</code> to publish to a dedicated directory. Similarly, authors can make an export public for use through the package or even a set of related packages in a moinorepo, but mark it as <code>@private</code> and use API Extractor to generate types which exclude it when publishing to npm.</p>
+<p>Another optional tool for managing public API is <a href="https://api-extractor.com">API Extractor</a>. Authors can mark their exports as <code>@public</code>, <code>@protected</code>, <code>@private</code>, <code>@alpha</code>, <code>@beta</code>, etc. and use the tool to generate type definitions accordingly. For example, for mitigating a future TypeScript version change, or experimenting on a new API, authors can use <code>@alpha</code> or <code>@beta</code> and use <code>typesVersions</code> to publish to a dedicated directory. Similarly, authors can make an export public for use through the package or even a set of related packages in a monorepo, but mark it as <code>@private</code> and use API Extractor to generate types which exclude it when publishing to npm.</p>
 <h2 id="reasons-to-make-a-breaking-change"><a class="header" href="#reasons-to-make-a-breaking-change">Reasons to Make a Breaking Change</a></h2>
 <p>Each of the kinds of breaking changes defined below will trigger a compiler error for consumers, surfacing the error. As such, they should be easily detectable by testing infrastructure (see below under <a href="3-practical-guidance.html#detect-breaking-changes-in-types"><strong>Detect breaking changes in types</strong></a>).</p>
 <p>There are several reasons why breaking changes may occur:</p>
@@ -603,7 +582,7 @@ npm run downlevel-dts . --to 4.0 ts4.0
 <p>For a more detailed explanation and analysis of the impact of variance on these rules, see <a href="formal-spec/../appendices/c-variance-in-typescript.html"><strong>Appendix C: Variance in TypeScript</strong></a>.</p>
 <h2 id="notes-1"><a class="header" href="#notes-1">Notes</a></h2>
 <div class="footnote-definition" id="variance"><sup class="footnote-definition-label">1</sup>
-<p>For the purposes of this discussion, I will <em>assume</em> knowledge of variance, rather than explaining it.</p>
+<p>For the purposes of this discussion, we will <em>assume</em> knowledge of variance, rather than explaining it.</p>
 </div>
 <div class="footnote-definition" id="thanks-to-ryan"><sup class="footnote-definition-label">2</sup>
 <p>Thanks to <a href="https://github.com/RyanCavanaugh">Ryan Cavanaugh</a> of the TypeScript team for pointing out the various examples which motivated this discussion.</p>
@@ -948,7 +927,7 @@ This guarantees the library must handle all the possibly-<code>undefined</code> 
 <li><a href="appendices/./c-variance-in-typescript.html">Appendix C: On Variance in TypeScript</a></li>
 </ul>
 <footer id="open-on-gh">Found a bug? <a href="https://github.com/semver-ts/semver-ts/edit/main/src/appendices/index.md">Edit this file on GitHub.</a></footer><div style="break-before: page; page-break-before: always;"></div><h1 id="appendix-a-existing-adopters"><a class="header" href="#appendix-a-existing-adopters">Appendix A: Existing Adopters</a></h1>
-<p>The recommendations in this RFC have been fully implemented in many packages, especially but not only in the Ember.js ecosystem.</p>
+<p>The recommendations in this specification have been fully implemented in many packages, especially but not only in the Ember.js ecosystem.</p>
 <ul>
 <li>
 <p>In 2022, the entire Ember.js project adopted this spec as governing the TypeScript type aspects of <a href="https://emberjs.com/releases/">its SemVer contract</a>.</p>
@@ -967,7 +946,7 @@ This guarantees the library must handle all the possibly-<code>undefined</code> 
 <code>ember-concurrency</code> supplies a standalone, hand-written type definition file.
 Since adopting this policy in these implementations (beginning in early summer 2020), no known issues have emerged, and the experience of implementing earlier versions of the recommendations from this spec have been incorporated into the final form of the spec.</p>
 <footer id="open-on-gh">Found a bug? <a href="https://github.com/semver-ts/semver-ts/edit/main/src/appendices/a-adopters.md">Edit this file on GitHub.</a></footer><div style="break-before: page; page-break-before: always;"></div><h1 id="appendix-b-tooling"><a class="header" href="#appendix-b-tooling">Appendix B: Tooling</a></h1>
-<p>To successfully adopt this RFC’s recommendations, package authors need to be able to <em>detect</em> breaking changes (whether from their own changes or from TypeScript itself) and to <em>mitigate</em> them. Package <em>consumers</em> need to know the support policy for the library.</p>
+<p>To successfully adopt this specification’s recommendations, package authors need to be able to <em>detect</em> breaking changes (whether from their own changes or from TypeScript itself) and to <em>mitigate</em> them. Package <em>consumers</em> need to know the support policy for the library.</p>
 <ul>
 <li><a href="appendices/b-tooling.html#documenting-supported-versions-and-policy">Documenting supported versions and policy</a></li>
 <li><a href="appendices/b-tooling.html#detect-breaking-changes-in-types">Detect breaking changes in types</a></li>
@@ -980,7 +959,7 @@ Since adopting this policy in these implementations (beginning in early summer 2
 <p><img src="https://img.shields.io/badge/TS%20Versions-4.1%20%7C%204.2%20%7C%20next-blue" alt="supported TypeScript versions: 4.1, 4.2 and next" /></p>
 </li>
 <li>
-<p>Example support policy badges (which could link to the published recommendation from this RFC):</p>
+<p>Example support policy badges (which could link to the published recommendation from this specification):</p>
 <p><img src="https://img.shields.io/badge/TS%20Support-Rolling%20Window-purple" alt="TypeScript support policy" /> <img src="https://img.shields.io/badge/TS%20Support-Simple%20Majors-purple" alt="TypeScript support policy" /></p>
 </li>
 </ul>
@@ -1032,7 +1011,7 @@ Since adopting this policy in these implementations (beginning in early summer 2
 </ul>
 </li>
 </ul>
-<p><code>expect-type</code> seems to be the best option, and a number of libraries in the TS community are already using <code>expect-type</code> successfully (see <a href="appendices/./a-adopters.html"><strong>Appendix A</strong></a> above). However, for the purposes of <em>this</em> RFC, we do not make a specific recommendation about which library to use; if another equally useful tool appears, authors should feel free to use it. We do, however, recommend <em>against</em> using <code>dtslint</code> or <code>tsd</code>. Beyond that, the tradeoffs above are offered to help authors make an informed choice in this space.</p>
+<p><code>expect-type</code> seems to be the best option, and a number of libraries in the TS community are already using <code>expect-type</code> successfully (see <a href="appendices/./a-adopters.html"><strong>Appendix A</strong></a> above). However, for the purposes of <em>this</em> specification, we do not make a specific recommendation about which library to use; if another equally useful tool appears, authors should feel free to use it. We do, however, recommend <em>against</em> using <code>dtslint</code> or <code>tsd</code>. Beyond that, the tradeoffs above are offered to help authors make an informed choice in this space.</p>
 <p>Users should add one of these libraries and generate a set of tests corresponding to their public API. These tests should be written in such a way as to test the imported API as consumers will consume the library. For example, type tests should not import using relative paths, but using the absolute paths at which the types should resolve, just as consumers would.</p>
 <p>These type tests should be specific and precise. It is important, for example, to guarantee that an API element never <em>accidentally</em> becomes <code>any</code>, thereby making many things allowable which should not be in the case of function arguments, and "infecting" the caller's code by eliminating type safety on the result in the case of function return values. For example, the <code>expect-type</code> library's <code>.toEqualTypeOf</code> assertion is robust against precisely this scenario; package authors are also encouraged to use its <code>.not</code> modifier and <code>.toBeAny()</code> method where appropriate to prevent this failure mode.</p>
 <p>To be safe, these tests should be placed in a directory which does not emit runtime code—either colocated with the library's runtime tests, or in a dedicated <code>type-tests</code> directory. Additionally, type tests should <em>never</em> export any code.</p>
@@ -1043,7 +1022,7 @@ Since adopting this policy in these implementations (beginning in early summer 2
 <li>React libraries regularly test against both the current major, any upcoming major, and sometimes a previous major.</li>
 <li>Node libraries regularly test against all active Node LTS releases and the current stable release.</li>
 </ul>
-<p>Along the same lines, TypeScript packages should follow should test the types against all versions of TypeScript supported by the package (see the <a href="appendices/b-tooling.html#supported-compiler-versions">suggested policy for version support</a> below) as well as the upcoming version (the <code>next</code> tag for the <code>typescript</code> package on npm).</p>
+<p>Along the same lines, TypeScript packages should test the types against all versions of TypeScript supported by the package (see the <a href="appendices/b-tooling.html#supported-compiler-versions">suggested policy for version support</a> below) as well as the upcoming version (the <code>next</code> tag for the <code>typescript</code> package on npm).</p>
 <p>These type tests can run as normal CI jobs.</p>
 <footer id="open-on-gh">Found a bug? <a href="https://github.com/semver-ts/semver-ts/edit/main/src/appendices/b-tooling.md">Edit this file on GitHub.</a></footer><div style="break-before: page; page-break-before: always;"></div><h1 id="appendix-c-variance-in-typescript"><a class="header" href="#appendix-c-variance-in-typescript">Appendix C: Variance in TypeScript</a></h1>
 <p>As alluded to in <a href="appendices/c-variance-in-typescript.html#variance">Changes to Types: Variance</a>, there are several complicating factors for the discussion of variance in TypeScript:</p>
@@ -1086,7 +1065,7 @@ let value: string | number = example();
 </code></pre>
 <p>We do not expect this to be common, however: the cost of this is much higher than the cost of changing one's code in the cases where it may be broken.</p>
 <h2 id="structural-typing"><a class="header" href="#structural-typing">Structural typing</a></h2>
-<p>Most programming languages where programmers must deal with variance have <em>nominal</em> type systems, and and subtyping relations can be straightforwardly specified in terms of the relations between the types—particular via subclassing (as in Java, C++, and C#) or between interfaces (as in Rust’s <code>trait</code> system). In TypeScript, however, subtyping relationships include both subclassing and interface-based subtypes and also <em>structural subtyping</em>.</p>
+<p>Most programming languages where programmers must deal with variance have <em>nominal</em> type systems, and subtyping relations can be straightforwardly specified in terms of the relations between the types—particular via subclassing (as in Java, C++, and C#) or between interfaces (as in Rust’s <code>trait</code> system). In TypeScript, however, subtyping relationships include both subclassing and interface-based subtypes and also <em>structural subtyping</em>.</p>
 <p>Given types <code>A</code> and <code>B</code>, <code>B</code> is a subtype of <code>A</code> for the purposes of assignability (e.g. in function calls) when it is a <em>superset</em> of <code>A</code>. Most simply:</p>
 <pre><code class="language-ts">type A = {
   a: number;
@@ -1153,7 +1132,7 @@ const y = typeof x === 'string' ? x.length : x;
 const x = a() as string; // 👎🏼
 const y = x.length;  // possible runtime error!
 </code></pre>
-<p>Thus, for the thoroughly pragmatic reason that no one would ever want to write these kinds of casts and the more principled reason that these kinds of casts as readily undermine as support the kinds of type safety TypeScript aims to provide <em>and</em> the versioning guarantees this RFC aims to provide, we simply acknowledge that from a practical standpoint, the pervasiveness of type-level mutation makes it impossible to provide a definition of breaking changes which forbids the introduction of compiler errors by even apparently-safe changes.</p>
+<p>Thus, for the thoroughly pragmatic reason that no one would ever want to write these kinds of casts and the more principled reason that these kinds of casts as readily undermine as support the kinds of type safety TypeScript aims to provide <em>and</em> the versioning guarantees this specification aims to provide, we simply acknowledge that from a practical standpoint, the pervasiveness of type-level mutation makes it impossible to provide a definition of breaking changes which forbids the introduction of compiler errors by even apparently-safe changes.</p>
 <p>The problem runs the other direction, too: while this example shows now-extraneous code which can be deleted, the same underlying issue can also require <em>adding</em> code, e.g. when adding a field to a library type which was previously being used to discriminate two objects.</p>
 <p>Given this starting code:</p>
 <pre><code class="language-ts">// provided by the library
@@ -1192,7 +1171,7 @@ function takesEither(obj: LibType | MyType) {
 </blockquote>
 <p>In sum, just as pervasive runtime mutability and inference made it impossible to fully specify an approach which prevents users from experiencing breaking changes.</p>
 <div class="footnote-definition" id="const-controversy"><sup class="footnote-definition-label">1</sup>
-<p>Rightly so, in my opinion!</p>
+<p>Rightly so, in our opinion!</p>
 </div>
 <footer id="open-on-gh">Found a bug? <a href="https://github.com/semver-ts/semver-ts/edit/main/src/appendices/c-variance-in-typescript.md">Edit this file on GitHub.</a></footer><div style="break-before: page; page-break-before: always;"></div><p>Appendix D: History</p>
 <p>This specification was authored as <a href="https://github.com/emberjs/rfcs/pull/730">Ember.js RFC #0730</a> in the context of <a href="https://github.com/emberjs/rfcs/pull/724">Ember.js’ adoption of TypeScript as a first-class supported language</a>. From the start, however, it was designed to be shared widely, so its recommendations are intentionally general. The authors hope that these recommendations can be widely adopted by the broader TypeScript community.</p>
