@@ -75,6 +75,6 @@ Further, just as packages are encouraged to test against a matrix of peer depend
 - React libraries regularly test against both the current major, any upcoming major, and sometimes a previous major.
 - Node libraries regularly test against all active Node LTS releases and the current stable release.
 
-Along the same lines, TypeScript packages should follow should test the types against all versions of TypeScript supported by the package (see the [suggested policy for version support](#supported-compiler-versions) below) as well as the upcoming version (the `next` tag for the `typescript` package on npm).
+Along the same lines, TypeScript packages should test the types against all versions of TypeScript supported by the package (see the [suggested policy for version support](#supported-compiler-versions) below) as well as the upcoming version (the `next` tag for the `typescript` package on npm).
 
 These type tests can run as normal CI jobs.
