@@ -1,6 +1,6 @@
 # Appendix A: Existing Adopters
 
-The recommendations in this RFC have been fully implemented in many packages, especially but not only in the Ember.js ecosystem.
+The recommendations in this specification have been fully implemented in many packages, especially but not only in the Ember.js ecosystem.
 
 - In 2022, the entire Ember.js project adopted this spec as governing the TypeScript type aspects of [its SemVer contract][ember-semver].
 

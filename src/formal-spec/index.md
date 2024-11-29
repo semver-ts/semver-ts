@@ -47,7 +47,7 @@ For a more detailed explanation and analysis of the impact of variance on these 
 
 ## Notes
 
-[^variance]: For the purposes of this discussion, I will *assume* knowledge of variance, rather than explaining it.
+[^variance]: For the purposes of this discussion, we will *assume* knowledge of variance, rather than explaining it.
 
 [^thanks-to-ryan]: Thanks to [Ryan Cavanaugh](https://github.com/RyanCavanaugh) of the TypeScript team for pointing out the various examples which motivated this discussion.
 
