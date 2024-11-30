@@ -51,7 +51,7 @@ The current options include:
 
 [vitest]: https://vitest.dev
 
-`expect-type` seems to be the best option, and a number of libraries in the TS community are already using `expect-type` successfully (see [**Appendix A**](./a-adopters.md) above). However, for the purposes of *this* specification, we do not make a specific recommendation about which library to use; if another equally useful tool appears, authors should feel free to use it. We do, however, recommend *against* using `dtslint` or `tsd`. Beyond that, the tradeoffs above are offered to help authors make an informed choice in this space.
+`expect-type` seems to be the best option, and a number of libraries in the TS community are already using `expect-type` successfully (see [Appendix A: Adopters](./a-adopters.md) above). However, for the purposes of *this* specification, we do not make a specific recommendation about which library to use; if another equally useful tool appears, authors should feel free to use it. We do, however, recommend *against* using `dtslint` or `tsd`. Beyond that, the tradeoffs above are offered to help authors make an informed choice in this space.
 
 Users should add one of these libraries and generate a set of tests corresponding to their public API. These tests should be written in such a way as to test the imported API as consumers will consume the library. For example, type tests should not import using relative paths, but using the absolute paths at which the types should resolve, just as consumers would.
 
@@ -59,13 +59,13 @@ These type tests should be specific and precise. It is important, for example, t
 
 To be safe, these tests should be placed in a directory which does not emit runtime code—either colocated with the library's runtime tests, or in a dedicated `type-tests` directory. Additionally, type tests should *never* export any code.
 
-[dtslint]: https://github.com/microsoft/dtslint
+[dtslint]: https://github.com/microsoft/DefinitelyTyped-tools/tree/main/packages/dtslint
 [tslint]: https://github.com/palantir/tslint
 [eslint]: https://github.com/eslint/eslint
 [eslint-migration]: https://github.com/microsoft/dtslint/issues/300
-[tsd]: https://github.com/SamVerschueren/tsd
-[tsd-versions]: https://github.com/SamVerschueren/tsd/issues/47
-[expect-type]: https://github.com/mmkal/ts/tree/master/packages/expect-type#readme
+[tsd]: https://github.com/tsdjs/tsd
+[tsd-versions]: https://github.com/tsdjs/tsd/issues/47
+[expect-type]: https://github.com/mmkal/expect-type
 
 In addition to *writing* these tests, package authors should make sure to run the tests (as appropriate to the testing tool chosen) in their continuous integration configuration, so that any changes made to the library are validated to make sure the API has not been changed accidentally.
 
@@ -75,6 +75,6 @@ Further, just as packages are encouraged to test against a matrix of peer depend
 - React libraries regularly test against both the current major, any upcoming major, and sometimes a previous major.
 - Node libraries regularly test against all active Node LTS releases and the current stable release.
 
-Along the same lines, TypeScript packages should test the types against all versions of TypeScript supported by the package (see the [suggested policy for version support](#supported-compiler-versions) below) as well as the upcoming version (the `next` tag for the `typescript` package on npm).
+Along the same lines, TypeScript packages should test the types against all versions of TypeScript supported by the package (see the [suggested policy for version support](../formal-spec/5-compiler-considerations.md#supported-compiler-versions)) as well as the upcoming version (the `next` tag for the `typescript` package on npm).
 
 These type tests can run as normal CI jobs.

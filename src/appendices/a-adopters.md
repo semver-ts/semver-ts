@@ -1,4 +1,4 @@
-# Appendix A: Existing Adopters
+# Appendix A: Adopters
 
 The recommendations in this specification have been fully implemented in many packages, especially but not only in the Ember.js ecosystem.
 

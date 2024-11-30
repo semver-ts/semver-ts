@@ -42,7 +42,7 @@ Additionally, TypeScript has two other features many other languages do not whic
 Accordingly, we propose the rules below, with the caveat that (as noted in several places throughout) they will *not* prevent all possible breakage—only the majority of it, and substantially the worst of it. Most of all, they give us a workable approach which can be well-tested and well-understood, and the edge cases identified here do not prevent the rules from being generally useful or applicable.[^satisficery]
 
 
-For a more detailed explanation and analysis of the impact of variance on these rules, see [**Appendix C: Variance in TypeScript**](../appendices/c-variance-in-typescript.md).
+For a more detailed explanation and analysis of the impact of variance on these rules, see [Appendix C: Variance in TypeScript](../appendices/c-variance-in-typescript.md).
 
 
 ## Notes

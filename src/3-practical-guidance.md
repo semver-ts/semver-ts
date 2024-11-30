@@ -103,9 +103,8 @@ function dontCarePromise(): Promise<{}> {
 
 This is a totally-backwards compatible bugfix-style change, and should be released in a bugfix/point release. Users can then just upgrade to the bugfix release *before* upgrading their own TypeScript version—and will experience *zero* impact from the breaking TypeScript change.
 
-Later, the default type argument `Promise<{}>` could be dropped and defaulted to the new value for a major release of the library when desired (per the policy [outlined below](#supported-compiler-versions), giving it the new semantics. (Also see [<b>Opt-in future types</b>](#opt-in-future-types) below for a means to allow users to *opt in* to these changes before the major version.)
+Later, the default type argument `Promise<{}>` could be dropped and defaulted to the new value for a major release of the library when desired (per the [suggested policy for version support](../formal-spec/5-compiler-considerations.md#supported-compiler-versions), giving it the new semantics. (Also see [Opt-in future types](#opt-in-future-types) below for a means to allow users to *opt in* to these changes before the major version.)
 
-[3.3-pre-breakage-playground]: https://www.typescriptlang.org/play/?ts=3.3.3&ssl=1&ssc=27&pln=1&pc=40#code/GYVwdgxgLglg9mABAEwVAwgQwE4FMAK2cAtjAM64AUAlIgN4CwAUIonlCNkmLgO6KES5KpTxk4AGwBuuWgF4AfPWatWYyTJoBuFYgC+1HUz3NmEBGSiJiAT0GkKALgFEHuADx09SuSjRY8e2FtIA
 [3.5-breakage-plaground]: https://www.typescriptlang.org/play/?ts=3.5.1&ssl=1&ssc=27&pln=1&pc=40#code/GYVwdgxgLglg9mABAEwVAwgQwE4FMAK2cAtjAM64AUAlIgN4CwAUIonlCNkmLgO6KES5KpTxk4AGwBuuWgF4AfPWatWYyTJoBuFYgC+1HUz3NmEBGSiJiAT0GkKALgFEHuADx09SuSjRY8e2FtIA
 [3.5-mitigation-playground]: https://www.typescriptlang.org/play/?ts=3.5.1#code/GYVwdgxgLglg9mABAEwVAwgQwE4FMAK2cAtjAM64AUAlAFyKEnm4A8A3gL4B8ibAsAChEiPFBDYkYXAHcGRUhUqU8ZOABsAbrmqIAvD35DhI3Ks1VqAbkHCOVwR0GCICMlETEAnowW56P5nZuPRQ0LDwAxSsgA
 
@@ -114,7 +113,7 @@ Later, the default type argument `Promise<{}>` could be dropped and defaulted to
 
 When a new version of TypeScript includes a backwards-incompatible change to *emitted type definitions*, as they did in [3.7][3.7-emit-change], the strategy of changing the types directly may not work. However, it is still possible to provide backwards-compatible types, using the combination of [downlevel-dts] and [typesVersions]. (In some cases, this may also require some manual tweaking of types, but this should be rare for most packages.)
 
-- The [`downlevel-dts`][downlevel-dts] tool allows you to take a `.d.ts` file which is not valid for an earlier version of TypeScript (e.g. the changes to class field emit mentioned in [**Formal Specification: Breaking Changes**](./formal-spec/2-breaking-changes.md)), and emit a version which *is* compatible with that version. It supports targeting all TypeScript versions later than 3.4.
+- The [`downlevel-dts`][downlevel-dts] tool allows you to take a `.d.ts` file which is not valid for an earlier version of TypeScript (e.g. the changes to class field emit mentioned in [Formal Specification: Breaking Changes](./formal-spec/2-breaking-changes.md)), and emit a version which *is* compatible with that version. It supports targeting all TypeScript versions later than 3.4.
 
 - TypeScript supports using the [`typesVersions`][typesVersions] key in a `package.json` file to specify a specific set of type definitions (which may consist of one or more `.d.ts` files) which correspond to a specific TypeScript version.
 
@@ -192,7 +191,7 @@ In the case of significant breaking changes to *only* the types—whether becaus
 
 In this case, package authors will need to *hand-author* the types for the future version of the types, and supply them at a specific location which users can then import directly in their `types/my-app.d.ts` file—which will override the normal types location, while not requiring the user to modify the `paths` key in their `tsconfig.json`.
 
-This approach is a variant on [**Updating types to maintain compatibility**](#updating-types-to-maintain-compatibility). Using that same example, a package author who wanted to provide opt-in future types instead (or in addition) would follow this procedure:
+This approach is a variant on [Updating types to maintain compatibility](#updating-types-to-maintain-compatibility). Using that same example, a package author who wanted to provide opt-in future types instead (or in addition) would follow this procedure:
 
 1.  Backwards-compatibly *fix* the types by explicitly setting the return type on `dontCarePromise`, just as discussed above:
 
@@ -258,7 +257,7 @@ Another optional tool for managing public API is [API Extractor][api-extractor].
 
 ## Reasons to Make a Breaking Change
 
-Each of the kinds of breaking changes defined below will trigger a compiler error for consumers, surfacing the error. As such, they should be easily detectable by testing infrastructure (see below under [**Detect breaking changes in types**](#detect-breaking-changes-in-types)).
+Each of the kinds of breaking changes defined below will trigger a compiler error for consumers, surfacing the error. As such, they should be easily detectable by testing infrastructure (see [Appendix B: Tooling – Detect breaking changes in types](./appendices/b-tooling.md#detect-breaking-changes-in-types)).
 
 There are several reasons why breaking changes may occur:
 
@@ -273,6 +272,6 @@ There are several reasons why breaking changes may occur:
 [3.5-breakage]: https://github.com/microsoft/TypeScript/issues/33272
 [3.7-emit-change]: https://github.com/microsoft/TypeScript/pull/33470
 
-The kinds of breaking changes represented by reasons (1) and (2) are described in more detail in [**Formal Specification: Breaking Changes**](./formal-spec/2-breaking-changes.md); reasons (3) and (4) are discussed in [**Formal Specification: Compiler Considerations**](./formal-spec/5-compiler-considerations.md).
+The kinds of breaking changes represented by reasons (1) and (2) are described in more detail in [Formal Specification: Breaking Changes](./formal-spec/2-breaking-changes.md); reasons (3) and (4) are discussed in [Formal Specification: Compiler Considerations](./formal-spec/5-compiler-considerations.md).
 
 Additionally, there are some changes which we define *not* to be breaking changes because, while they will cause the compiler to produce a type error, they will do so in a way which simply allows the removal of now-defunct code.
