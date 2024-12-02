@@ -49,7 +49,7 @@ This means that defining SemVer for TypeScript Types requires that we specify a 
 
 ## Summary
 
-This section is a non-normative short summary for easy digestion. See the [Formal Specification](./formal-spec/index.md) for normative text.
+This section is a non-normative short summary for easy digestion. See the [**Formal Specification**](./formal-spec/index.md) for normative text.
 
 ### For package consumers
 

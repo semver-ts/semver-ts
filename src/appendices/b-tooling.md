@@ -51,7 +51,7 @@ The current options include:
 
 [vitest]: https://vitest.dev
 
-`expect-type` seems to be the best option, and a number of libraries in the TS community are already using `expect-type` successfully (see [Appendix A: Adopters](./a-adopters.md) above). However, for the purposes of *this* specification, we do not make a specific recommendation about which library to use; if another equally useful tool appears, authors should feel free to use it. We do, however, recommend *against* using `dtslint` or `tsd`. Beyond that, the tradeoffs above are offered to help authors make an informed choice in this space.
+`expect-type` seems to be the best option, and a number of libraries in the TS community are already using `expect-type` successfully (see [**Appendix A: Adopters**](./a-adopters.md) above). However, for the purposes of *this* specification, we do not make a specific recommendation about which library to use; if another equally useful tool appears, authors should feel free to use it. We do, however, recommend *against* using `dtslint` or `tsd`. Beyond that, the tradeoffs above are offered to help authors make an informed choice in this space.
 
 Users should add one of these libraries and generate a set of tests corresponding to their public API. These tests should be written in such a way as to test the imported API as consumers will consume the library. For example, type tests should not import using relative paths, but using the absolute paths at which the types should resolve, just as consumers would.
 

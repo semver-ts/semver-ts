@@ -14,7 +14,7 @@ As with runtime bugs, authors are free to fix type bugs in a patch release. As w
 
 In practice, this suggests two key considerations around type bugs:
 
-1.  It is essential that types be well-tested! See discussion under [Appendix B: Tooling](../appendices/b-tooling.md).
+1.  It is essential that types be well-tested! See discussion under [**Appendix B: Tooling**](../appendices/b-tooling.md).
 
 2.  If a given type bug has existed for long enough, an author may choose to treat it as ["intimate API"][intimate] and change the *runtime* behavior to match the types rather than vice versa.
 

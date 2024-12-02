@@ -31,7 +31,7 @@ Any change to a non-user-constructible type is *not* breaking when:
 
 ## Functions
 
-For functions which return or accept user-constructible types, the rules specified for [Non-breaking Changes: Interfaces, Type Aliases, and Classes](#interfaces-type-aliases-and-classes) hold. Otherwise, a change to a function declaration is *not* breaking when:
+For functions which return or accept user-constructible types, the rules specified for [**Non-breaking Changes: Interfaces, Type Aliases, and Classes**](#interfaces-type-aliases-and-classes) hold. Otherwise, a change to a function declaration is *not* breaking when:
 
 -   a function (including a class method or constructor) *accepts a less specific ("wider") type*, for example if it previously accepted only a `boolean` but now accepts `boolean | undefined`—since all existing user code will continue working and type-checking ([playground][wider-argument])
 
@@ -52,4 +52,4 @@ For functions which return or accept user-constructible types, the rules specifi
 
 [^nit-on-comparability]: Strictly speaking, one value may stop being comparable to another value in this scenario. However, this is both a rare edge case and fits under the standard rule where changes which simply let users delete now-defunct code are allowed.
 
-[^variance-in-discriminating]: Mostly, anyway—see [Appendix C: On Variance in TypeScript – Higher-order type operations](../appendices/c-variance-in-typescript.md#higher-order-type-operations) for a discussion of how the `in` operator (or similar operations discriminating between unions) makes this cause breakage in some cases. These are rare enough, and easily-enough solved, that the rule remains workable.
+[^variance-in-discriminating]: Mostly, anyway—see [**Appendix C: On Variance in TypeScript – Higher-order type operations**](../appendices/c-variance-in-typescript.md#higher-order-type-operations) for a discussion of how the `in` operator (or similar operations discriminating between unions) makes this cause breakage in some cases. These are rare enough, and easily-enough solved, that the rule remains workable.

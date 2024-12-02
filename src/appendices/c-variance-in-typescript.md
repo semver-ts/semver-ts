@@ -1,6 +1,6 @@
 # Appendix C: Variance in TypeScript
 
-As alluded to in [Formal Specification: Variance](../formal-spec/index.md#variance), there are several complicating factors for the discussion of variance in TypeScript:
+As alluded to in [**Formal Specification: Variance**](../formal-spec/index.md#variance), there are several complicating factors for the discussion of variance in TypeScript:
 
 <!-- toc -->
 
