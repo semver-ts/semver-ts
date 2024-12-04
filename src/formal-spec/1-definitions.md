@@ -56,7 +56,7 @@ Using the type-level `typeof` operator to construct a type using the type of an 
 </dd>
 <dd>
 
-One challenge for this definition is the common scenario where code is not ordinarily user-constructible but may need to be mocked for tests. Changes to these *do not* constitute breaking changes—but library authors can also mitigate the challenge presented by this scenario. (See discussion below under [Appendix B: Tooling – Mitigate Breaking Changes – Avoiding User constructibility](#avoiding-user-constructibility).)
+One challenge for this definition is the common scenario where code is not ordinarily user-constructible but may need to be mocked for tests. Changes to these *do not* constitute breaking changes—but library authors can also mitigate the challenge presented by this scenario. (See discussion under [**Practical Guidance - Minimize breaking changes - Avoiding user constructibility**](../3-practical-guidance.md#avoiding-user-constructibility).)
 
 </dd>
 <dd>

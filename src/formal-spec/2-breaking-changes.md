@@ -55,7 +55,7 @@ Changing a symbol is a breaking change when:
 
 ## Interfaces, Type Aliases, and Classes
 
-Object types may be defined with interfaces, type aliases, or classes. Interfaces and type aliases define type symbols only. Classes define both type symbols and value symbols. The `namespace` construct defines a value symbol (as well as introducing a context in which you can name other nested type or value symbols). The additional constraints for the value symbols introduced by classes are covered above under [Breaking Changes: Symbols](#symbols).
+Object types may be defined with interfaces, type aliases, or classes. Interfaces and type aliases define type symbols only. Classes define both type symbols and value symbols. The `namespace` construct defines a value symbol (as well as introducing a context in which you can name other nested type or value symbols). The additional constraints for the value symbols introduced by classes are covered above under [**Breaking Changes: Symbols**](#symbols).
 
 A change to any object type (user constructible or not) is breaking when:
 
@@ -108,7 +108,7 @@ A change to a non-user-constructible object type is breaking when:
 
 ## Functions
 
-For functions which return or accept user-constructible types, the rules specified for [Breaking Changes: Interfaces, Type Aliases, and Classes](#interfaces-type-aliases-and-classes) hold. Otherwise, a change to the type of a function is breaking when:
+For functions which return or accept user-constructible types, the rules specified for [**Breaking Changes: Interfaces, Type Aliases, and Classes**](#interfaces-type-aliases-and-classes) hold. Otherwise, a change to the type of a function is breaking when:
 
 -   an argument or return type changes entirely, for example if a function previously accepted `number` and now accepts `{ count: number }`, or previously returned `string` and now returns `boolean`—since the user will have to change all call sites for the function ([playground][changed-type])
 
