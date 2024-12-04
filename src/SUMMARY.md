@@ -2,13 +2,13 @@
 
 [Introduction](./index.md)
 
-## Background and Basics
+# Background and Basics
 
 - [TypeScript’s Versioning Policy](./1-background.md)
 - [Conformance](./2-conformance.md)
 - [Practical Guidance](./3-practical-guidance.md)
 
-## Formal Specification
+# Formal Specification
 
 - [Overview](./formal-spec/index.md)
     - [Definitions](./formal-spec/1-definitions.md)
@@ -17,7 +17,7 @@
     - [Bug Fixes](./formal-spec/4-bug-fixes.md)
     - [Compiler Considerations](./formal-spec/5-compiler-considerations.md)
 
-## Appendices
+# Appendices
 
 - [Overview](./appendices/index.md)
     - [Adopters](./appendices/a-adopters.md)
