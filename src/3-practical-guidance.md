@@ -103,7 +103,7 @@ function dontCarePromise(): Promise<{}> {
 
 This is a totally-backwards compatible bugfix-style change, and should be released in a bugfix/point release. Users can then just upgrade to the bugfix release *before* upgrading their own TypeScript version—and will experience *zero* impact from the breaking TypeScript change.
 
-Later, the default type argument `Promise<{}>` could be dropped and defaulted to the new value for a major release of the library when desired (per the [suggested policy for version support](../formal-spec/5-compiler-considerations.md#supported-compiler-versions), giving it the new semantics. (Also see [**Opt-in future types**](#opt-in-future-types) below for a means to allow users to *opt in* to these changes before the major version.)
+Later, the default type argument `Promise<{}>` could be dropped and defaulted to the new value for a major release of the library when desired (per the [suggested policy for version support](./formal-spec/5-compiler-considerations.md#supported-compiler-versions), giving it the new semantics. (Also see [**Opt-in future types**](#opt-in-future-types) below for a means to allow users to *opt in* to these changes before the major version.)
 
 [3.5-breakage-plaground]: https://www.typescriptlang.org/play/?ts=3.5.1&ssl=1&ssc=27&pln=1&pc=40#code/GYVwdgxgLglg9mABAEwVAwgQwE4FMAK2cAtjAM64AUAlIgN4CwAUIonlCNkmLgO6KES5KpTxk4AGwBuuWgF4AfPWatWYyTJoBuFYgC+1HUz3NmEBGSiJiAT0GkKALgFEHuADx09SuSjRY8e2FtIA
 [3.5-mitigation-playground]: https://www.typescriptlang.org/play/?ts=3.5.1#code/GYVwdgxgLglg9mABAEwVAwgQwE4FMAK2cAtjAM64AUAlAFyKEnm4A8A3gL4B8ibAsAChEiPFBDYkYXAHcGRUhUqU8ZOABsAbrmqIAvD35DhI3Ks1VqAbkHCOVwR0GCICMlETEAnowW56P5nZuPRQ0LDwAxSsgA
