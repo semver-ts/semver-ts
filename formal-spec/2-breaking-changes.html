@@ -219,7 +219,7 @@
 </li>
 </ul>
 <h2 id="interfaces-type-aliases-and-classes"><a class="header" href="#interfaces-type-aliases-and-classes">Interfaces, Type Aliases, and Classes</a></h2>
-<p>Object types may be defined with interfaces, type aliases, or classes. Interfaces and type aliases define type symbols only. Classes define both type symbols and value symbols. The <code>namespace</code> construct defines a value symbol (as well as introducing a context in which you can name other nested type or value symbols). The additional constraints for the value symbols introduced by classes are covered above under <a href="#symbols">Breaking Changes: Symbols</a>.</p>
+<p>Object types may be defined with interfaces, type aliases, or classes. Interfaces and type aliases define type symbols only. Classes define both type symbols and value symbols. The <code>namespace</code> construct defines a value symbol (as well as introducing a context in which you can name other nested type or value symbols). The additional constraints for the value symbols introduced by classes are covered above under <a href="#symbols"><strong>Breaking Changes: Symbols</strong></a>.</p>
 <p>A change to any object type (user constructible or not) is breaking when:</p>
 <ul>
 <li>
@@ -260,7 +260,7 @@
 </li>
 </ul>
 <h2 id="functions"><a class="header" href="#functions">Functions</a></h2>
-<p>For functions which return or accept user-constructible types, the rules specified for <a href="#interfaces-type-aliases-and-classes">Breaking Changes: Interfaces, Type Aliases, and Classes</a> hold. Otherwise, a change to the type of a function is breaking when:</p>
+<p>For functions which return or accept user-constructible types, the rules specified for <a href="#interfaces-type-aliases-and-classes"><strong>Breaking Changes: Interfaces, Type Aliases, and Classes</strong></a> hold. Otherwise, a change to the type of a function is breaking when:</p>
 <ul>
 <li>
 <p>an argument or return type changes entirely, for example if a function previously accepted <code>number</code> and now accepts <code>{ count: number }</code>, or previously returned <code>string</code> and now returns <code>boolean</code>—since the user will have to change all call sites for the function (<a href="https://www.typescriptlang.org/play?#code/PTAEEkFsEMHMEsB2BTUALZAnVAXN0dQ9UAiRaSZAZwAdoBjZE0BnAV2gBtOBPUAKzZVC2GtirJEOKkQwAoEKCoVU8SDQD2mHAC5QAAzWbtoAN6hYyHADUubVAF9QAM0wbIoAORV3yALTQACaBGoieANz6cnKByPSc0NigkBqBbJyoAPKY8AjknGZyoMUubIj0OPChLPSMNNK2nPYAFIEE0HqIbJAARlgAlHoAbhrwgeFyDtGx8Ymo5JS0DKgAwviIloGFJaXlldUMdQ12yK3teub0GmW6oF29WKAOg6AjYxNTctm5SFwAdIdkPUqI0WgBGABMAGZ+hM1tANshAgDakDjk1TpCYeEgA">playground</a>)</p>

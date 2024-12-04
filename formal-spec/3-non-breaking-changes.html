@@ -183,7 +183,7 @@
 </li>
 </ul>
 <h2 id="functions"><a class="header" href="#functions">Functions</a></h2>
-<p>For functions which return or accept user-constructible types, the rules specified for <a href="#interfaces-type-aliases-and-classes-1">Non-breaking Changes: Interfaces, Type Aliases, and Classes</a> hold. Otherwise, a change to a function declaration is <em>not</em> breaking when:</p>
+<p>For functions which return or accept user-constructible types, the rules specified for <a href="#interfaces-type-aliases-and-classes"><strong>Non-breaking Changes: Interfaces, Type Aliases, and Classes</strong></a> hold. Otherwise, a change to a function declaration is <em>not</em> breaking when:</p>
 <ul>
 <li>
 <p>a function (including a class method or constructor) <em>accepts a less specific ("wider") type</em>, for example if it previously accepted only a <code>boolean</code> but now accepts <code>boolean | undefined</code>—since all existing user code will continue working and type-checking (<a href="https://www.typescriptlang.org/play?#code/PTAEEkFsEMHMEsB2BTUALZAnVAXN0dQ9UAiRaSZAZwAdoBjZE0BnAV2gBtOBPUAKzZVC2GtirJEOKkQwAoEKCoVU8SDQD2mHAC5QAAzWbtoAN6hYyHADUubVAF9QAM0wbIoAORV3yALTQACaBGoieANz6cnKByPSc0Nig5JS0DKgA8pjwCOScZnKgRS5siPQ48KEs9Iw00rac9gAUgQTQegBGGhqcyNCIAJR6AG4a8IHhcg7RsfGJqCnUdIygAOrjksiBBcUlZRVVDLX1dsgtbZ3dvf2gAD6gpbHOSFtDoKPjk9MKYEJYoPQNLE5FkckguAA6I7IOpUBrNHCYewDSag3KQ6Gw+FnZxcCQouTrWIoQJQmowk6NM6I5GTImbUmYynNXGcfHhIA">playground</a>)</p>
@@ -203,7 +203,7 @@
 <p>Strictly speaking, one value may stop being comparable to another value in this scenario. However, this is both a rare edge case and fits under the standard rule where changes which simply let users delete now-defunct code are allowed.</p>
 </div>
 <div class="footnote-definition" id="variance-in-discriminating"><sup class="footnote-definition-label">2</sup>
-<p>Mostly, anyway—see <a href="#higher-order-type-operations">Appendix C: On Variance in TypeScript – Higher-order type operations</a> below for a discussion of how the <code>in</code> operator (or similar operations discriminating between unions) makes this cause breakage in some cases. These are rare enough, and easily-enough solved, that the rule remains workable.</p>
+<p>Mostly, anyway—see <a href="../appendices/c-variance-in-typescript.html#higher-order-type-operations"><strong>Appendix C: On Variance in TypeScript – Higher-order type operations</strong></a> for a discussion of how the <code>in</code> operator (or similar operations discriminating between unions) makes this cause breakage in some cases. These are rare enough, and easily-enough solved, that the rule remains workable.</p>
 </div>
 <footer id="open-on-gh">Found a bug? <a href="https://github.com/semver-ts/semver-ts/edit/main/src/formal-spec/3-non-breaking-changes.md">Edit this file on GitHub.</a></footer>
                     </main>

@@ -197,7 +197,7 @@
 </ol>
 </dd>
 <dd>
-<p>One challenge for this definition is the common scenario where code is not ordinarily user-constructible but may need to be mocked for tests. Changes to these <em>do not</em> constitute breaking changes—but library authors can also mitigate the challenge presented by this scenario. (See discussion below under <a href="#avoiding-user-constructibility">Appendix B: Tooling – Mitigate Breaking Changes – Avoiding User constructibility</a>.)</p>
+<p>One challenge for this definition is the common scenario where code is not ordinarily user-constructible but may need to be mocked for tests. Changes to these <em>do not</em> constitute breaking changes—but library authors can also mitigate the challenge presented by this scenario. (See discussion under <a href="../3-practical-guidance.html#avoiding-user-constructibility"><strong>Practical Guidance - Minimize breaking changes - Avoiding user constructibility</strong></a>.)</p>
 </dd>
 <dd>
 <p><strong>Non-normative example:</strong> in Ember.js today, the interface for a <code>Transition</code> is public API and consumers can rely on its stability, but only Ember is allowed to create <code>Transition</code> instances.</p>

@@ -180,7 +180,7 @@
 <p>The current options include:</p>
 <ul>
 <li>
-<p><a href="https://github.com/microsoft/dtslint"><code>dtslint</code></a>—used to support the DefinitelyTyped ecosystem, so it is well-tested and fairly robust. It uses the TypeScript compiler API directly, and is maintained by the TypeScript team directly. Accordingly, it is very unlikely to stop working against the versions of TypeScript it supports. However, there are several significant downsides as well:</p>
+<p><a href="https://github.com/microsoft/DefinitelyTyped-tools/tree/main/packages/dtslint"><code>dtslint</code></a>—used to support the DefinitelyTyped ecosystem, so it is well-tested and fairly robust. It uses the TypeScript compiler API directly, and is maintained by the TypeScript team directly. Accordingly, it is very unlikely to stop working against the versions of TypeScript it supports. However, there are several significant downsides as well:</p>
 <ul>
 <li>
 <p>The tool checks against string representations of types, which makes it relatively fragile: it can be disturbed by changes to the representation of a type, even when those changes would not impact type-checking.</p>
@@ -194,7 +194,7 @@
 </ul>
 </li>
 <li>
-<p><a href="https://github.com/SamVerschueren/tsd"><code>tsd</code></a>—a full solution for testing types by writing <code>.test-d.ts</code> files with a small family of assertions and using the <code>tsd</code> command to validate all <code>.test-d.ts</code> files. Authoring has robust editor integration, since the type assertions are normal TS imports, and the type assertions are specific enough to catch all the kinds of breakage identified above. It is implemented using the TS compiler version directly, which makes its assertions fairly robust. Risks and downsides:</p>
+<p><a href="https://github.com/tsdjs/tsd"><code>tsd</code></a>—a full solution for testing types by writing <code>.test-d.ts</code> files with a small family of assertions and using the <code>tsd</code> command to validate all <code>.test-d.ts</code> files. Authoring has robust editor integration, since the type assertions are normal TS imports, and the type assertions are specific enough to catch all the kinds of breakage identified above. It is implemented using the TS compiler version directly, which makes its assertions fairly robust. Risks and downsides:</p>
 <ul>
 <li>
 <p>The tool uses a patched version of the TypeScript compiler, which increases the risk of errors and the risk that at some points it will simply be unable to support a new version of TypeScript.</p>
@@ -203,15 +203,15 @@
 <p>Because the assertions are implemented as type definitions, the library is subject to the same risk of compiler breakage as the types it is testing.</p>
 </li>
 <li>
-<p><strong>BLOCKER:</strong>  currently only supports a single version of TypeScript at a time. While the author is <a href="https://github.com/SamVerschueren/tsd/issues/47">interested</a> in supporting multiple versions, it is not currently possible.</p>
+<p><strong>BLOCKER:</strong>  currently only supports a single version of TypeScript at a time. While the author is <a href="https://github.com/tsdjs/tsd/issues/47">interested</a> in supporting multiple versions, it is not currently possible.</p>
 </li>
 </ul>
 </li>
 <li>
-<p><a href="https://github.com/mmkal/ts/tree/master/packages/expect-type#readme"><code>expect-type</code></a>—a library with a variety of type assertions, inspired by Jest's matchers but tailored to types and with no runtime implementation. Like <code>tsd</code>, it is implemented as a series of function types which can be imported, and accordingly it has excellent editor integration. However, unlike <code>tsd</code>, it does <em>not</em> use the compiler API. Instead,  It is robust enough to catch all the varieties of breaking type changes. The risks with expect-type are:</p>
+<p><a href="https://github.com/mmkal/expect-type"><code>expect-type</code></a>—a library with a variety of type assertions, inspired by Jest's matchers but tailored to types and with no runtime implementation. Like <code>tsd</code>, it is implemented as a series of function types which can be imported, and accordingly it has excellent editor integration. However, unlike <code>tsd</code>, it does <em>not</em> use the compiler API. Instead,  It is robust enough to catch all the varieties of breaking type changes. The risks with expect-type are:</p>
 <ul>
 <li>
-<p>It currently has a single maintainer, although it has seen significant uptake since being adopted as part of <a href="https://vitest.dev">Vitest</a>.</p>
+<p>It currently has a single maintainer, although it has seen significant uptake since being adopted as part of <a href="https://vitest.dev/guide/testing-types.html">Vitest</a>.</p>
 </li>
 <li>
 <p>It is relatively young. While its track record is good so far, there is not yet evidence of how it would deal with serious breaking changes like those introduced in TypeScript 3.5.</p>
@@ -222,7 +222,7 @@
 </ul>
 </li>
 </ul>
-<p><code>expect-type</code> seems to be the best option, and a number of libraries in the TS community are already using <code>expect-type</code> successfully (see <a href="./a-adopters.html"><strong>Appendix A</strong></a> above). However, for the purposes of <em>this</em> specification, we do not make a specific recommendation about which library to use; if another equally useful tool appears, authors should feel free to use it. We do, however, recommend <em>against</em> using <code>dtslint</code> or <code>tsd</code>. Beyond that, the tradeoffs above are offered to help authors make an informed choice in this space.</p>
+<p><code>expect-type</code> seems to be the best option, and a number of libraries in the TS community are already using <code>expect-type</code> successfully (see <a href="./a-adopters.html"><strong>Appendix A: Adopters</strong></a> above). However, for the purposes of <em>this</em> specification, we do not make a specific recommendation about which library to use; if another equally useful tool appears, authors should feel free to use it. We do, however, recommend <em>against</em> using <code>dtslint</code> or <code>tsd</code>. Beyond that, the tradeoffs above are offered to help authors make an informed choice in this space.</p>
 <p>Users should add one of these libraries and generate a set of tests corresponding to their public API. These tests should be written in such a way as to test the imported API as consumers will consume the library. For example, type tests should not import using relative paths, but using the absolute paths at which the types should resolve, just as consumers would.</p>
 <p>These type tests should be specific and precise. It is important, for example, to guarantee that an API element never <em>accidentally</em> becomes <code>any</code>, thereby making many things allowable which should not be in the case of function arguments, and "infecting" the caller's code by eliminating type safety on the result in the case of function return values. For example, the <code>expect-type</code> library's <code>.toEqualTypeOf</code> assertion is robust against precisely this scenario; package authors are also encouraged to use its <code>.not</code> modifier and <code>.toBeAny()</code> method where appropriate to prevent this failure mode.</p>
 <p>To be safe, these tests should be placed in a directory which does not emit runtime code—either colocated with the library's runtime tests, or in a dedicated <code>type-tests</code> directory. Additionally, type tests should <em>never</em> export any code.</p>
@@ -233,7 +233,7 @@
 <li>React libraries regularly test against both the current major, any upcoming major, and sometimes a previous major.</li>
 <li>Node libraries regularly test against all active Node LTS releases and the current stable release.</li>
 </ul>
-<p>Along the same lines, TypeScript packages should test the types against all versions of TypeScript supported by the package (see the <a href="#supported-compiler-versions">suggested policy for version support</a> below) as well as the upcoming version (the <code>next</code> tag for the <code>typescript</code> package on npm).</p>
+<p>Along the same lines, TypeScript packages should test the types against all versions of TypeScript supported by the package (see the <a href="../formal-spec/5-compiler-considerations.html#supported-compiler-versions">suggested policy for version support</a>) as well as the upcoming version (the <code>next</code> tag for the <code>typescript</code> package on npm).</p>
 <p>These type tests can run as normal CI jobs.</p>
 <footer id="open-on-gh">Found a bug? <a href="https://github.com/semver-ts/semver-ts/edit/main/src/appendices/b-tooling.md">Edit this file on GitHub.</a></footer>
                     </main>
