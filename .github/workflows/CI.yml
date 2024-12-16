@@ -1,0 +1,30 @@
+# Continuous integration setup: make sure everything works!
+
+name: CI
+on:
+  - pull_request
+
+jobs:
+  build_book:
+    name: Build book
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up mdBook
+        uses: jontze/action-mdbook@v3
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          # Optional Plugins have to be enabled with a version
+          mdbook-version: "~0.4.43" # Use a semver compatible string
+          use-linkcheck: true
+          linkcheck-version: "~0.7.7"
+          use-toc: true
+          toc-version: "~0.14.0"
+          use-opengh: true
+          opengh-version: "~2.4.3"
+
+      - name: Build book
+        run: |
+          mdbook build
