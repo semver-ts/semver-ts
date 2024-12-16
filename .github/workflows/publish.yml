@@ -17,13 +17,13 @@ jobs:
         with:
           token: ${{secrets.GITHUB_TOKEN}}
           # Optional Plugins have to be enabled with a version
-          mdbook-version: "~0.4.35" # Use a semver compatible string
+          mdbook-version: "~0.4.43" # Use a semver compatible string
           use-linkcheck: true
-          linkcheck-version: "~0.7.0"
+          linkcheck-version: "~0.7.7"
           use-toc: true
-          toc-version: "~0.7.0"
+          toc-version: "~0.14.0"
           use-opengh: true
-          opengh-version: "~2.0.0"
+          opengh-version: "~2.4.3"
 
       - name: Build book
         run: |
