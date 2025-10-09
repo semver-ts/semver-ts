@@ -48,7 +48,7 @@ Accordingly, conforming packages must use `strict: true`, `noUncheckedIndexAcces
 Moreover, libraries must always fully specify full optionality on properties, e.g. `{ foo?: string | undefined }`, rather than `{ foo?: string }` or `{ foo: string | undefined }`.
 This guarantees the library must handle all the possibly-`undefined` variants.
 
-Additionally, communities may define further strictness settings to which they commit to conform which include “pedantic” strictness settings like `noPropertyAccessFromIndexSignature`. For example, a given community might commit to a set of *additional* strictness flags it supports for its own types for any LTS release, published in Ember’s own TypeScript documentation.
+Additionally, communities may define further strictness settings to which they commit to conform which include “pedantic” strictness settings like `noPropertyAccessFromIndexSignature`. For example, a given community might commit to a set of *additional* strictness flags it supports for its own types for any LTS release, published in the package’s own TypeScript documentation.
 
 **Note:** While the TypeScript compiler may include new strictness flags under `strict: true` in any release, this is simply a special case of TypeScript’s policy on breaking changes.
 
